@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<!-- saved from url=(0059)https://milkywaycloze.tk/milkyway/?ghoriginal=fulgenssequar -->
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title id="title">Milkyway-Cloze-Plus</title>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+    <link id="font-style" rel="stylesheet" href="./css/milkyway-font.css" type="text/css">
+    <link id="overall-style" rel="stylesheet" href="./css/milkyway-dark.css" type="text/css">
+    <link rel="stylesheet" href="./message/message.min.css">
+    <script src="./js/dict7k.js"></script>
+    <script src="./js/badList.js"></script>
+    <script src="./js/dictEE.js"></script>
+    <script src="./js/dict9k.js"></script>
+    <script src="./js/rules.js"></script>
+    <script src="./js/redundantList.js"></script>
+    <script src="./js/init.js"> </script>
+    <script src="./js/check.js"></script>
+    <script src="./js/options.js"></script>
+</head>
+
+<body class="body">
+    <center>
+        <h2>Milkyway-Cloze-Plus: Online Comprehensive Vocabulary Learning Aided By Context Cognition</h2>
+    </center>
+
+    <center>
+        <table class="colorful-button">
+            <tbody>
+                <tr>
+                    <th>Switch Themes</th>
+                    <th>Text Input </th>
+                    <th> English level </th>
+                    <th>Start Practice</th>
+                    <th>Help</th>
+                    <th>TextArea</th>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="button" class="dark-button" id="overall-restyle" value="Switch To LIGHT Theme"
+                            onclick="changeTheme()" currentthemeindex="1">
+                    </td>
+                    <td>
+                        <input type="button" class="dark-button" value="Clear" id="clear-clicker"
+                            onkeydown="document.body.onkeydown">
+                    </td>
+                    <td>
+                        <select id="nonsense-voting" class="dark-button">
+                            <option value="dictList">Cet-4</option>
+                            <option value="dict9k" selected="selected">Cet-6</option>
+                            <option value="dictList_mw">Tofel</option>
+                            <option value="dictList_mw">Ielts</option>
+                            <option value="dict9k+dictList_mw">Cet+Tofel</option>
+                            <option value="dictList_mw+dict9k">Tofel+Cet</option>
+                        </select>
+                    </td>
+                    <td> <input type="button" class="colorful-button" id="go-down" value="Go To The Text &gt;&gt;"
+                            onclick="gotobottom()"> </td>
+                    <td> <a target="_blank" href="https://mingri159.github.io/myBlog/pages/e189d2/" class="dark-button">
+                            ReadMe </a> </td>
+                    <td>
+                        <a id='text-area-long' class="dark-button">🔻</a>
+                        <a id='text-area-short' class="dark-button"> 🔺</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </center>
+
+    <!-- 文本输入 -->
+    <textarea id="maininput">
+        ⇓ ⇓ ⇓ ⇓ ⇓ - Paste English Text Here - ⇓ ⇓ ⇓ ⇓ ⇓
+	</textarea>
+
+    <!-- 功能button -->
+    <div id="buttons">
+        <input type="button" class="colorful-button" value="👆 Click To Start" id="main-clicker"
+            onkeydown="document.body.onkeydown">
+        <input type="button" class="colorful-button" value="Pause: 22/22" id="show-answer"
+            onkeydown="document.body.onkeydown">
+        <input type="button" class="colorful-button" value="✍ Cloze Excise" id="excise-clicker"
+            onkeydown="document.body.onkeydown">
+
+        <input type="button" class="dark-button" value="♽ Re-test" id="refill-clicker"
+            onkeydown="document.body.onkeydown">
+
+        <span style="margin-left: 10px;">
+            <input type="button" class="dark-button" value="📂 Load Words" id="local-list"
+                onkeydown="document.body.onkeydown">
+            <input type="button" class="dark-button" value="📂 Load Article" id="local-loader"
+                onkeydown="document.body.onkeydown">
+            <a id="changeable-head" class="dark-button" style="margin-left: 10px;height: 35px;">🚀 Export </a>
+        </span>
+
+        <!-- 切换 -->
+        <input type="button" class="colorful-button" value="✨单词 " id="main-change" style="width:72px;margin-left: 15px;"
+            onkeydown="document.body.onkeydown">
+        <input type="button" class="colorful-button" value="中文-默认 " id="Chinese" style="width:72px;margin-left: -3px;"
+            onkeydown="document.body.onkeydown">
+        <span>FontSize:
+            <input type="range" id="font-size" max="45" min="25" value="28" style="width: 80px;">
+        </span>
+
+        <input type="button" class="colorful-button" value=" 🔍全屏 " id="fullScreen"
+            style="width:92px;margin-left: -3px;height: 35px;" onkeydown="document.body.onkeydown">
+
+        <input type="button" class="colorful-button" value="生词" id="explain-con-top"
+            style="margin-left: -3px;height: 35px;" onkeydown="document.body.onkeydown">
+        <span class="about">
+            <p>原作者：<a target="_blank" href="https://milkywaycloze.tk/milkyway/?install=frfrm">&ensp;</a>
+                <a target="_blank" href="https://github.com/qtheperfect/milkyway"> @QThePerfect</a>
+                <a target="_blank" href="https://forum.freemdict.com/t/topic/2228">></a>
+            </p>
+            <p>二次开发：<a target="_blank" href="https://space.bilibili.com/96466254">@胡桃的精通沙</a></p>
+        </span>
+    </div>
+
+
+    <div id="demo-container" class="demo-container">
+        <div id="text-container" class="demo-area">
+            <div id="demo" class="demo-area" style="font-size:25px">
+            </div>
+        </div>
+        <div id="explain-container" class="demo-area" style="font-size:25px">
+            <!-- 单词列表 -->
+            <div id="explain-area" class="demo-area">
+            </div>
+        </div>
+    </div>
+
+    <!-- 生词弹窗 -->
+    <div class="explain-head-mask">
+        <div class='explain-head-div'>
+            <div id="btn_up_case">
+                <span id="toUPcase" class="btn-case">↑</span>
+                <span id="btn-copy" class="btn-case">C</span>
+            </div>
+
+            <div id="explain-head" class="demo-area">
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/worker.js"> </script>
+    <script src="./message/message.min.js"></script>
+
+</body>
+
+</html>
