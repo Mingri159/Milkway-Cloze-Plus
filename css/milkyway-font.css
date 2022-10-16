@@ -118,7 +118,7 @@ td {
 
 #demo {
     width: 100%;
-    min-height: 100%;
+    min-height: 99%;
     border: solid 1px gray;
     overflow-x: hide;
     padding-left: 20px;
@@ -203,6 +203,7 @@ td {
     width: 3px
 }
 
+#demo-outer::-webkit-scrollbar-thumb,
 #text-container::-webkit-scrollbar-thumb,
 .explain-head-div::-webkit-scrollbar-thumb {
     border-radius: 10px;
@@ -213,10 +214,6 @@ td {
 #maininput::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: #888
-}
-
-#maininput::-webkit-scrollbar {
-    width: 5px
 }
 
 .word-filler-err {
@@ -316,4 +313,35 @@ textarea::-webkit-scrollbar-thumb {
     font-size: 36px;
     margin-top: 15px;
     margin-bottom: 10px
+}
+
+#bottom-border,
+#top-border {
+    position: sticky;
+    width: 100%;
+    z-index: 3
+}
+
+#top-border {
+    top: 0;
+    height: 5px;
+    border-bottom: solid 1px grey;
+    margin-bottom: -2px
+}
+
+#bottom-border {
+    bottom: 0;
+    height: 2px;
+    border-top: solid 1px grey;
+    margin-top: -2px
+}
+
+#text-container {
+    padding-top: 0;
+    padding-bottom: 0
+}
+
+#demo {
+    border-top: none;
+    border-bottom: none
 }
