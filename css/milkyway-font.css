@@ -203,7 +203,10 @@ td {
     width: 3px
 }
 
-#demo-outer::-webkit-scrollbar-thumb,
+#maininput::-webkit-scrollbar {
+    width: 5px
+}
+
 #text-container::-webkit-scrollbar-thumb,
 .explain-head-div::-webkit-scrollbar-thumb {
     border-radius: 10px;
@@ -214,6 +217,19 @@ td {
 #maininput::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: #888
+}
+
+#maininput {
+    cursor: unset
+}
+
+#maininput::-webkit-scrollbar-thumb:hover {
+    background-color: #ee3f4e;
+    cursor: unset
+}
+
+#text-container::-webkit-scrollbar-thumb:hover {
+    background-color: #6078ea
 }
 
 .word-filler-err {
