@@ -38,7 +38,7 @@
                     <th> English level </th>
                     <th>Start Practice</th>
                     <th>Help</th>
-                    <th>TextArea</th>
+                    <th>Text Area</th>
                     <th>Bad List</th>
                 </tr>
                 <tr>
@@ -69,9 +69,15 @@
                     <td>
                         <a id='text-area-long' class="dark-button">🔻</a>
                         <a id='text-area-short' class="dark-button"> 🔺</a>
+                        <a id='text-area-fontzize-add' class="dark-button">+</a>
+                        <a id='text-area-fontzize-minus' class="dark-button"> - </a>
                     </td>
                     <td>
                         <input type="button" class="dark-button" value="导入badList" id="in-badList"
+                            onkeydown="document.body.onkeydown">
+                        <input type="button" class="dark-button" value="取消屏蔽" id="cancel-badList"
+                            onkeydown="document.body.onkeydown">
+                        <input type="button" class="dark-button" value="查看已屏蔽" id="look-badList"
                             onkeydown="document.body.onkeydown">
                     </td>
                 </tr>
@@ -80,8 +86,7 @@
     </center>
 
     <!-- 文本输入 -->
-    <textarea id="maininput">	</textarea>
-
+    <textarea id="maininput"></textarea>
 
 
     <!-- 功能button -->
