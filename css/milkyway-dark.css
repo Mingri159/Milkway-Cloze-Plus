@@ -60,16 +60,8 @@ div {
 }
 
 .current-noter-container {
-    position: absolute;
-    bottom: -4px;
-    left: -4px;
-    right: -6px;
-    height: 2.8ex;
-    text-align: justify;
-    text-decoration: underline;
-    animation: slidingTextRight .4s 1;
+
     border: #ca234EDD solid 3px;
-    cursor: auto
 }
 
 @keyframes blinkingText {

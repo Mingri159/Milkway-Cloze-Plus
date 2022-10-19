@@ -22,8 +22,6 @@ worker.js：主进程文件；
 
 badList.js：使其不被标注；
 
-check.js：未使用【COCA20000词表】；
-
 rules.js：词形还原规则；
 
 dict**.js：词典文件；

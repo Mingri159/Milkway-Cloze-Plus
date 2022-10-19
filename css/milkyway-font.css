@@ -245,7 +245,17 @@ td {
 }
 
 .current-noter-container {
-    border-radius: 10px
+    border-radius: 10px;
+    position: absolute;
+    bottom: -6px;
+    left: -4px;
+    right: -6px;
+    height: 2.8ex;
+    text-align: justify;
+    text-decoration: underline;
+    animation: slidingTextRight .4s 1;
+
+    cursor: auto;
 }
 
 textarea::-webkit-scrollbar-thumb {
