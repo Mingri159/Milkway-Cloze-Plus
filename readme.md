@@ -10,9 +10,13 @@
 
 二次开发： [@胡桃的精通沙](https://space.bilibili.com/96466254)
 
-详情： [https://forum.freemdict.com/t/topic/16422](https://forum.freemdict.com/t/topic/16422)
+详情：
 
-        [https://forum.freemdict.com/t/topic/2228/33](https://forum.freemdict.com/t/topic/2228/33)
+- [https://forum.freemdict.com/t/topic/16422](https://forum.freemdict.com/t/topic/16422)
+
+- [https://forum.freemdict.com/t/topic/2228/33](https://forum.freemdict.com/t/topic/2228/33)
+
+
 
 ---
 
@@ -20,13 +24,13 @@
 
 ##### 2、文件
 
-worker.js：主进程文件；
+- worker.js：主进程文件；
 
-badList.js：使其不被标注；
+- badList.js：使其不被标注；
 
-rules.js：词形还原规则；
+- rules.js：词形还原规则；
 
-dict\*\*.js：词典文件；
+- dict\*\*.js：词典文件；
 
 ##### 3、按键说明
 
