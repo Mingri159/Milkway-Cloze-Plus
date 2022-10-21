@@ -1,5 +1,5 @@
 * {
-    box-sizing: border-box
+    box-sizing: border-box;
 }
 
 .body {
@@ -9,7 +9,7 @@
 
 div {
     scrollbar-color: #fc8 #300;
-    scrollbar-width: 5px
+    scrollbar-width: 5px;
 }
 
 #maininput {
@@ -18,11 +18,11 @@ div {
 }
 
 #exp-head {
-    color: #409eff
+    color: #409eff;
 }
 
 #explain-area {
-    border-color: #ecbd6f
+    border-color: #ecbd6f;
 }
 
 .colorful-button {
