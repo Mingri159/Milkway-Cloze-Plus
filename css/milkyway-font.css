@@ -97,9 +97,12 @@ td {
 }
 
 .word-filler-dup {
-    color: #30b787;
+    /* color: #30b787; */
     font-family: auto;
-    cursor: pointer
+    cursor: pointer;
+    background-image: linear-gradient(90deg, orange, #30b787);
+    -webkit-background-clip: text;
+    color: transparent;
 }
 
 #explain-container {
