@@ -1300,7 +1300,7 @@ document.getElementById("explain-head").oncontextmenu = (e) => {
       document.getElementById(str).className = "";
       fresh_listWords();
       var badList_1 = JSON.parse(localStorage.getItem("badList"));
-      badList_1.push(o.innerText);
+      badList_1.push(o.innerText.toLowerCase());
       localStorage.setItem("badList", JSON.stringify(badList_1));
     }
   }
@@ -1346,9 +1346,8 @@ var isCc = false;
 function gzhspan() {
   var resb = document.getElementById("demo").innerHTML;
   let rega =
-    /[(\u4e00-\u9fa5)(0-9)(a-zA-Z)(\。|\？|\！|\，|\、|\；|\：|\・|\“|\”|\‘|\’|\（|\）|\／|\－|\《|\》|\【|\】|\[|\]|\~|\—|\,|\;|\!\:|\•|\ |\/|\…|\"|\'|\\|\/|\=|\-|\％|\%)]+/g;
+    /[(\u4e00-\u9fa5)(0-9)(a-zA-Z)(\。|\？|\！|\，|\、|\；|\：|\・|\“|\”|\‘|\’|\（|\）|\／|\－|\《|\》|\【|\】|\[|\]|\~|\—|\,|\;|\:|\•|\ |\/|\…|\"|\'|\\|\/|\=|\-|\％|\%)]+/g;
   var reb = resb.match(rega);
-  console.log("reb匹配结果", reb);
   function unique(arr) {
     return Array.from(new Set(arr));
   }
@@ -1470,15 +1469,18 @@ document.getElementById("in-badList").onclick = function () {
   bad_input_1 = bad_input_1.filter(function (s) {
     return s && s.trim();
   });
+  for (i = 0; i < bad_input_1.length; i++) {
+    bad_input_1[i] = bad_input_1[i].toLowerCase();
+  }
   bad_input_1 = Array.from(new Set(bad_input_1));
   console.log("处理后bad_input_1", bad_input_1);
   if (!bad_input_1.length) {
     alert(
-      "请先在下方的文本框中输入要屏蔽的单词【熟词、基础词】，\n单词间以【空格】或【回车】隔开；\n\n可【一定程度】自动去除中文及标点符号【但不要包含特殊符号】；"
+      "请先在下方的文本框中输入要屏蔽的单词【熟词、基础词】，\n\n单词统一为小写；\n单词间以【空格】或【回车】隔开；\n\n可【一定程度】自动去除中文及标点符号【但不要包含特殊符号】；"
     );
   } else {
     var r = confirm(
-      "\n注意：单词间以【空格】或【回车】隔开;\n\n应经在下方文本框中输入了要【屏蔽】的单词，确认【屏蔽】以下熟词？"
+      "\n注意：\n\n单词统一为小写；\n单词间以【空格】或【回车】隔开;\n\n应经在下方文本框中输入了要【屏蔽】的单词，确认【屏蔽】以下熟词？"
     );
     if (r == true) {
       var badList_1 = JSON.parse(localStorage.getItem("badList"));
@@ -1499,14 +1501,17 @@ document.getElementById("cancel-badList").onclick = function () {
   can_input = can_input.filter(function (s) {
     return s && s.trim();
   });
+  for (i = 0; i < can_input.length; i++) {
+    can_input[i] = can_input[i].toLowerCase();
+  }
   can_input = Array.from(new Set(can_input));
   if (!can_input.length) {
     alert(
-      "\n请先在下方的文本框中输入要【取消屏蔽】的单词，\n\n单词间以【空格】或【回车】隔开；"
+      "\n请先在下方的文本框中输入要【取消屏蔽】的单词，\n\n单词统一为小写；\n单词间以【空格】或【回车】隔开；"
     );
   } else {
     var r = confirm(
-      "\n注意：单词间以【空格】或【回车】隔开；\n\n已经在下方文本框中输入了要【取消屏蔽】的单词，确认【取消屏蔽】？"
+      "\n注意：\n\n单词统一为小写；\n单词间以【空格】或【回车】隔开；\n\n已经在下方文本框中输入了要【取消屏蔽】的单词，确认【取消屏蔽】？"
     );
     if (r == true) {
       var badList_2 = JSON.parse(localStorage.getItem("badList"));
@@ -1536,6 +1541,7 @@ document.getElementById("look-badList").onclick = function () {
   }
   function look() {
     var badList_look = JSON.parse(localStorage.getItem("badList"));
+    console.log("查看已屏蔽", badList_look);
     var num = "\t共 " + badList_look.length + " 词";
     var str = "";
     for (var i = 0; i < badList_look.length; i++) {
