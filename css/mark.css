@@ -1,0 +1,32 @@
+#explain-area .word-filler[style^="color: rgb"]:after {
+    font-size: 12px;
+    margin: 0 10px;
+    border-radius: 3px;
+    border: 1px #909399 solid;
+    padding: 1px;
+    color: white;
+}
+
+#explain-area .word-filler[style="color: rgb(255, 118, 118);"]:after {
+    content: "中考";
+}
+
+#explain-area .word-filler[style="color: rgb(96, 148, 234);"]:after {
+    content: "高考";
+}
+
+#explain-area .word-filler[style="color: rgb(115, 110, 254);"]:after {
+    content: "考研";
+}
+
+#explain-area .word-filler[style="color: rgb(40, 199, 111);"]:after {
+    content: "六级";
+}
+
+#explain-area .word-filler[style="color: rgb(50, 204, 188);"]:after {
+    content: "专八";
+}
+
+#explain-area .word-filler[style="color: rgb(197, 53, 239);"]:after {
+    content: "GRE";
+}

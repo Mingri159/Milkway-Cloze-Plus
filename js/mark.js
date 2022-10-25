@@ -3,8 +3,8 @@ let mark_color_1 = "#ff7676";
 let mark_color_2 = "#6094ea";
 let mark_color_3 = "#736efe";
 let mark_color_4 = "#28c76f";
-let mark_color_5 = "#5976ba";
-let mark_color_6 = "#8a1874";
+let mark_color_5 = "#32ccbc";
+let mark_color_6 = "#c535ef";
 
 var words_filler_all;
 var mark_words_1 = [];
@@ -13,7 +13,6 @@ var mark_words_3 = [];
 var mark_words_4 = [];
 var mark_words_5 = [];
 var mark_words_6 = [];
-
 function getArrEqual(arr1, arr2) {
   let newArr = [];
   for (let i = 0; i < arr2.length; i++) {
@@ -25,7 +24,6 @@ function getArrEqual(arr1, arr2) {
   }
   return newArr;
 }
-
 function get_words_filler_all() {
   var explain_head = document.getElementById("explain-head");
   words_filler_all = explain_head.querySelectorAll(".word-filler");
@@ -68,3 +66,23 @@ document.getElementById("mark-level").addEventListener("change", () => {
     if (mark_words_6.length) mark_color(mark_words_6, mark_color_6);
   }
 });
+var is_tail = true;
+document.getElementById("word-tail").onclick = () => {
+  if (is_tail) {
+    document
+      .getElementsByTagName("head")
+      .item(0)
+      .removeChild(document.getElementById("mark"));
+    document.getElementById("word-tail").value = "tail -";
+    is_tail = false;
+  } else {
+    var link = document.createElement("link");
+    link.setAttribute("rel", "stylesheet");
+    link.setAttribute("type", "text/css");
+    link.setAttribute("id", "mark");
+    link.setAttribute("href", "./css/mark.css");
+    document.getElementsByTagName("head")[0].appendChild(link);
+    document.getElementById("word-tail").value = "tail +";
+    is_tail = true;
+  }
+};
