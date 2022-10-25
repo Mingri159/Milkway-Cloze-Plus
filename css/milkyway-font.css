@@ -279,8 +279,8 @@ textarea::-webkit-scrollbar-thumb {
 }
 
 .explain-head-div {
-    width: 850px;
-    height: 550px;
+    width: 1000px;
+    height: 650px;
     padding: 10px;
     overflow: scroll;
     overflow-x: hidden;
