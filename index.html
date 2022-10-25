@@ -14,12 +14,19 @@
     <script src="./js/dict9k.js"></script>
     <script src="./js/dict2w.js"></script>
     <script src="./js/badList.js"></script>
-    <!-- <script src="./js/dictEE.js"></script> -->
+
+    <script src="./js/mark-1.js"></script>
+    <script src="./js/mark-2.js"></script>
+    <script src="./js/mark-3.js"></script>
+    <script src="./js/mark-4.js"></script>
+    <script src="./js/mark-5.js"></script>
+    <script src="./js/mark-6.js"></script>
 
     <script src="./js/rules.js"></script>
     <script src="./js/redundantList.js"></script>
     <script src="./js/init.js"> </script>
     <script src="./js/options.js"></script>
+
 
 </head>
 
@@ -121,6 +128,17 @@
             style="width:92px;margin-left: -3px;height: 35px;" onkeydown="document.body.onkeydown">
         <input type="button" class="colorful-button" value="生词" id="explain-con-top"
             style="margin-left: -3px;height: 35px;" onkeydown="document.body.onkeydown">
+
+        <select id="mark-level" class="dark-button">
+            <option value="mark-0" selected>默认</option>
+            <option value="mark-1" style="color:#ff7676;">中考词汇</option>
+            <option value="mark-2" style="color:#6094ea">高考词汇</option>
+            <option value="mark-3" style="color:#736efe">考研词汇</option>
+            <option value="mark-4" style="color:#28c76f">CET-6词汇</option>
+            <option value="mark-5" style="color:#5976ba">专八词汇</option>
+            <option value="mark-6" style="color:#8a1874">GRE词汇</option>
+        </select>
+
         <span class="about">
             <p>原作者：<a target="_blank" href="https://milkywaycloze.tk/milkyway/?install=frfrm">&ensp;</a>
                 <a target="_blank" href="https://github.com/qtheperfect/milkyway"> @QThePerfect</a>
@@ -154,9 +172,8 @@
             <div id="explain-head" class="demo-area"> </div>
         </div>
     </div>
-
-
     <script src="./js/worker.js"> </script>
+    <script src="./js/mark.js"></script>
     <script src="./message/message.min.js"></script>
 
 </body>

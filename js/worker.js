@@ -1259,8 +1259,7 @@ document.getElementById("demo").oncontextmenu = (e) => {
   if (o.className == "selecTcss") {
     o.className = "";
     return;
-  }
-  if (o.className == "word-filler-done") {
+  } else if (o.className == "word-filler-done") {
     o.className = "word-filler";
     fresh_listWords();
     return;
@@ -1281,6 +1280,7 @@ document.getElementById("explain-area").oncontextmenu = (e) => {
       console.log("取消标注");
       var str = o.id.replace(/-exp/g, "");
       document.getElementById(str).className = "";
+      document.getElementById(str).style.color = "";
       fresh_listWords();
       var badList_1 = JSON.parse(localStorage.getItem("badList"));
       badList_1.push(o.innerText);
