@@ -320,6 +320,14 @@ textarea::-webkit-scrollbar-thumb {
     margin-bottom: 10px
 }
 
+#to-color {
+    background-color: #f761a1;
+}
+
+#to-default-color {
+    background-color: #6078ea;
+}
+
 #explain-head {
     font-size: 30px;
     font-weight: 700;

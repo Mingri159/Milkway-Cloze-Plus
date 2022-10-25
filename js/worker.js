@@ -467,6 +467,7 @@ function elemReveal(elem) {
   var inText = info.inText;
   elem.innerHTML = inText;
   elem.className = "word-filler-done";
+  elem.style.color = "";
 }
 var elemNoter = document.createElement("span");
 elemNoter.className = "current-noter-container";
@@ -1544,10 +1545,10 @@ document.getElementById("look-badList").onclick = function () {
   function look() {
     var badList_look = JSON.parse(localStorage.getItem("badList"));
     console.log("查看已屏蔽", badList_look);
-    var num = "\t共 " + badList_look.length + " 词";
+    var num = "共 " + badList_look.length + " 词";
     var str = "";
     for (var i = 0; i < badList_look.length; i++) {
-      str += "\t" + badList_look[i] + "\n";
+      str += badList_look[i] + "\n";
     }
     maininput.value = num + "\n\n" + str;
     maininput.scrollTop = 0;
