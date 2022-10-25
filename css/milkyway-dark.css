@@ -1,5 +1,5 @@
 * {
-    box-sizing: border-box
+    box-sizing: border-box;
 }
 
 .body {
@@ -9,21 +9,21 @@
 
 div {
     scrollbar-color: #930 #101;
-    scrollbar-width: 8px
+    scrollbar-width: 8px;
 }
 
 
 #maininput {
     color: #ffa31a;
-    background: #000
+    background: #000;
 }
 
 #demo-container {
-    background: #000
+    background: #000;
 }
 
 #exp-head {
-    color: #add8e6
+    color: #add8e6;
 }
 
 .colorful-button {
@@ -34,30 +34,30 @@ div {
 .dark-button {
     color: #ffa31a;
     background: #000;
-    border-color: #ffa31a
+    border-color: #ffa31a;
 }
 
 .word-filler {
-    color: #ffa31a
+    color: #ffa31a;
 }
 
 .word-filler-current {
     color: #be85ff;
-    border: 1px solid #ffa31a
+    /* border: 1px solid #ffa31a */
 }
 
 .word-filler-done {
-    color: #30b787
+    color: #30b787;
 }
 
 #demo {
     border: solid 1px gray;
     background-color: #000;
-    color: #cdcdcd
+    color: #cdcdcd;
 }
 
 .red-zone {
-    color: #fc2200
+    color: #fc2200;
 }
 
 .current-noter-container {

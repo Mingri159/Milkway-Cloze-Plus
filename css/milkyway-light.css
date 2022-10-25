@@ -43,7 +43,7 @@ div {
 
 .word-filler-current {
     color: #c053a4;
-    border: 1px solid rgba(255, 170, 0)
+    /* border: 1px solid rgba(255, 170, 0) */
 }
 
 .word-filler-done {

@@ -84,7 +84,9 @@ td {
     font-weight: 700;
     font-size: 115%;
     position: relative;
-    white-space: nowrap
+    white-space: nowrap;
+    border: #ca234EDD solid 3px;
+    border-radius: 10px;
 }
 
 .word-filler-done {
