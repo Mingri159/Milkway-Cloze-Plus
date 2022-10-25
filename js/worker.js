@@ -946,7 +946,7 @@ function refillObjs() {
 function getDef(d, cover = false) {
   var res = "";
   if (!cover && d.ipa) {
-    res = res + d.ipa + " <br> \n";
+    res = res + `<span class="ipa">${d.ipa}</span>` + " <br>";
   }
   if (d.def) {
     res = res + `<span class="def">${d.def}</span>`;
@@ -1280,7 +1280,7 @@ document.getElementById("explain-area").oncontextmenu = (e) => {
       console.log("取消标注");
       var str = o.id.replace(/-exp/g, "");
       document.getElementById(str).className = "";
-      document.getElementById(str).style.color = "";
+      if (is_mark) document.getElementById(str).style.color = "";
       fresh_listWords();
       var badList_1 = JSON.parse(localStorage.getItem("badList"));
       badList_1.push(o.innerText);
@@ -1298,6 +1298,7 @@ document.getElementById("explain-head").oncontextmenu = (e) => {
       console.log("取消标注");
       var str = o.id.replace(/-exp/g, "");
       document.getElementById(str).className = "";
+      if (is_mark) document.getElementById(str).style.color = "";
       fresh_listWords();
       var badList_1 = JSON.parse(localStorage.getItem("badList"));
       badList_1.push(o.innerText.toLowerCase());
@@ -1428,6 +1429,7 @@ function exitFullscreen() {
 }
 document.getElementById("explain-con-top").onclick = function () {
   if (word_list.childNodes.length > 0) {
+    fresh_listWords();
     open_mask();
     setTimeout(() => {
       document.getElementById("explain-outer").scrollTop = 0;
