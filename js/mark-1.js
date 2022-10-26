@@ -1,4 +1,3 @@
-
 // 中考词汇 已去除小学词汇
 var mark_1 = [
   "ability",
@@ -1170,7 +1169,6 @@ var mark_1 = [
   "seventh",
   "seventy",
   "several",
-  "severe",
   "shall",
   "shape",
   "share",

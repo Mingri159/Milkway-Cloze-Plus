@@ -1,5 +1,4 @@
-// CET-6
-
+// 六级
 var mark_4 = [
   "abbreviation",
   "abolition",
