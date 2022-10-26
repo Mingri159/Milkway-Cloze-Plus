@@ -2,8 +2,8 @@ let default_color = "#ffa31a";
 let mark_color_1 = "#ff7676";
 let mark_color_2 = "#6094ea";
 let mark_color_3 = "#736efe";
-let mark_color_4 = "#28c76f";
-let mark_color_5 = "#32ccbc";
+let mark_color_4 = "#ddd278";
+let mark_color_5 = "#ce9ffc";
 let mark_color_6 = "#c535ef";
 var words_filler_all;
 var mark_words_1 = [];
@@ -146,12 +146,14 @@ document.getElementById("word-tail").onclick = () => {
   }
 };
 var is_to_color = false;
+var is_to_color_more = false;
 var is_mark_default_c = false;
 var mark_word;
 document.getElementById("to-color").onclick = () => {
-  if (!is_to_color) {
+  if (!is_to_color || is_to_color_more) {
     if (!is_mark_default || is_mark_default_c) {
       is_to_color = true;
+      is_to_color_more = true;
       mark_word = mark_words_1
         .concat(mark_words_2)
         .concat(mark_words_3)
