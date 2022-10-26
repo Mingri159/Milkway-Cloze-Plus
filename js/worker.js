@@ -368,6 +368,7 @@ function sendText(do_jump = true, removeDup = remove_dup) {
     document.getElementById("explain-outer").scrollTop = 0;
   }, 200);
   contextList = [];
+  mark_reset();
   document.getElementById("font-size").value = 25;
   document.getElementById("demo").style.fontSize = "25px";
   var s = document.getElementById("maininput").value;
@@ -889,28 +890,25 @@ function fresh_listWords() {
   }
   document.getElementById("explain-area").innerHTML = res;
   function ws2head(wds) {
-    wds
-      .sort((a, b) => (elemInfo(a).voc >= elemInfo(b).voc ? 1 : -1))
-      .forEach((o) => {
-        var oHead = o.cloneNode();
-        oHead.innerText = elemInfo(o).voc;
-        headDiv.appendChild(oHead);
-        headDiv.append(" ");
-        oHead.onclick = () => {
-          [...demo.getElementsByClassName("word-filler-current")].forEach(
-            (e) => (e.className = "word-filler")
-          );
-          wordInfo = elemInfo(o);
-          wordInfo.audio.play();
-          word2board(wordInfo.voc);
-          var cNew = fillObjs.findIndex((e) => e == o);
-          if (cNew && cNew >= 0) {
-            currentFill = cNew;
-          }
-          if (navigator.clipboard)
-            navigator.clipboard.writeText(elemInfo(o).voc);
-        };
-      });
+    wds.forEach((o) => {
+      var oHead = o.cloneNode();
+      oHead.innerText = elemInfo(o).voc;
+      headDiv.appendChild(oHead);
+      headDiv.append(" ");
+      oHead.onclick = () => {
+        [...demo.getElementsByClassName("word-filler-current")].forEach(
+          (e) => (e.className = "word-filler")
+        );
+        wordInfo = elemInfo(o);
+        wordInfo.audio.play();
+        word2board(wordInfo.voc);
+        var cNew = fillObjs.findIndex((e) => e == o);
+        if (cNew && cNew >= 0) {
+          currentFill = cNew;
+        }
+        if (navigator.clipboard) navigator.clipboard.writeText(elemInfo(o).voc);
+      };
+    });
   }
   var headDiv = document.getElementById("explain-head");
   headDiv.innerText = "";
@@ -939,6 +937,50 @@ function fresh_listWords() {
     };
   });
   return res;
+}
+function fresh_listWords_mark(o) {
+  remove_o(mark_word, o);
+  remove_o(mark_words_1, o);
+  remove_o(mark_words_2, o);
+  remove_o(mark_words_3, o);
+  remove_o(mark_words_4, o);
+  remove_o(mark_words_5, o);
+  remove_o(mark_words_6, o);
+  var headDiv = document.getElementById("explain-head");
+  headDiv.innerText = "";
+  no_sort_wds(mark_word);
+  if (mark_words_1.length) mark_color_inner(mark_words_1, mark_color_1);
+  if (mark_words_2.length) mark_color_inner(mark_words_2, mark_color_2);
+  if (mark_words_3.length) mark_color_inner(mark_words_3, mark_color_3);
+  if (mark_words_4.length) mark_color_inner(mark_words_4, mark_color_4);
+  if (mark_words_5.length) mark_color_inner(mark_words_5, mark_color_5);
+  if (mark_words_6.length) mark_color_inner(mark_words_6, mark_color_6);
+  function remove_o(arr, o) {
+    for (i = 0; i < arr.length; i++) {
+      if (o.id == arr[i].id) {
+        console.log("o.id", o.id);
+        arr.splice(i, 1);
+      }
+    }
+  }
+  function no_sort_wds(wds) {
+    wds.forEach((o) => {
+      var oHead = o.cloneNode();
+      oHead.innerText = elemInfo(o).voc;
+      headDiv.appendChild(oHead);
+      headDiv.append(" ");
+      oHead.onclick = () => {
+        wordInfo = elemInfo(o);
+        wordInfo.audio.play();
+        word2board(wordInfo.voc);
+        var cNew = fillObjs.findIndex((e) => e == o);
+        if (cNew && cNew >= 0) {
+          currentFill = cNew;
+        }
+        if (navigator.clipboard) navigator.clipboard.writeText(elemInfo(o).voc);
+      };
+    });
+  }
 }
 function refillObjs() {
   fillObjs.forEach((e) => (e.className = "word-filler"));
@@ -1300,7 +1342,12 @@ document.getElementById("explain-head").oncontextmenu = (e) => {
       var str = o.id.replace(/-exp/g, "");
       document.getElementById(str).className = "";
       if (is_mark) document.getElementById(str).style.color = "";
-      fresh_listWords();
+      if (!is_to_color) {
+        fresh_listWords();
+      } else {
+        console.log("按 等级 排序");
+        fresh_listWords_mark(o);
+      }
       var badList_1 = JSON.parse(localStorage.getItem("badList"));
       badList_1.push(o.innerText.toLowerCase());
       localStorage.setItem("badList", JSON.stringify(badList_1));
@@ -1591,6 +1638,7 @@ function copy_btn_f() {
 }
 var isSort = false;
 document.getElementById("toUPcase").onclick = function () {
+  is_to_color = false;
   if (!isSort) {
     var words1 = [...demo.getElementsByClassName("word-filler")];
     var words2 = [...demo.getElementsByClassName("word-filler-done")];

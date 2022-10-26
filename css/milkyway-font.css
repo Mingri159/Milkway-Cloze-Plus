@@ -308,11 +308,12 @@ textarea::-webkit-scrollbar-thumb {
     align-items: center;
     border-radius: 13px;
     margin: 5px;
-    user-select: none
+    user-select: none;
+    margin-bottom: 10px;
 }
 
 .btn-case:hover {
-    border: #f27474 2px solid
+    border: #f27474 2px solid;
 }
 
 #toUPcase {
