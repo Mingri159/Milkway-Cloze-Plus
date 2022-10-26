@@ -48,46 +48,79 @@ function mark_color_inner(arr, color) {
     }
   }
 }
+function fun_cancel_mark() {
+  console.log("还原默认");
+  get_words_filler_all();
+  mark_color(words_filler_all, default_color);
+  is_mark_default = true;
+  if (is_also_mark) is_mark_default_c = true;
+  is_all_mark = false;
+}
+function fun_mark_1() {
+  get_words_filler_all();
+  mark_words_1 = getArrEqual(words_filler_all, mark_1);
+  if (mark_words_1.length) mark_color(mark_words_1, mark_color_1);
+  is_mark_default = false;
+}
+function fun_mark_2() {
+  get_words_filler_all();
+  mark_words_2 = getArrEqual(words_filler_all, mark_2);
+  if (mark_words_2.length) mark_color(mark_words_2, mark_color_2);
+  is_mark_default = false;
+}
+function fun_mark_3() {
+  get_words_filler_all();
+  mark_words_3 = getArrEqual(words_filler_all, mark_3);
+  if (mark_words_3.length) mark_color(mark_words_3, mark_color_3);
+  is_mark_default = false;
+}
+function fun_mark_4() {
+  get_words_filler_all();
+  mark_words_4 = getArrEqual(words_filler_all, mark_4);
+  if (mark_words_4.length) mark_color(mark_words_4, mark_color_4);
+  is_mark_default = false;
+}
+function fun_mark_5() {
+  get_words_filler_all();
+  mark_words_5 = getArrEqual(words_filler_all, mark_5);
+  if (mark_words_5.length) mark_color(mark_words_5, mark_color_5);
+  is_mark_default = false;
+}
+function fun_mark_6() {
+  get_words_filler_all();
+  mark_words_6 = getArrEqual(words_filler_all, mark_6);
+  if (mark_words_6.length) mark_color(mark_words_6, mark_color_6);
+  is_mark_default = false;
+}
 var is_mark_default = true;
 document.getElementById("mark-level").addEventListener("change", () => {
   var user_selected_degree = document.getElementById("mark-level").value;
-  if (user_selected_degree == "mark-0") {
-    console.log("还原默认");
-    get_words_filler_all();
-    mark_color(words_filler_all, default_color);
-    is_mark_default = true;
-  } else if (user_selected_degree == "mark-1") {
-    get_words_filler_all();
-    mark_words_1 = getArrEqual(words_filler_all, mark_1);
-    if (mark_words_1.length) mark_color(mark_words_1, mark_color_1);
-    is_mark_default = false;
-  } else if (user_selected_degree == "mark-2") {
-    get_words_filler_all();
-    mark_words_2 = getArrEqual(words_filler_all, mark_2);
-    if (mark_words_2.length) mark_color(mark_words_2, mark_color_2);
-    is_mark_default = false;
-  } else if (user_selected_degree == "mark-3") {
-    get_words_filler_all();
-    mark_words_3 = getArrEqual(words_filler_all, mark_3);
-    if (mark_words_3.length) mark_color(mark_words_3, mark_color_3);
-    is_mark_default = false;
-  } else if (user_selected_degree == "mark-4") {
-    get_words_filler_all();
-    mark_words_4 = getArrEqual(words_filler_all, mark_4);
-    if (mark_words_4.length) mark_color(mark_words_4, mark_color_4);
-    is_mark_default = false;
-  } else if (user_selected_degree == "mark-5") {
-    get_words_filler_all();
-    mark_words_5 = getArrEqual(words_filler_all, mark_5);
-    if (mark_words_5.length) mark_color(mark_words_5, mark_color_5);
-    is_mark_default = false;
-  } else if (user_selected_degree == "mark-6") {
-    get_words_filler_all();
-    mark_words_6 = getArrEqual(words_filler_all, mark_6);
-    if (mark_words_6.length) mark_color(mark_words_6, mark_color_6);
-    is_mark_default = false;
-  }
+  if (user_selected_degree == "mark-0") fun_cancel_mark();
+  else if (user_selected_degree == "mark-1") fun_mark_1();
+  else if (user_selected_degree == "mark-2") fun_mark_2();
+  else if (user_selected_degree == "mark-3") fun_mark_3();
+  else if (user_selected_degree == "mark-4") fun_mark_4();
+  else if (user_selected_degree == "mark-5") fun_mark_5();
+  else if (user_selected_degree == "mark-6") fun_mark_6();
 });
+var is_all_mark = false;
+document.getElementById("all-mark").onclick = () => {
+  if (!is_all_mark) {
+    get_words_filler_all();
+    fun_mark_1();
+    fun_mark_2();
+    fun_mark_3();
+    fun_mark_4();
+    fun_mark_5();
+    fun_mark_6();
+    is_all_mark = true;
+    document.getElementById("all-mark").value = "Cancel Mark";
+    Qmsg.success("标注完成😊");
+  } else {
+    fun_cancel_mark();
+    document.getElementById("all-mark").value = "🎨All Mark";
+  }
+};
 var is_tail = true;
 document.getElementById("word-tail").onclick = () => {
   if (is_tail) {
@@ -178,6 +211,7 @@ document.getElementById("to-default-color").onclick = () => {
       is_to_color = false;
       is_mark_default = true;
       is_mark_default_c = true;
+      is_all_mark = false;
     }
   } else {
     Qmsg.warning("当前 没有单词【等级】标注");
