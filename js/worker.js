@@ -1073,6 +1073,26 @@ document.getElementById("main-change").onclick = (e) => {
     document.getElementById("main-change").value = "✨Right";
   }
 };
+var is_wide = false;
+document.getElementById("wide-more").onclick = (e) => {
+  var text_container = document.getElementById("text-container");
+  var explain_container = document.getElementById("explain-container");
+  if (change == "right") {
+    if (!is_wide) {
+      text_container.style.width = "70%";
+      explain_container.style.left = "70%";
+      is_wide = true;
+      document.getElementById("wide-more").value = "窄点";
+    } else {
+      text_container.style.width = "78%";
+      explain_container.style.left = "78%";
+      is_wide = false;
+      document.getElementById("wide-more").value = "宽点";
+    }
+  } else {
+    Qmsg.warning("单词释义列表仅在【右侧】时有效");
+  }
+};
 document.getElementById("font-size").onclick = (e) => {
   var fonts = document.getElementById("font-size").value;
   document.getElementById("demo").style.fontSize = fonts + "px";
