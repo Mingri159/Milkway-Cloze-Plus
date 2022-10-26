@@ -123,6 +123,8 @@ document.getElementById("all-mark").onclick = () => {
       fun_cancel_mark();
       document.getElementById("all-mark").value = "🎨All Mark";
     }
+  } else {
+    Qmsg.warning("😥当前无数据");
   }
 };
 var is_tail = true;
@@ -203,7 +205,7 @@ document.getElementById("to-color").onclick = () => {
         });
       }
     } else {
-      Qmsg.warning("当前 没有选择 【等级】");
+      Qmsg.warning("😥当前 没有选择 【等级】");
     }
   }
 };
@@ -221,11 +223,12 @@ document.getElementById("to-default-color").onclick = () => {
       is_all_mark = false;
     }
   } else {
-    Qmsg.warning("当前 没有单词【等级】标注");
+    Qmsg.warning("😥当前 没有单词【等级】标注");
   }
 };
 function mark_reset() {
   document.getElementById("mark-level").value = "mark-0";
+  document.getElementById("all-mark").value = "🎨All Mark";
   is_to_color = false;
   is_mark_default = true;
   is_mark_default_c = false;
