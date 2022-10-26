@@ -105,20 +105,24 @@ document.getElementById("mark-level").addEventListener("change", () => {
 });
 var is_all_mark = false;
 document.getElementById("all-mark").onclick = () => {
-  if (!is_all_mark) {
-    get_words_filler_all();
-    fun_mark_1();
-    fun_mark_2();
-    fun_mark_3();
-    fun_mark_4();
-    fun_mark_5();
-    fun_mark_6();
-    is_all_mark = true;
-    document.getElementById("all-mark").value = "Cancel Mark";
-    Qmsg.success("标注完成😊");
-  } else {
-    fun_cancel_mark();
-    document.getElementById("all-mark").value = "🎨All Mark";
+  var explain_head = document.getElementById("explain-head");
+  words_filler_all = explain_head.querySelectorAll(".word-filler");
+  if (words_filler_all.length) {
+    if (!is_all_mark) {
+      get_words_filler_all();
+      fun_mark_1();
+      fun_mark_2();
+      fun_mark_3();
+      fun_mark_4();
+      fun_mark_5();
+      fun_mark_6();
+      is_all_mark = true;
+      document.getElementById("all-mark").value = "Cancel Mark";
+      Qmsg.success("标注完成😊");
+    } else {
+      fun_cancel_mark();
+      document.getElementById("all-mark").value = "🎨All Mark";
+    }
   }
 };
 var is_tail = true;
@@ -128,7 +132,7 @@ document.getElementById("word-tail").onclick = () => {
       .getElementsByTagName("head")
       .item(0)
       .removeChild(document.getElementById("mark"));
-    document.getElementById("word-tail").value = "tail -";
+    document.getElementById("word-tail").value = "Tail -";
     is_tail = false;
   } else {
     var link = document.createElement("link");
@@ -137,7 +141,7 @@ document.getElementById("word-tail").onclick = () => {
     link.setAttribute("id", "mark");
     link.setAttribute("href", "./css/mark.css");
     document.getElementsByTagName("head")[0].appendChild(link);
-    document.getElementById("word-tail").value = "tail +";
+    document.getElementById("word-tail").value = "Tail +";
     is_tail = true;
   }
 };
