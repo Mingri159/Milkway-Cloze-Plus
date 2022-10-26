@@ -151,6 +151,7 @@ var mark_word;
 document.getElementById("to-color").onclick = () => {
   if (!is_to_color) {
     if (!is_mark_default || is_mark_default_c) {
+      is_to_color = true;
       mark_word = mark_words_1
         .concat(mark_words_2)
         .concat(mark_words_3)
