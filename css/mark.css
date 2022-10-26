@@ -23,13 +23,13 @@
     content: "考研";
 }
 
-#explain-head .word-filler[style="color: rgb(40, 199, 111);"]:after,
-#explain-area .word-filler[style="color: rgb(40, 199, 111);"]:after {
+#explain-head .word-filler[style="color: rgb(221, 210, 120);"]:after,
+#explain-area .word-filler[style="color: rgb(221, 210, 120);"]:after {
     content: "六级";
 }
 
-#explain-head .word-filler[style="color: rgb(50, 204, 188);"]:after,
-#explain-area .word-filler[style="color: rgb(50, 204, 188);"]:after {
+#explain-head .word-filler[style="color: rgb(206, 159, 252);"]:after,
+#explain-area .word-filler[style="color: rgb(206, 159, 252);"]:after {
     content: "专八";
 }
 
