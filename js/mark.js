@@ -35,12 +35,8 @@ function mark_color(arr, color) {
   for (i = 0; i < arr.length; i++) {
     var h = document.getElementById(arr[i].id);
     var h1 = document.getElementById(arr[i].id + "-exp");
-    if (h) {
-      h.style.color = color;
-    }
-    if (h1) {
-      h1.style.color = color;
-    }
+    if (h) h.style.color = color;
+    if (h1) h1.style.color = color;
   }
 }
 function mark_color_inner(arr, color) {
