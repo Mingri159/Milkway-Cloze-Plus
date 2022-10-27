@@ -838,6 +838,7 @@ function listWords(excludeLess = true) {
   ws2head(words1);
   ws2head(words2);
   document.getElementById("explain-area").innerHTML = res;
+  if (!is_def_show) not_show_def();
   fillObjs = [...demo.querySelectorAll(".word-filler, .word-filler-done")];
   if (orgElem) {
     var cf1 = fillObjs.findIndex((o) => o == orgElem);
@@ -889,6 +890,7 @@ function fresh_listWords() {
     res = res + r.outerHTML;
   }
   document.getElementById("explain-area").innerHTML = res;
+  if (!is_def_show) not_show_def();
   function ws2head(wds) {
     wds.forEach((o) => {
       var oHead = o.cloneNode();
@@ -1093,6 +1095,33 @@ document.getElementById("wide-more").onclick = (e) => {
     Qmsg.warning("单词释义列表仅在【右侧】时有效");
   }
 };
+var is_def_show = true;
+document.getElementById("def-show").onclick = (e) => {
+  var def = document.querySelectorAll(".def");
+  if (def.length) {
+    if (is_def_show) {
+      def.forEach((o) => {
+        o.style.display = "none";
+      });
+      is_def_show = false;
+      document.getElementById("def-show").value = "释义-显示";
+    } else {
+      def.forEach((o) => {
+        o.style.display = "";
+      });
+      is_def_show = true;
+      document.getElementById("def-show").value = "释义-隐藏";
+    }
+  } else {
+    Qmsg.warning("😶 当前无【单词释义】数据");
+  }
+};
+function not_show_def() {
+  var def = document.querySelectorAll(".def");
+  def.forEach((o) => {
+    o.style.display = "none";
+  });
+}
 document.getElementById("font-size").onclick = (e) => {
   var fonts = document.getElementById("font-size").value;
   document.getElementById("demo").style.fontSize = fonts + "px";
