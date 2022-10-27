@@ -75,6 +75,12 @@ function loadString(search) {
     listWords();
     if (res.theme) changeTheme(res.theme);
   };
+
+  if (!res.article) {
+    document.getElementById("maininput").value = search;
+    sendText(false);
+  }
+
   return res;
 }
 function loadJson(jsonStr) {
