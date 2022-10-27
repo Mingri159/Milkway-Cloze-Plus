@@ -131,14 +131,14 @@ var urlLoader = loadString(window.location.search);
 if (urlLoader.article || urlLoader.redundantList) {
   urlLoader.submitter();
 }
-document.getElementById("local-loader").onclick = (e) => fReader(true);
-document.getElementById("local-list").onclick = (e) => fReader(false);
-function fReader(swa = true) {
+document.getElementById("local-list").onclick = (e) => fReader(false, true);
+document.getElementById("local-loader").onclick = (e) => fReader(true, false);
+function fReader(swa = true, mul = false) {
   var f = document.createElement("input");
   f.type = "file";
-  f.multiple = "multiple";
+  if (mul) f.multiple = "multiple";
   f.onchange = (e) => {
-    console.log("fReader 读取文件");
+    console.log("读取文件");
     Array.from(f.files).forEach((fi) => {
       let fun = fi.name.endsWith(".json") ? loadJson : loadString;
       fi.text()
