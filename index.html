@@ -32,69 +32,71 @@
 </head>
 
 <body class="body">
-    <center>
-        <h2>Milkyway-Cloze-Plus: Online Comprehensive Vocabulary Learning Aided By Context Cognition</h2>
-    </center>
+    <div id="nav">
+        <center>
+            <h2>Milkyway-Cloze-Plus: Online Comprehensive Vocabulary Learning Aided By Context Cognition</h2>
+        </center>
 
-    <center>
-        <table class="colorful-button">
-            <tbody>
-                <tr>
-                    <th>Switch Themes</th>
-                    <th>Text Input </th>
-                    <th> English level </th>
-                    <th>Start Practice</th>
-                    <th>Help</th>
-                    <th>Text Area</th>
-                    <th>Bad List</th>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="button" class="dark-button" id="overall-restyle" value="Switch To LIGHT Theme"
-                            onclick="changeTheme()" currentthemeindex="1">
-                    </td>
-                    <td>
-                        <input type="button" class="dark-button" value="Clear" id="clear-clicker"
-                            onkeydown="document.body.onkeydown">
-                    </td>
-                    <td>
-                        <select id="nonsense-voting" class="dark-button">
-                            <option value="dictList">Cet-4</option>
-                            <option value="dict9k">Cet-6</option>
-                            <option value="dict2w+dict9k" selected="selected">COCA20000</option>
-                            <!-- <option value="dictList_mw">Tofel</option>
+        <center>
+            <table class="colorful-button">
+                <tbody>
+                    <tr>
+                        <th>Switch Themes</th>
+                        <th>Text Input </th>
+                        <th> English level </th>
+                        <th>Start Practice</th>
+                        <th>Help</th>
+                        <th>Text Area</th>
+                        <th>Bad List</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" class="dark-button" id="overall-restyle" value="Switch To LIGHT Theme"
+                                onclick="changeTheme()" currentthemeindex="1">
+                        </td>
+                        <td>
+                            <input type="button" class="dark-button" value="Clear" id="clear-clicker"
+                                onkeydown="document.body.onkeydown">
+                        </td>
+                        <td>
+                            <select id="nonsense-voting" class="dark-button">
+                                <option value="dictList">Cet-4</option>
+                                <option value="dict9k">Cet-6</option>
+                                <option value="dict2w+dict9k" selected="selected">COCA20000</option>
+                                <!-- <option value="dictList_mw">Tofel</option>
                             <option value="dictList_mw">Ielts</option>
                             <option value="dict9k+dictList_mw">Cet+Tofel</option>
                             <option value="dictList_mw+dict9k">Tofel+Cet</option> -->
 
-                        </select>
-                    </td>
-                    <td> <input type="button" class="colorful-button" id="go-down" value="Go To The Text &gt;&gt;"
-                            onclick="gotobottom()"> </td>
-                    <td> <a target="_blank" href="https://mingri159.github.io/myBlog/pages/e189d2/" class="dark-button">
-                            ReadMe </a> </td>
-                    <td>
-                        <a id='text-area-long' class="dark-button">🔻</a>
-                        <a id='text-area-short' class="dark-button"> 🔺</a>
-                        <a id='text-area-fontzize-add' class="dark-button">+</a>
-                        <a id='text-area-fontzize-minus' class="dark-button"> - </a>
-                    </td>
-                    <td>
-                        <input type="button" class="dark-button" value="导入badList" id="in-badList"
-                            onkeydown="document.body.onkeydown">
-                        <input type="button" class="dark-button" value="取消屏蔽" id="cancel-badList"
-                            onkeydown="document.body.onkeydown">
-                        <input type="button" class="dark-button" value="查看已屏蔽" id="look-badList"
-                            onkeydown="document.body.onkeydown">
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </center>
+                            </select>
+                        </td>
+                        <td> <input type="button" class="colorful-button" id="go-down" value="Go To The Text &gt;&gt;"
+                                onclick="gotobottom()"> </td>
+                        <td> <a target="_blank" href="https://mingri159.github.io/myBlog/pages/e189d2/"
+                                class="dark-button">
+                                ReadMe </a> </td>
+                        <td>
+                            <a id='text-area-long' class="dark-button">🔻</a>
+                            <a id='text-area-short' class="dark-button"> 🔺</a>
+                            <a id='text-area-fontzize-add' class="dark-button">+</a>
+                            <a id='text-area-fontzize-minus' class="dark-button"> - </a>
+                        </td>
+                        <td>
+                            <input type="button" class="dark-button" value="导入badList" id="in-badList"
+                                onkeydown="document.body.onkeydown">
+                            <input type="button" class="dark-button" value="取消屏蔽" id="cancel-badList"
+                                onkeydown="document.body.onkeydown">
+                            <input type="button" class="dark-button" value="查看已屏蔽" id="look-badList"
+                                onkeydown="document.body.onkeydown">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </center>
 
-    <!-- 文本输入 -->
-    <textarea id="maininput"></textarea>
-
+        <!-- 文本输入 -->
+        <textarea id="maininput"></textarea>
+    </div>
 
     <!-- 功能button -->
     <div id="buttons">
@@ -130,7 +132,9 @@
         </span>
 
         <input type="button" class="colorful-button" value=" 🔍全屏 " id="fullScreen"
-            style="width:92px;margin-left: -3px;height: 35px;" onkeydown="document.body.onkeydown">
+            style="margin-left: -3px;height: 35px;" onkeydown="document.body.onkeydown">
+        <input type="button" class="colorful-button" value="🎈Nav +" id="nav-show"
+            style="margin-left: -3px;height: 32px;" onkeydown="document.body.onkeydown">
         <input type="button" class="colorful-button" value="生词" id="explain-con-top"
             style="margin-left: -3px;height: 35px;" onkeydown="document.body.onkeydown">
 

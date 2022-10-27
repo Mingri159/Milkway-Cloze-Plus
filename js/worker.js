@@ -1524,6 +1524,21 @@ function exitFullscreen() {
     document.webkitExitFullscreen();
   }
 }
+
+var is_nav_show = true;
+document.getElementById("nav-show").onclick = (e) => {
+  var vav_show = document.getElementById("nav");
+  if (is_nav_show) {
+    vav_show.style.display = "none";
+    is_nav_show = false;
+    document.getElementById("nav-show").value = "🎈Nav -";
+  } else {
+    vav_show.style.display = "";
+    is_nav_show = true;
+    document.getElementById("nav-show").value = "🎈Nav +";
+  }
+};
+
 document.getElementById("explain-con-top").onclick = function () {
   if (word_list.childNodes.length > 0) {
     fresh_listWords();
