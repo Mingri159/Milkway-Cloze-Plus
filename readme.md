@@ -12,8 +12,6 @@
 
 - [https://forum.freemdict.com/t/topic/16422](https://forum.freemdict.com/t/topic/16422)
 
-- [https://forum.freemdict.com/t/topic/2228/33](https://forum.freemdict.com/t/topic/2228/33)
-
 ---
 
 ##### 1、推荐使用【**Edge 浏览器**】
@@ -27,6 +25,8 @@
 - rules.js：词形还原规则；
 
 - dict\*\*.js：词典文件；
+
+- mark-*.js：各等级所含词汇；
 
 ##### 3、按键说明
 
