@@ -83,6 +83,11 @@ function loadString(search) {
 }
 function loadJson(jsonStr) {
   var res = JSON.parse(jsonStr);
+  if (!res.article) {
+    Qmsg.error("😶请检查文件内容，未读取到文本", {
+      showClose: true,
+    });
+  }
   res.submitter = function (switcharticle = true) {
     if (res.dict) {
       document.getElementById("nonsense-voting").value = res.dict;
