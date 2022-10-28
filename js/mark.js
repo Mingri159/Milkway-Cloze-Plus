@@ -104,7 +104,7 @@ document.getElementById("mark-level").addEventListener("change", () => {
   else if (user_selected_degree == "mark-6") fun_mark_6();
 });
 var is_all_mark = false;
-document.getElementById("all-mark").onclick = () => {
+document.getElementById("all-mark").onclick = debounce(function () {
   var explain_head = document.getElementById("explain-head");
   words_filler_all = explain_head.querySelectorAll(".word-filler");
   if (words_filler_all.length) {
@@ -118,15 +118,29 @@ document.getElementById("all-mark").onclick = () => {
       fun_mark_6();
       is_all_mark = true;
       document.getElementById("all-mark").value = "Cancel Mark";
-      Qmsg.success("标注完成😊");
+      Qmsg.success("标注完成😊", { showClose: true });
     } else {
       fun_cancel_mark();
+      Qmsg.success("已取消标注😊", { showClose: true });
       document.getElementById("all-mark").value = "🎨All Mark";
     }
   } else {
     Qmsg.warning("😥当前无数据");
   }
-};
+}, 1500);
+function debounce(callback, delay = 1000) {
+  let timer = null;
+  return function () {
+    timer && clearTimeout(timer);
+    if (!is_all_mark) {
+      var loadingMsg = Qmsg.loading("正在标注【等级】...");
+    }
+    timer = setTimeout(function () {
+      callback();
+      loadingMsg.close();
+    }, delay);
+  };
+}
 var is_tail = true;
 document.getElementById("word-tail").onclick = () => {
   if (is_tail) {
