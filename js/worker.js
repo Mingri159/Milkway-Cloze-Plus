@@ -946,12 +946,6 @@ function fresh_listWords() {
 }
 function fresh_listWords_mark(o) {
   remove_o(mark_word, o);
-  remove_o(mark_words_1, o);
-  remove_o(mark_words_2, o);
-  remove_o(mark_words_3, o);
-  remove_o(mark_words_4, o);
-  remove_o(mark_words_5, o);
-  remove_o(mark_words_6, o);
   var headDiv = document.getElementById("explain-head");
   headDiv.innerText = "";
   no_sort_wds(mark_word);
@@ -987,6 +981,28 @@ function fresh_listWords_mark(o) {
       };
     });
   }
+  [...demo.getElementsByClassName("word-filler-current")].forEach(
+    (e) => (e.className = "word-filler")
+  );
+  wordSet = [];
+  var dictList = dictInUse();
+  var words1 = [...demo.getElementsByClassName("word-filler")];
+  var words2 = [...demo.getElementsByClassName("word-filler-done")];
+  var words = words1.concat(words2);
+  res = "";
+  for (w of words) {
+    var r = document.createElement("p");
+    var info = elemInfo(w);
+    wordSet.push(info.voc);
+    w.innerHTML = info.voc;
+    w.id += "-exp";
+    r.innerHTML = w.outerHTML + " " + getDef(dictList[info.voc]);
+    w.innerHTML = info.inText;
+    w.id = info.objId;
+    res = res + r.outerHTML;
+  }
+  document.getElementById("explain-area").innerHTML = res;
+  if (!is_def_show) not_show_def();
 }
 function refillObjs() {
   fillObjs.forEach((e) => (e.className = "word-filler"));
