@@ -13,6 +13,9 @@ var mark_too = false;
 // 等级选择框 选择默认后  生词弹窗【M按钮】是否要保存等级排序  【已使用】
 var is_also_mark = true;
 
+// 点击生词发音、双击未标注单词获取网络发音；  【已使用】
+var is_voc = true;
+
 // 提示 弹窗
 window.QMSG_GLOBALS = {
   DEFAULTS: {

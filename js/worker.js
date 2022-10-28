@@ -75,12 +75,10 @@ function loadString(search) {
     listWords();
     if (res.theme) changeTheme(res.theme);
   };
-
   if (!res.article) {
     document.getElementById("maininput").value = search;
     sendText(false);
   }
-
   return res;
 }
 function loadJson(jsonStr) {
@@ -400,7 +398,7 @@ function sendText(do_jump = true, removeDup = remove_dup) {
   listWords(false);
   for (var o of document.getElementsByClassName("word-filler-dup")) {
     o.onclick = function () {
-      elemExplain(this, false);
+      if (is_voc) elemExplain(this, false);
     };
   }
   if (isSpan) {
@@ -510,9 +508,9 @@ function elemFill(elem, s) {
   elem.innerHTML = s;
   if (s == inText.toLowerCase()) {
     elemModify(elem);
-    elemExplain(elem, false);
+    if (is_voc) elemExplain(elem, false);
   } else {
-    elemExplain(elem, true);
+    if (is_voc) elemExplain(elem, true);
     covered = covered.slice(s.length);
     document.getElementById("exp-head").innerHTML = s + covered;
     elem.className = "word-filler-current";
@@ -598,7 +596,7 @@ function fillNext(pace = 1) {
   }
   if (!elemCheck(fillObjs[last_currentFill])) {
     input_err();
-    Qmsg.error("上一处 输入不正确");
+    Qmsg.error("😣上一处 输入不正确");
   }
   currentFill = (currentFill + pace) % fillObjs.length;
   last_currentFill = currentFill;
@@ -606,7 +604,7 @@ function fillNext(pace = 1) {
   var elem = fillObjs[currentFill];
   if (!elemCheck(fillObjs[currentFill])) {
     input_err();
-    Qmsg.error("当前输入不正确 请输入");
+    Qmsg.error("😣当前输入不正确 请输入");
     isClozeNow = true;
     elemCover(fillObjs[currentFill]);
   }
@@ -636,7 +634,7 @@ function fillPrevious(pace = 1) {
   }
   if (!elemCheck(fillObjs[last_currentFill])) {
     input_err();
-    Qmsg.error("上一处 输入不正确");
+    Qmsg.error("😣上一处 输入不正确");
   }
   currentFill =
     (((currentFill - pace) % fillObjs.length) + fillObjs.length) %
@@ -646,7 +644,7 @@ function fillPrevious(pace = 1) {
   var elem = fillObjs[currentFill];
   if (!elemCheck(fillObjs[currentFill])) {
     input_err();
-    Qmsg.error("当前输入不正确 请输入");
+    Qmsg.error("🤔当前输入不正确 请输入");
     isClozeNow = true;
     elemCover(fillObjs[currentFill]);
   }
@@ -777,7 +775,7 @@ function transKeys(e) {
       )
     ) {
       console.log(e.keyCode);
-      Qmsg.warning("无效的按键");
+      Qmsg.warning("😶无效的按键");
     }
   }
 }
@@ -1206,7 +1204,7 @@ document.getElementById("demo").onclick = (e) => {
     currentInput = "";
     clear_current_style_1();
     clear_current_style_2();
-    elemExplain(o, false);
+    if (is_voc) elemExplain(o, false);
     if (!elemCheck(fillObjs[last_currentFill])) {
       input_err();
       Qmsg.error("上一处 输入不正确");
@@ -1225,9 +1223,9 @@ document.getElementById("demo").onclick = (e) => {
       }
     }
   } else if (o.className == "current-noter-container") {
-    elemExplain(o.parentNode, false);
+    if (is_voc) elemExplain(o.parentNode, false);
   } else if (o.className == "word-filler-done") {
-    elemExplain(o, false);
+    if (is_voc) elemExplain(o, false);
     clear_current_style_3();
     clear_current_style_2();
     clear_current_style_1();
@@ -1238,7 +1236,7 @@ document.getElementById("demo").onclick = (e) => {
     }
     add_now(o);
   } else if (o.className == "word-filler-dup") {
-    elemExplain(o, false);
+    if (is_voc) elemExplain(o, false);
     if (!elemCheck(fillObjs[currentFill])) {
       input_err();
       Qmsg.error("上一处 输入不正确");
@@ -1293,62 +1291,64 @@ document.getElementById("demo").onclick = (e) => {
   }
 };
 document.getElementById("demo").ondblclick = (e) => {
-  if (e.target.className == "demo-area" || e.target.className == "") {
-    const selection = window.getSelection();
-    var selecT = selection.toString().replace(/\ /g, "");
-  } else if (
-    e.target.className == "word-filler" ||
-    e.target.className == "current-noter-container" ||
-    e.target.className == "word-filler-done"
-  ) {
-    var index_o = IndexOf_cur(fillObjs, e.target);
-    if (index_o !== -1) {
-      currentFill = index_o;
-      last_currentFill = currentFill;
+  if (is_voc) {
+    if (e.target.className == "demo-area" || e.target.className == "") {
+      const selection = window.getSelection();
+      var selecT = selection.toString().replace(/\ /g, "");
+    } else if (
+      e.target.className == "word-filler" ||
+      e.target.className == "current-noter-container" ||
+      e.target.className == "word-filler-done"
+    ) {
+      var index_o = IndexOf_cur(fillObjs, e.target);
+      if (index_o !== -1) {
+        currentFill = index_o;
+        last_currentFill = currentFill;
+      }
+      window.getSelection().empty();
+      return;
     }
-    window.getSelection().empty();
-    return;
-  }
-  var nowTarget = e.target.id;
-  var pattern2 = new RegExp("[A-Za-z]+");
-  let isEnglish = pattern2.test(selecT);
-  if (nowTarget === "demo" && isEnglish) {
-    word_sound(selecT);
-    console.log("选中单词 处理前", selecT);
-    var select2word2rules = word2rules(selecT.toLowerCase(), ruleArray);
-    if (select2word2rules.length == 1) {
-      console.log("处理后 ：相同");
-    } else {
-      console.log("selecT 变原形", select2word2rules);
+    var nowTarget = e.target.id;
+    var pattern2 = new RegExp("[A-Za-z]+");
+    let isEnglish = pattern2.test(selecT);
+    if (nowTarget === "demo" && isEnglish) {
+      word_sound(selecT);
+      console.log("选中单词 处理前", selecT);
+      var select2word2rules = word2rules(selecT.toLowerCase(), ruleArray);
+      if (select2word2rules.length == 1) {
+        console.log("处理后 ：相同");
+      } else {
+        console.log("selecT 变原形", select2word2rules);
+      }
+      const range = window.getSelection().getRangeAt(0);
+      const docObj = range.extractContents();
+      let dom = document.createElement("span");
+      dom.className = "selecTcss";
+      dom.id = "demo-" + Date.now();
+      dom.appendChild(docObj);
+      range.insertNode(dom);
+      handleCopy(selecT);
+      Qmsg.success("已复制，正在获取网络发音");
+      window.getSelection().empty();
+    } else if (
+      e.target.className == "" &&
+      e.target.id.substring(0, 4) == "demo"
+    ) {
+      e.target.className = "selecTcss";
+      word_sound(selecT);
+      handleCopy(selecT);
+      Qmsg.success("已复制，正在获取网络发音");
+      window.getSelection().empty();
+    } else if (
+      e.target.className == "" &&
+      e.target.id.substring(0, 4) == "word"
+    ) {
+      e.target.className = "word-filler";
+      window.getSelection().empty();
+      if (is_voc) elemExplain(fillObjs[currentFill], false);
+      add_now(o);
+      fresh_listWords();
     }
-    const range = window.getSelection().getRangeAt(0);
-    const docObj = range.extractContents();
-    let dom = document.createElement("span");
-    dom.className = "selecTcss";
-    dom.id = "demo-" + Date.now();
-    dom.appendChild(docObj);
-    range.insertNode(dom);
-    handleCopy(selecT);
-    Qmsg.success("已复制，正在获取网络发音");
-    window.getSelection().empty();
-  } else if (
-    e.target.className == "" &&
-    e.target.id.substring(0, 4) == "demo"
-  ) {
-    e.target.className = "selecTcss";
-    word_sound(selecT);
-    handleCopy(selecT);
-    Qmsg.success("已复制，正在获取网络发音");
-    window.getSelection().empty();
-  } else if (
-    e.target.className == "" &&
-    e.target.id.substring(0, 4) == "word"
-  ) {
-    e.target.className = "word-filler";
-    window.getSelection().empty();
-    elemExplain(fillObjs[currentFill], false);
-    add_now(o);
-    fresh_listWords();
   }
 };
 document.getElementById("demo").oncontextmenu = (e) => {
@@ -1397,12 +1397,8 @@ document.getElementById("explain-head").oncontextmenu = (e) => {
       var str = o.id.replace(/-exp/g, "");
       document.getElementById(str).className = "";
       if (is_mark) document.getElementById(str).style.color = "";
-      if (!is_to_color) {
-        fresh_listWords();
-      } else {
-        console.log("按 等级 排序");
-        fresh_listWords_mark(o);
-      }
+      if (!is_to_color) fresh_listWords();
+      else fresh_listWords_mark(o);
       var badList_1 = JSON.parse(localStorage.getItem("badList"));
       badList_1.push(o.innerText.toLowerCase());
       localStorage.setItem("badList", JSON.stringify(badList_1));
@@ -1530,7 +1526,6 @@ function exitFullscreen() {
     document.webkitExitFullscreen();
   }
 }
-
 var is_nav_show = true;
 document.getElementById("nav-show").onclick = (e) => {
   var vav_show = document.getElementById("nav");
@@ -1544,7 +1539,6 @@ document.getElementById("nav-show").onclick = (e) => {
     document.getElementById("nav-show").value = "🎈Nav +";
   }
 };
-
 document.getElementById("explain-con-top").onclick = function () {
   if (word_list.childNodes.length > 0) {
     fresh_listWords();
@@ -1703,7 +1697,7 @@ function copy_btn_f() {
     navigator.clipboard.writeText(word_final);
     Qmsg.success("[生词]已经复制到剪贴板喽！");
   } else {
-    Qmsg.warning("当前还没有数据");
+    Qmsg.warning("😶当前还没有数据");
   }
 }
 var isSort = false;
@@ -1806,7 +1800,7 @@ function clear_current_style_3() {
   if (okl.length) {
     if (!elemCheck(fillObjs[last_currentFill])) {
       input_err();
-      Qmsg.error("上一处 输入不正确");
+      Qmsg.error("😶上一处 输入不正确");
       document.getElementsByClassName("word-filler-current")[0].className =
         "word-filler-err";
     }
