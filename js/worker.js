@@ -133,8 +133,10 @@ document.getElementById("local-list").onclick = (e) => fReader(false, true);
 document.getElementById("local-loader").onclick = (e) => fReader(true, false);
 function fReader(swa = true, mul = false) {
   var f = document.createElement("input");
-  f.type = "file";
-  if (mul) f.multiple = "multiple";
+  if (mul) {
+    f.accept = ".json";
+    f.multiple = "multiple";
+  } else f.accept = ".json , .txt";
   f.onchange = (e) => {
     console.log("读取文件");
     Array.from(f.files).forEach((fi) => {
