@@ -56,52 +56,54 @@ function fun_cancel_mark() {
   if (is_also_mark) is_mark_default_c = true;
   is_all_mark = false;
 }
-function fun_mark_1() {
+var is_fun_mark_1 = false;
+var is_fun_mark_2 = false;
+var is_fun_mark_3 = false;
+var is_fun_mark_4 = false;
+var is_fun_mark_5 = false;
+var is_fun_mark_6 = false;
+function fun_mark(mark_words_n, mark_n, mark_color_n, is_fun_mark_n) {
   get_words_filler_all();
-  mark_words_1 = getArrEqual(words_filler_all, mark_1);
-  if (mark_words_1.length) mark_color(mark_words_1, mark_color_1);
+  mark_words_n = getArrEqual(words_filler_all, mark_n);
+  if (mark_words_n.length) mark_color(mark_words_n, mark_color_n);
   is_mark_default = false;
+  if (is_fun_mark_n == "is_fun_mark_1") is_fun_mark_1 = true;
+  if (is_fun_mark_n == "is_fun_mark_2") is_fun_mark_2 = true;
+  if (is_fun_mark_n == "is_fun_mark_3") is_fun_mark_3 = true;
+  if (is_fun_mark_n == "is_fun_mark_4") is_fun_mark_4 = true;
+  if (is_fun_mark_n == "is_fun_mark_5") is_fun_mark_5 = true;
+  if (is_fun_mark_n == "is_fun_mark_6") is_fun_mark_6 = true;
+  if_mark_all_done();
 }
-function fun_mark_2() {
-  get_words_filler_all();
-  mark_words_2 = getArrEqual(words_filler_all, mark_2);
-  if (mark_words_2.length) mark_color(mark_words_2, mark_color_2);
-  is_mark_default = false;
-}
-function fun_mark_3() {
-  get_words_filler_all();
-  mark_words_3 = getArrEqual(words_filler_all, mark_3);
-  if (mark_words_3.length) mark_color(mark_words_3, mark_color_3);
-  is_mark_default = false;
-}
-function fun_mark_4() {
-  get_words_filler_all();
-  mark_words_4 = getArrEqual(words_filler_all, mark_4);
-  if (mark_words_4.length) mark_color(mark_words_4, mark_color_4);
-  is_mark_default = false;
-}
-function fun_mark_5() {
-  get_words_filler_all();
-  mark_words_5 = getArrEqual(words_filler_all, mark_5);
-  if (mark_words_5.length) mark_color(mark_words_5, mark_color_5);
-  is_mark_default = false;
-}
-function fun_mark_6() {
-  get_words_filler_all();
-  mark_words_6 = getArrEqual(words_filler_all, mark_6);
-  if (mark_words_6.length) mark_color(mark_words_6, mark_color_6);
-  is_mark_default = false;
+function if_mark_all_done() {
+  if (
+    is_fun_mark_1 &
+    is_fun_mark_2 &
+    is_fun_mark_3 &
+    is_fun_mark_4 &
+    is_fun_mark_5 &
+    is_fun_mark_6
+  ) {
+    is_all_mark = true;
+    document.getElementById("all-mark").value = "Cancel Mark";
+  }
 }
 var is_mark_default = true;
 document.getElementById("mark-level").addEventListener("change", () => {
   var user_selected_degree = document.getElementById("mark-level").value;
   if (user_selected_degree == "mark-0") fun_cancel_mark();
-  else if (user_selected_degree == "mark-1") fun_mark_1();
-  else if (user_selected_degree == "mark-2") fun_mark_2();
-  else if (user_selected_degree == "mark-3") fun_mark_3();
-  else if (user_selected_degree == "mark-4") fun_mark_4();
-  else if (user_selected_degree == "mark-5") fun_mark_5();
-  else if (user_selected_degree == "mark-6") fun_mark_6();
+  else if (user_selected_degree == "mark-1")
+    fun_mark(mark_words_1, mark_1, mark_color_1, "is_fun_mark_1");
+  else if (user_selected_degree == "mark-2")
+    fun_mark(mark_words_2, mark_2, mark_color_2, "is_fun_mark_2");
+  else if (user_selected_degree == "mark-3")
+    fun_mark(mark_words_3, mark_3, mark_color_3, "is_fun_mark_3");
+  else if (user_selected_degree == "mark-4")
+    fun_mark(mark_words_4, mark_4, mark_color_4, "is_fun_mark_4");
+  else if (user_selected_degree == "mark-5")
+    fun_mark(mark_words_5, mark_5, mark_color_5, "is_fun_mark_5");
+  else if (user_selected_degree == "mark-6")
+    fun_mark(mark_words_6, mark_6, mark_color_6, "is_fun_mark_6");
 });
 var is_all_mark = false;
 document.getElementById("all-mark").onclick = debounce(function () {
@@ -109,25 +111,27 @@ document.getElementById("all-mark").onclick = debounce(function () {
   words_filler_all = explain_head.querySelectorAll(".word-filler");
   if (words_filler_all.length) {
     if (!is_all_mark) {
-      get_words_filler_all();
-      fun_mark_1();
-      fun_mark_2();
-      fun_mark_3();
-      fun_mark_4();
-      fun_mark_5();
-      fun_mark_6();
+      if (!is_fun_mark_1) fun_mark(mark_words_1, mark_1, mark_color_1);
+      if (!is_fun_mark_2) fun_mark(mark_words_2, mark_2, mark_color_2);
+      if (!is_fun_mark_3) fun_mark(mark_words_3, mark_3, mark_color_3);
+      if (!is_fun_mark_4) fun_mark(mark_words_4, mark_4, mark_color_4);
+      if (!is_fun_mark_5) fun_mark(mark_words_5, mark_5, mark_color_5);
+      if (!is_fun_mark_6) fun_mark(mark_words_6, mark_6, mark_color_6);
       is_all_mark = true;
+      close_loadingMsg = true;
       document.getElementById("all-mark").value = "Cancel Mark";
       Qmsg.success("标注完成😊", { showClose: true });
     } else {
       fun_cancel_mark();
       Qmsg.success("已取消标注😊", { showClose: true });
       document.getElementById("all-mark").value = "🎨All Mark";
+      document.getElementById("mark-level").value = "mark-0";
     }
   } else {
     Qmsg.warning("😥当前无数据");
   }
 }, 1500);
+var close_loadingMsg = false;
 function debounce(callback, delay = 1000) {
   let timer = null;
   return function () {
@@ -137,7 +141,10 @@ function debounce(callback, delay = 1000) {
     }
     timer = setTimeout(function () {
       callback();
-      loadingMsg.close();
+      if (close_loadingMsg) {
+        loadingMsg.close();
+        close_loadingMsg = false;
+      }
     }, delay);
   };
 }
@@ -246,6 +253,7 @@ function mark_reset() {
   is_to_color = false;
   is_mark_default = true;
   is_mark_default_c = false;
+  is_all_mark = false;
   mark_words_1 = [];
   mark_words_2 = [];
   mark_words_3 = [];
