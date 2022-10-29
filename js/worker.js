@@ -259,7 +259,7 @@ function fillAllLabeled(s, words) {
 var s = document.getElementById("maininput").value;
 var words1 = allWords(s);
 function allWords(s) {
-  var reWord = /[a-zA-Z][a-zA-Z']+/g;
+  var reWord = /([a-zA-Z]+)+-([a-zA-Z]+)|([a-zA-Z][a-zA-Z']+)/g;
   var iterAll = s.matchAll(reWord);
   var words = [];
   for (var w of iterAll) {
