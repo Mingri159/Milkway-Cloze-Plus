@@ -16,6 +16,12 @@ var is_also_mark = true;
 // 点击生词发音、双击未标注单词获取网络发音；  【已使用】
 var is_voc = true;
 
+// 双击选中状态 默认不选中
+var is_dbl_select = false;
+
+// 原生右键菜单 默认屏蔽
+var is_menu_prevent = true;
+
 // 提示 弹窗
 window.QMSG_GLOBALS = {
   DEFAULTS: {

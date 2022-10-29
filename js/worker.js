@@ -1,6 +1,8 @@
-document.getElementById("demo-container").oncontextmenu = function () {
-  return false;
-};
+if (is_menu_prevent) {
+  document.getElementById("demo-container").oncontextmenu = function () {
+    return false;
+  };
+}
 document.getElementById("go-down").onclick = (e) => gotobottom();
 var demo = document.getElementById("demo");
 function gotobottom() {
@@ -1218,116 +1220,133 @@ function word_sound(s) {
   audio.play();
 }
 var isClozeNow = false;
+var click_store;
 document.getElementById("demo").onclick = (e) => {
   spacebar = false;
   o = e.target;
-  if (o.className == "word-filler") {
-    isClozeNow = false;
-    currentInput = "";
-    clear_current_style_1();
-    clear_current_style_2();
-    if (is_voc) elemExplain(o, false);
-    if (!elemCheck(fillObjs[last_currentFill])) {
-      input_err();
-      Qmsg.error("上一处 输入不正确");
-    }
-    add_now(o);
-    var index_o = IndexOf_cur(fillObjs, o);
-    if (index_o !== -1) {
-      currentFill = index_o;
-      last_currentFill = currentFill;
-    }
-    if (state_in_excise) {
-      var eleme = fillObjs[currentFill];
-      console.log("当前输入的不正确：", eleme.innerText);
-      if (!elemCheck(fillObjs[last_currentFill])) {
-        isClozeNow = true;
-      }
-    }
-  } else if (o.className == "current-noter-container") {
-    if (is_voc) elemExplain(o.parentNode, false);
-  } else if (o.className == "word-filler-done") {
-    if (is_voc) elemExplain(o, false);
-    clear_current_style_3();
-    clear_current_style_2();
-    clear_current_style_1();
-    var index_o = IndexOf_cur(fillObjs, o);
-    if (index_o !== -1) {
-      currentFill = index_o;
-      last_currentFill = currentFill;
-    }
-    add_now(o);
-  } else if (o.className == "word-filler-dup") {
-    if (is_voc) elemExplain(o, false);
-    if (!elemCheck(fillObjs[currentFill])) {
-      input_err();
-      Qmsg.error("上一处 输入不正确");
-    }
-  } else if (o.className == "red-zone") {
-    isClozeNow = true;
-    console.log("是填空的");
-    currentInput = "";
-    console.log("o", o, "e.path[1]", e.path[1]);
-    o = e.path[1];
-    var index_o = IndexOf_cur(fillObjs, o);
-    if (index_o !== -1) currentFill = index_o;
-    clear_current_style_1();
-    if (!elemCheck(fillObjs[last_currentFill])) {
-      input_err();
-      Qmsg.error("上一处 输入不正确");
-    }
-    var index_o = IndexOf_cur(fillObjs, o);
-    if (index_o !== -1) {
-      currentFill = index_o;
-      last_currentFill = currentFill;
-    }
-    add_now(o);
-    re_is_done();
-  } else if (o.className == "word-filler-err") {
-    re_is_done();
-    clear_current_style_3();
-    clear_current_style_2();
-    clear_current_style_1();
-    var index_o = IndexOf_cur(fillObjs, o);
-    currentFill = index_o;
-    last_currentFill = currentFill;
-    currentInput = document.getElementById(fillObjs[currentFill].id).innerText;
-    console.log("这里错了");
-    isClozeNow = true;
-    var elem0 = fillObjs[currentFill];
-    document.getElementById(elem0.id).className = "word-filler-current";
-  } else if (e.target.className == "selecTcss") {
-    fff = e.target.innerText;
-    Qmsg.success("已复制,正在获取网络发音");
-    word_sound(fff);
-    handleCopy(fff);
-  } else if (e.target.className == "zh") {
-    if (isShow == "hide") {
-      console.log("偷看一眼");
-      if (o.style.opacity == "0") {
-        o.style.opacity = "1";
-      } else {
-        o.style.opacity = "0";
-      }
-    }
+  if (click_store) {
+    click_store = clearTimeout(click_store);
   }
+  click_store = setTimeout(function () {
+    if (o.className == "word-filler") {
+      if (!o.childNodes[0].className) {
+        isClozeNow = false;
+        currentInput = "";
+        clear_current_style_1();
+        clear_current_style_2();
+        if (is_voc) elemExplain(o, false);
+        if (!elemCheck(fillObjs[last_currentFill])) {
+          input_err();
+          Qmsg.error("上一处 输入不正确");
+        }
+        add_now(o);
+        var index_o = IndexOf_cur(fillObjs, o);
+        if (index_o !== -1) {
+          currentFill = index_o;
+          last_currentFill = currentFill;
+        }
+        if (state_in_excise) {
+          var eleme = fillObjs[currentFill];
+          console.log("当前输入的不正确：", eleme.innerText);
+          if (!elemCheck(fillObjs[last_currentFill])) {
+            isClozeNow = true;
+          }
+        }
+      }
+    } else if (o.className == "current-noter-container") {
+    } else if (o.className == "word-filler-done") {
+      if (is_voc) elemExplain(o, false);
+      clear_current_style_3();
+      clear_current_style_2();
+      clear_current_style_1();
+      var index_o = IndexOf_cur(fillObjs, o);
+      if (index_o !== -1) {
+        currentFill = index_o;
+        last_currentFill = currentFill;
+      }
+      add_now(o);
+    } else if (o.className == "word-filler-dup") {
+      if (is_voc) elemExplain(o, false);
+      if (!elemCheck(fillObjs[currentFill])) {
+        input_err();
+        Qmsg.error("上一处 输入不正确");
+      }
+    } else if (o.className == "red-zone") {
+      isClozeNow = true;
+      console.log("是填空的");
+      currentInput = "";
+      o = e.path[1];
+      var index_o = IndexOf_cur(fillObjs, o);
+      if (index_o !== -1) currentFill = index_o;
+      clear_current_style_1();
+      if (!elemCheck(fillObjs[last_currentFill])) {
+        input_err();
+        Qmsg.error("上一处 输入不正确");
+      }
+      var index_o = IndexOf_cur(fillObjs, o);
+      if (index_o !== -1) {
+        currentFill = index_o;
+        last_currentFill = currentFill;
+      }
+      add_now(o);
+      re_is_done();
+    } else if (o.className == "word-filler-err") {
+      re_is_done();
+      clear_current_style_3();
+      clear_current_style_2();
+      clear_current_style_1();
+      var index_o = IndexOf_cur(fillObjs, o);
+      currentFill = index_o;
+      last_currentFill = currentFill;
+      currentInput = document.getElementById(
+        fillObjs[currentFill].id
+      ).innerText;
+      console.log("这里错了");
+      isClozeNow = true;
+      var elem0 = fillObjs[currentFill];
+      document.getElementById(elem0.id).className = "word-filler-current";
+    } else if (e.target.className == "selecTcss") {
+      fff = e.target.innerText;
+      Qmsg.success("已复制,正在获取网络发音");
+      word_sound(fff);
+      handleCopy(fff);
+    } else if (e.target.className == "zh") {
+      if (isShow == "hide") {
+        console.log("偷看一眼");
+        if (o.style.opacity == "0") {
+          o.style.opacity = "1";
+        } else {
+          o.style.opacity = "0";
+        }
+      }
+    }
+  }, 200);
 };
 document.getElementById("demo").ondblclick = (e) => {
+  clearTimeout(click_store);
+  o = e.target;
   if (is_voc) {
     if (e.target.className == "demo-area" || e.target.className == "") {
       const selection = window.getSelection();
       var selecT = selection.toString().replace(/\ /g, "");
     } else if (
       e.target.className == "word-filler" ||
-      e.target.className == "current-noter-container" ||
       e.target.className == "word-filler-done"
     ) {
-      var index_o = IndexOf_cur(fillObjs, e.target);
-      if (index_o !== -1) {
-        currentFill = index_o;
-        last_currentFill = currentFill;
+      if (!o.childNodes[0].className) {
+        clear_current_style_3();
+        clear_current_style_2();
+        clear_current_style_1();
+        var index_o = IndexOf_cur(fillObjs, e.target);
+        if (index_o !== -1) {
+          currentFill = index_o;
+          last_currentFill = currentFill;
+        }
+        add_now(o);
       }
-      window.getSelection().empty();
+      if (!is_dbl_select) window.getSelection().empty();
+      return;
+    } else if (e.target.className == "current-noter-container") {
       return;
     }
     var nowTarget = e.target.id;
@@ -1374,6 +1393,13 @@ document.getElementById("demo").ondblclick = (e) => {
   }
 };
 document.getElementById("demo").oncontextmenu = (e) => {
+  if (!is_menu_prevent) {
+    document.getElementById("demo-container").oncontextmenu = function () {};
+  } else {
+    document.getElementById("demo-container").oncontextmenu = function () {
+      return false;
+    };
+  }
   o = e.target;
   console.log("o.className", o.className);
   if (o.className == "selecTcss") {
