@@ -62,17 +62,35 @@ var is_fun_mark_3 = false;
 var is_fun_mark_4 = false;
 var is_fun_mark_5 = false;
 var is_fun_mark_6 = false;
-function fun_mark(mark_words_n, mark_n, mark_color_n, is_fun_mark_n) {
+function fun_mark(mark_n, mark_color_n, is_fun_mark_n) {
   get_words_filler_all();
-  mark_words_n = getArrEqual(words_filler_all, mark_n);
-  if (mark_words_n.length) mark_color(mark_words_n, mark_color_n);
+  var mark_m = getArrEqual(words_filler_all, mark_n);
+  if (mark_m.length) mark_color(mark_m, mark_color_n);
   is_mark_default = false;
-  if (is_fun_mark_n == "is_fun_mark_1") is_fun_mark_1 = true;
-  if (is_fun_mark_n == "is_fun_mark_2") is_fun_mark_2 = true;
-  if (is_fun_mark_n == "is_fun_mark_3") is_fun_mark_3 = true;
-  if (is_fun_mark_n == "is_fun_mark_4") is_fun_mark_4 = true;
-  if (is_fun_mark_n == "is_fun_mark_5") is_fun_mark_5 = true;
-  if (is_fun_mark_n == "is_fun_mark_6") is_fun_mark_6 = true;
+  if (is_fun_mark_n == "is_fun_mark_1") {
+    is_fun_mark_1 = true;
+    mark_words_1 = mark_m;
+  }
+  if (is_fun_mark_n == "is_fun_mark_2") {
+    is_fun_mark_2 = true;
+    mark_words_2 = mark_m;
+  }
+  if (is_fun_mark_n == "is_fun_mark_3") {
+    is_fun_mark_3 = true;
+    mark_words_3 = mark_m;
+  }
+  if (is_fun_mark_n == "is_fun_mark_4") {
+    is_fun_mark_4 = true;
+    mark_words_4 = mark_m;
+  }
+  if (is_fun_mark_n == "is_fun_mark_5") {
+    is_fun_mark_5 = true;
+    mark_words_5 = mark_m;
+  }
+  if (is_fun_mark_n == "is_fun_mark_6") {
+    is_fun_mark_6 = true;
+    mark_words_6 = mark_m;
+  }
   if_mark_all_done();
 }
 function if_mark_all_done() {
@@ -93,17 +111,17 @@ document.getElementById("mark-level").addEventListener("change", () => {
   var user_selected_degree = document.getElementById("mark-level").value;
   if (user_selected_degree == "mark-0") fun_cancel_mark();
   else if (user_selected_degree == "mark-1")
-    fun_mark(mark_words_1, mark_1, mark_color_1, "is_fun_mark_1");
+    fun_mark(mark_1, mark_color_1, "is_fun_mark_1");
   else if (user_selected_degree == "mark-2")
-    fun_mark(mark_words_2, mark_2, mark_color_2, "is_fun_mark_2");
+    fun_mark(mark_2, mark_color_2, "is_fun_mark_2");
   else if (user_selected_degree == "mark-3")
-    fun_mark(mark_words_3, mark_3, mark_color_3, "is_fun_mark_3");
+    fun_mark(mark_3, mark_color_3, "is_fun_mark_3");
   else if (user_selected_degree == "mark-4")
-    fun_mark(mark_words_4, mark_4, mark_color_4, "is_fun_mark_4");
+    fun_mark(mark_4, mark_color_4, "is_fun_mark_4");
   else if (user_selected_degree == "mark-5")
-    fun_mark(mark_words_5, mark_5, mark_color_5, "is_fun_mark_5");
+    fun_mark(mark_5, mark_color_5, "is_fun_mark_5");
   else if (user_selected_degree == "mark-6")
-    fun_mark(mark_words_6, mark_6, mark_color_6, "is_fun_mark_6");
+    fun_mark(mark_6, mark_color_6, "is_fun_mark_6");
 });
 var is_all_mark = false;
 document.getElementById("all-mark").onclick = debounce(function () {
@@ -111,16 +129,16 @@ document.getElementById("all-mark").onclick = debounce(function () {
   words_filler_all = explain_head.querySelectorAll(".word-filler");
   if (words_filler_all.length) {
     if (!is_all_mark) {
-      if (!is_fun_mark_1) fun_mark(mark_words_1, mark_1, mark_color_1);
-      if (!is_fun_mark_2) fun_mark(mark_words_2, mark_2, mark_color_2);
-      if (!is_fun_mark_3) fun_mark(mark_words_3, mark_3, mark_color_3);
-      if (!is_fun_mark_4) fun_mark(mark_words_4, mark_4, mark_color_4);
-      if (!is_fun_mark_5) fun_mark(mark_words_5, mark_5, mark_color_5);
-      if (!is_fun_mark_6) fun_mark(mark_words_6, mark_6, mark_color_6);
+      if (!is_fun_mark_1) fun_mark(mark_1, mark_color_1, "is_fun_mark_1");
+      if (!is_fun_mark_2) fun_mark(mark_2, mark_color_2, "is_fun_mark_2");
+      if (!is_fun_mark_3) fun_mark(mark_3, mark_color_3, "is_fun_mark_3");
+      if (!is_fun_mark_4) fun_mark(mark_4, mark_color_4, "is_fun_mark_4");
+      if (!is_fun_mark_5) fun_mark(mark_5, mark_color_5, "is_fun_mark_5");
+      if (!is_fun_mark_6) fun_mark(mark_6, mark_color_6, "is_fun_mark_6");
       is_all_mark = true;
       close_loadingMsg = true;
-      document.getElementById("all-mark").value = "Cancel Mark";
       Qmsg.success("标注完成😊", { showClose: true });
+      document.getElementById("all-mark").value = "Cancel Mark";
     } else {
       fun_cancel_mark();
       Qmsg.success("已取消标注😊", { showClose: true });
@@ -237,6 +255,7 @@ document.getElementById("to-default-color").onclick = () => {
       console.log("还原默认");
       mark_color(words_filler_all, default_color);
       document.getElementById("mark-level").value = "mark-0";
+      document.getElementById("all-mark").value = "🎨All Mark";
       fresh_listWords();
       is_to_color = false;
       is_mark_default = true;
