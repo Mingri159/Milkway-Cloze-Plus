@@ -261,6 +261,7 @@ td {
     text-decoration: underline;
     animation: slidingTextRight .4s 1;
     cursor: auto;
+    pointer-events: none;
 }
 
 textarea::-webkit-scrollbar-thumb {
