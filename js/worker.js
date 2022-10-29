@@ -84,9 +84,7 @@ function loadString(search) {
 function loadJson(jsonStr) {
   var res = JSON.parse(jsonStr);
   if (!res.article) {
-    Qmsg.error("😶请检查文件内容，未读取到文本", {
-      showClose: true,
-    });
+    Qmsg.error("😶请检查文件内容，未读取到文本", { showClose: true });
   }
   res.submitter = function (switcharticle = true) {
     if (res.dict) {
@@ -138,6 +136,7 @@ document.getElementById("local-list").onclick = (e) => fReader(false, true);
 document.getElementById("local-loader").onclick = (e) => fReader(true, false);
 function fReader(swa = true, mul = false) {
   var f = document.createElement("input");
+  f.type = "file";
   if (mul) {
     f.accept = ".json";
     f.multiple = "multiple";
@@ -339,7 +338,7 @@ function ruleAllWords(words, rules, filterWord, label = "word-filler") {
     var wp = w[0];
     var wl = w[1];
     var ww = w[2];
-    var wNew = word2rules(ww.toLowerCase(), rules);
+    var wNew = word2rules(ww, rules);
     var iValid = wNew.findIndex(filterWord.good);
     var iBad = wNew.findIndex(filterWord.bad);
     if (iValid >= 0 && (iValid < iBad || iBad < 0)) {
@@ -1337,7 +1336,7 @@ document.getElementById("demo").ondblclick = (e) => {
     if (nowTarget === "demo" && isEnglish) {
       word_sound(selecT);
       console.log("选中单词 处理前", selecT);
-      var select2word2rules = word2rules(selecT.toLowerCase(), ruleArray);
+      var select2word2rules = word2rules(selecT, ruleArray);
       if (select2word2rules.length == 1) {
         console.log("处理后 ：相同");
       } else {
@@ -1423,7 +1422,7 @@ document.getElementById("explain-head").oncontextmenu = (e) => {
       if (!is_to_color) fresh_listWords();
       else fresh_listWords_mark(o);
       var badList_1 = JSON.parse(localStorage.getItem("badList"));
-      badList_1.push(o.innerText.toLowerCase());
+      badList_1.push(o.innerText);
       localStorage.setItem("badList", JSON.stringify(badList_1));
     }
   }
@@ -1607,7 +1606,7 @@ document.getElementById("in-badList").onclick = function () {
     return s && s.trim();
   });
   for (i = 0; i < bad_input_1.length; i++) {
-    bad_input_1[i] = bad_input_1[i].toLowerCase();
+    bad_input_1[i] = bad_input_1[i];
   }
   bad_input_1 = Array.from(new Set(bad_input_1));
   console.log("处理后bad_input_1", bad_input_1);
@@ -1639,7 +1638,7 @@ document.getElementById("cancel-badList").onclick = function () {
     return s && s.trim();
   });
   for (i = 0; i < can_input.length; i++) {
-    can_input[i] = can_input[i].toLowerCase();
+    can_input[i] = can_input[i];
   }
   can_input = Array.from(new Set(can_input));
   if (!can_input.length) {
