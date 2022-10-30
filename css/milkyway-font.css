@@ -387,3 +387,8 @@ textarea::-webkit-scrollbar-thumb {
     border-top: none;
     border-bottom: none
 }
+
+#Chinese {
+    border: 2px solid #3ac250;
+    border-radius: 5px;
+}
