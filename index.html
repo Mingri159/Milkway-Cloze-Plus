@@ -48,6 +48,7 @@
                         <th>Help</th>
                         <th>Text Area</th>
                         <th>Bad List</th>
+                        <th>Settings</th>
                     </tr>
                     <tr>
                         <td>
@@ -56,7 +57,7 @@
                         </td>
                         <td>
                             <input type="button" class="dark-button" value="Clear" id="clear-clicker"
-                                onkeydown="document.body.onkeydown">
+                                style=" width: 85%;" onkeydown="document.body.onkeydown">
                         </td>
                         <td>
                             <select id="nonsense-voting" class="dark-button">
@@ -87,6 +88,10 @@
                             <input type="button" class="dark-button" value="取消屏蔽" id="cancel-badList"
                                 onkeydown="document.body.onkeydown">
                             <input type="button" class="dark-button" value="查看已屏蔽" id="look-badList"
+                                onkeydown="document.body.onkeydown">
+                        </td>
+                        <td>
+                            <input type="button" class="dark-button" value="设置" id="setting" style=" width: 85%;"
                                 onkeydown="document.body.onkeydown">
                         </td>
                     </tr>
@@ -176,7 +181,7 @@
     </div>
 
     <!-- 生词弹窗 -->
-    <div class="explain-head-mask">
+    <div id='explain-outer-mask' class="explain-head-mask">
         <div id="explain-outer" class='explain-head-div'>
             <div id="btn_up_case">
                 <span id="toUPcase" class="btn-case">↑</span>
@@ -187,6 +192,32 @@
             <div id="explain-head" class="demo-area"> </div>
         </div>
     </div>
+
+    <div id="setting-div-mask" class="explain-head-mask">
+        <div id="setting-div" class='explain-head-div'>
+            <li> <span>1、 【主窗口】单击双击的发音、复制、跳转释义</span><input id="is-voc-copy-explain" type="checkbox" checked
+                    class="switch right"></li>
+            <li> <span>2、 【主窗口】单击双击的发音</span><input id="is-voc" type="checkbox" checked class="switch right"></li>
+            <li> <span>3、 【主窗口】单击双击的复制</span><input id="is-copy" type="checkbox" checked class="switch right"></li>
+            <li> <span>4、 【主窗口】单击跳转释义 </span><input id="is-explain" type="checkbox" checked class="switch right"></li>
+            <li> <span>5、 【主窗口】双击标注</span><input id="is-select-mark" type="checkbox" checked class="switch right"></li>
+            <li> <span>6、 【主窗口】双击选中（word-filler）</span><input id="is-db-select" type="checkbox" class="switch right">
+            </li>
+            <li> <span>7、 【主窗口】标注重复的单词</span><span style="font-size:20px">（下次点击Start或载入文章时生效） </span><input id="is_dup"
+                    type="checkbox" checked class="switch right"></li>
+            <li> <span>8、 【主窗口】屏蔽原生右键菜单</span><input id="is-menu-prevent" type="checkbox" checked class="switch right">
+            </li>
+            <li> <span>9、 生词弹窗-【M按钮】保存等级排序</span><input id="is-also-mark-save" type="checkbox" checked
+                    class="switch right">
+            </li>
+            <li> <span>10、屏蔽单词时，文中的等级标注，是否去除</span><input id="is-mark-del" type="checkbox" checked class="switch right">
+            </li>
+            <li> <span>11、方向键 前进步数</span><input id="step" type="number" value="5" max='15'
+                    oninput="value=value.replace(/^(0+)|[^\d]+/g,'')"></input> <input id="step-confirm" type="button"
+                    class="right" value="确认" onkeydown="document.body.onkeydown"></input></li>
+        </div>
+    </div>
+
     <script src="./js/mark.js"></script>
     <script src="./js/worker.js"> </script>
     <script src="./message/message.min.js"></script>

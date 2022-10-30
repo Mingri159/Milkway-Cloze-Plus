@@ -2,7 +2,7 @@
 var step = 5;
 
 // 生词弹窗、右侧单词释义列表  右键单击时  文中的等级标注  是否取消   【已使用】
-var is_mark = true;
+var is_mark_del = true;
 
 // 选择高等级时，清除低等级的标注  【未使用】
 var mark_clear = false;
@@ -11,7 +11,7 @@ var mark_clear = false;
 var mark_too = false;
 
 // 等级选择框 选择默认后  生词弹窗【M按钮】是否要保存等级排序  【已使用】
-var is_also_mark = true;
+var is_also_mark_save = true;
 
 // 主窗口  单击 双击 控制发音、复制  【已使用】
 var is_voc_copy_explain = true;
@@ -33,6 +33,9 @@ var is_dbl_select = false;
 
 // 原生右键菜单 默认屏蔽     【已使用】
 var is_menu_prevent = true;
+
+// 标注出重复的单词 word-filler-dup
+var is_dup = true;
 
 // 提示 弹窗
 window.QMSG_GLOBALS = {

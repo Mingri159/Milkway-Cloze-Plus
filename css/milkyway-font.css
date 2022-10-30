@@ -392,3 +392,73 @@ textarea::-webkit-scrollbar-thumb {
     border: 2px solid #3ac250;
     border-radius: 5px;
 }
+
+li {
+    list-style-type: none;
+}
+
+#setting-div li {
+    margin-left: 50px;
+    font-size: 25px;
+    margin: 15px 20px;
+}
+
+input[type='checkbox'].switch {
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    position: relative;
+    width: 40px;
+    height: 20px;
+    background: #ccc;
+    border-radius: 10px;
+    transition: border-color .3s, background-color .3s;
+}
+
+input[type='checkbox'].switch::after {
+    content: '';
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0, 0, 2px, #999;
+    transition: .4s;
+    top: 2px;
+    position: absolute;
+    left: 2px;
+}
+
+input[type='checkbox'].switch:checked {
+    background: rgb(19, 206, 102);
+}
+
+input[type='checkbox'].switch:checked::after {
+    content: '';
+    position: absolute;
+    left: 55%;
+    top: 2px;
+}
+
+#setting-div .right {
+    float: right;
+    margin-top: 7px;
+}
+
+#setting-div-mask .explain-head-div {
+    padding: 45px 50px;
+}
+
+#step {
+    margin-left: 50px;
+    width: 50px;
+    height: 25px;
+    padding-left: 5px;
+}
+
+#step-confirm {
+    background-color: #409eff;
+    color: white;
+    border-radius: 10px;
+}

@@ -787,8 +787,10 @@ function transKeys(e) {
         e.keyCode == 18
       )
     ) {
-      console.log(e.keyCode);
-      Qmsg.warning("😶无效的按键");
+      if (!setting_mask) {
+        console.log(e.keyCode);
+        Qmsg.warning("😶无效的按键");
+      }
     }
   }
 }
@@ -1039,7 +1041,8 @@ function refineList() {
     w = allFiller.wordDict[k];
     if (!wordSet.includes(w.voc)) wordSet.push(w.voc);
     else {
-      document.getElementById(k).className = "word-filler-dup";
+      if (is_dup) document.getElementById(k).className = "word-filler-dup";
+      else document.getElementById(k).className = "none-dup";
     }
   }
   fillObjs = [...demo.getElementsByClassName("word-filler")];
@@ -1442,7 +1445,7 @@ document.getElementById("explain-area").oncontextmenu = (e) => {
       console.log("取消标注");
       var str = o.id.replace(/-exp/g, "");
       document.getElementById(str).className = "";
-      if (is_mark) document.getElementById(str).style.color = "";
+      if (is_mark_del) document.getElementById(str).style.color = "";
       fresh_listWords();
       var badList_1 = JSON.parse(localStorage.getItem("badList"));
       badList_1.push(o.innerText);
@@ -1460,7 +1463,7 @@ document.getElementById("explain-head").oncontextmenu = (e) => {
       console.log("取消标注");
       var str = o.id.replace(/-exp/g, "");
       document.getElementById(str).className = "";
-      if (is_mark) document.getElementById(str).style.color = "";
+      if (is_mark_del) document.getElementById(str).style.color = "";
       if (!is_to_color) fresh_listWords();
       else fresh_listWords_mark(o);
       var badList_1 = JSON.parse(localStorage.getItem("badList"));
@@ -1730,7 +1733,7 @@ document.getElementById("look-badList").onclick = function () {
   }
 };
 let word_list = document.getElementById("explain-head");
-let word_list_mask = document.querySelector(".explain-head-mask");
+let word_list_mask = document.querySelector("#explain-outer-mask");
 function open_mask() {
   word_list_mask.style.display = "flex";
   document.body.style.overflow = "hidden";
@@ -1915,3 +1918,74 @@ function selected_handle(s) {
   }
   document.getElementById("demo").innerHTML = resb;
 }
+
+let setting_div_mask = document.querySelector("#setting-div-mask");
+var setting_mask = false;
+document.getElementById("setting").onclick = function () {
+  setting_mask = true;
+  setting_div_mask.style.display = "flex";
+  document.body.style.overflow = "hidden";
+};
+setting_div_mask.onclick = function (e) {
+  if (e.target == setting_div_mask) {
+    setting_mask = false;
+    setting_div_mask.style.display = "none";
+    document.body.style.overflow = "auto";
+  }
+};
+document
+  .getElementById("is-voc-copy-explain")
+  .addEventListener("change", () => {
+    var is_on = document.getElementById("is-voc-copy-explain").checked;
+    if (is_on) is_voc_copy_explain = true;
+    else is_voc_copy_explain = false;
+  });
+document.getElementById("is-voc").addEventListener("change", () => {
+  var is_on = document.getElementById("is-voc").checked;
+  if (is_on) is_voc = true;
+  else is_voc = false;
+});
+document.getElementById("is-copy").addEventListener("change", () => {
+  var is_on = document.getElementById("is-copy").checked;
+  if (is_on) is_copy = true;
+  else is_copy = false;
+});
+document.getElementById("is-explain").addEventListener("change", () => {
+  var is_on = document.getElementById("is-explain").checked;
+  if (is_on) is_explain = true;
+  else is_explain = false;
+});
+document.getElementById("is-select-mark").addEventListener("change", () => {
+  var is_on = document.getElementById("is-select-mark").checked;
+  if (is_on) is_select_mark = true;
+  else is_select_mark = false;
+});
+document.getElementById("is-db-select").addEventListener("change", () => {
+  var is_on = document.getElementById("is-db-select").checked;
+  if (is_on) is_dbl_select = true;
+  else is_dbl_select = false;
+});
+document.getElementById("is_dup").addEventListener("change", () => {
+  var is_on = document.getElementById("is_dup").checked;
+  if (is_on) is_dup = true;
+  else is_dup = false;
+});
+document.getElementById("is-menu-prevent").addEventListener("change", () => {
+  var is_on = document.getElementById("is-menu-prevent").checked;
+  if (is_on) is_menu_prevent = true;
+  else is_menu_prevent = false;
+});
+document.getElementById("is-also-mark-save").addEventListener("change", () => {
+  var is_on = document.getElementById("is-also-mark-save").checked;
+  if (is_on) is_also_mark_save = true;
+  else is_also_mark_save = false;
+});
+document.getElementById("is-mark-del").addEventListener("change", () => {
+  var is_on = document.getElementById("is-mark-del").checked;
+  if (is_on) is_mark_del = true;
+  else is_mark_del = false;
+});
+document.getElementById("step-confirm").onclick = function () {
+  step = document.getElementById("step").value;
+  Qmsg.success("步数，已设置");
+};

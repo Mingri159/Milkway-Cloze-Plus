@@ -53,7 +53,8 @@ function fun_cancel_mark() {
   get_words_filler_all();
   mark_color(words_filler_all, default_color);
   is_mark_default = true;
-  if (is_also_mark) is_mark_default_c = true;
+  // if (is_also_mark_save)
+  is_mark_default_c = true;
   is_all_mark = false;
 }
 var is_fun_mark_1 = false;
@@ -217,12 +218,15 @@ document.getElementById("to-color").onclick = () => {
       var headDiv = document.getElementById("explain-head");
       headDiv.innerText = "";
       no_sort_wds(mark_word);
-      if (mark_words_1.length) mark_color_inner(mark_words_1, mark_color_1);
-      if (mark_words_2.length) mark_color_inner(mark_words_2, mark_color_2);
-      if (mark_words_3.length) mark_color_inner(mark_words_3, mark_color_3);
-      if (mark_words_4.length) mark_color_inner(mark_words_4, mark_color_4);
-      if (mark_words_5.length) mark_color_inner(mark_words_5, mark_color_5);
-      if (mark_words_6.length) mark_color_inner(mark_words_6, mark_color_6);
+      if (is_also_mark_save) {
+        if (mark_words_1.length) mark_color_inner(mark_words_1, mark_color_1);
+        if (mark_words_2.length) mark_color_inner(mark_words_2, mark_color_2);
+        if (mark_words_3.length) mark_color_inner(mark_words_3, mark_color_3);
+        if (mark_words_4.length) mark_color_inner(mark_words_4, mark_color_4);
+        if (mark_words_5.length) mark_color_inner(mark_words_5, mark_color_5);
+        if (mark_words_6.length) mark_color_inner(mark_words_6, mark_color_6);
+      }
+
       function no_sort_wds(wds) {
         var headDiv = document.getElementById("explain-head");
         wds.forEach((o) => {
