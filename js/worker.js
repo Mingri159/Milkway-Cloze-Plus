@@ -79,7 +79,7 @@ function loadString(search) {
   };
   if (!res.article) {
     document.getElementById("maininput").value = search;
-    sendText(false);
+    sendText();
   }
   return res;
 }
@@ -95,7 +95,7 @@ function loadJson(jsonStr) {
     if (res.article && switcharticle) {
       window.article = res.article;
       document.getElementById("maininput").value = res.article;
-      sendText(false);
+      sendText();
     }
     if (res.redundantList) {
       window.lastExclude = res.redundantList;
@@ -385,6 +385,7 @@ function sendText(do_jump = true, removeDup = remove_dup) {
   document.getElementById("demo").style.fontSize = "25px";
   var s = document.getElementById("maininput").value;
   s = s.replace(/([a-zA-Z]+)+-\n([a-zA-Z]+)/g, "$1$2\n");
+  if (!s) do_jump = false;
   if (do_jump) {
     demo.scrollIntoView();
   }
@@ -406,7 +407,7 @@ function sendText(do_jump = true, removeDup = remove_dup) {
   listWords(false);
   for (var o of document.getElementsByClassName("word-filler-dup")) {
     o.onclick = function () {
-      if (is_voc) elemExplain(this, false);
+      if (is_voc_copy_explain) elemExplain(this, false);
     };
   }
   if (isSpan) {
@@ -467,13 +468,17 @@ function elemExplain(
   if (cover) var explainHead = tailCover(voc, head, tail);
   else {
     var explainHead = voc + " &#8594 " + inText;
-    info.audio.currentTime = 0;
-    info.audio.play();
-    word2board(voc);
+    if (is_voc) {
+      info.audio.currentTime = 0;
+      info.audio.play();
+    }
+    if (is_copy) word2board(voc);
   }
-  document.getElementById("explain-area").innerHTML =
-    `<div id="exp-head">${explainHead}</div>` + explain;
-  showIndexInfo(currentFill, fillObjs.length);
+  if (is_explain) {
+    document.getElementById("explain-area").innerHTML =
+      `<div id="exp-head">${explainHead}</div>` + explain;
+    showIndexInfo(currentFill, fillObjs.length);
+  }
 }
 function elemReveal(elem) {
   var info = elemInfo(elem);
@@ -516,9 +521,9 @@ function elemFill(elem, s) {
   elem.innerHTML = s;
   if (s == inText.toLowerCase()) {
     elemModify(elem);
-    if (is_voc) elemExplain(elem, false);
+    if (is_voc_copy_explain) elemExplain(elem, false);
   } else {
-    if (is_voc) elemExplain(elem, true);
+    if (is_voc_copy_explain) elemExplain(elem, true);
     covered = covered.slice(s.length);
     document.getElementById("exp-head").innerHTML = s + covered;
     elem.className = "word-filler-current";
@@ -1229,12 +1234,12 @@ document.getElementById("demo").onclick = (e) => {
   }
   click_store = setTimeout(function () {
     if (o.className == "word-filler") {
+      if (is_voc_copy_explain) elemExplain(o, false);
       if (!o.childNodes[0].className) {
         isClozeNow = false;
         currentInput = "";
         clear_current_style_1();
         clear_current_style_2();
-        if (is_voc) elemExplain(o, false);
         if (!elemCheck(fillObjs[last_currentFill])) {
           input_err();
           Qmsg.error("上一处 输入不正确");
@@ -1255,7 +1260,7 @@ document.getElementById("demo").onclick = (e) => {
       }
     } else if (o.className == "current-noter-container") {
     } else if (o.className == "word-filler-done") {
-      if (is_voc) elemExplain(o, false);
+      if (is_voc_copy_explain) elemExplain(o, false);
       clear_current_style_3();
       clear_current_style_2();
       clear_current_style_1();
@@ -1266,7 +1271,7 @@ document.getElementById("demo").onclick = (e) => {
       }
       add_now(o);
     } else if (o.className == "word-filler-dup") {
-      if (is_voc) elemExplain(o, false);
+      if (is_voc_copy_explain) elemExplain(o, false);
       if (!elemCheck(fillObjs[currentFill])) {
         input_err();
         Qmsg.error("上一处 输入不正确");
@@ -1307,9 +1312,12 @@ document.getElementById("demo").onclick = (e) => {
       document.getElementById(elem0.id).className = "word-filler-current";
     } else if (e.target.className == "selecTcss") {
       fff = e.target.innerText;
-      Qmsg.success("已复制,正在获取网络发音");
-      word_sound(fff);
-      handleCopy(fff);
+      if (is_voc) word_sound(fff);
+      if (is_copy) {
+        handleCopy(fff);
+        if (is_voc) Qmsg.success("已复制,正在获取网络发音");
+        else Qmsg.success("已复制");
+      }
     } else if (e.target.className == "zh") {
       if (isShow == "hide") {
         console.log("偷看一眼");
@@ -1325,7 +1333,7 @@ document.getElementById("demo").onclick = (e) => {
 document.getElementById("demo").ondblclick = (e) => {
   clearTimeout(click_store);
   o = e.target;
-  if (is_voc) {
+  if (is_voc_copy_explain) {
     if (e.target.className == "demo-area" || e.target.className == "") {
       const selection = window.getSelection();
       var selecT = selection.toString().replace(/\ /g, "");
@@ -1353,7 +1361,6 @@ document.getElementById("demo").ondblclick = (e) => {
     var pattern2 = new RegExp("[A-Za-z]+");
     let isEnglish = pattern2.test(selecT);
     if (nowTarget === "demo" && isEnglish) {
-      word_sound(selecT);
       console.log("选中单词 处理前", selecT);
       var select2word2rules = word2rules(selecT, ruleArray);
       if (select2word2rules.length == 1) {
@@ -1361,24 +1368,33 @@ document.getElementById("demo").ondblclick = (e) => {
       } else {
         console.log("selecT 变原形", select2word2rules);
       }
-      const range = window.getSelection().getRangeAt(0);
-      const docObj = range.extractContents();
-      let dom = document.createElement("span");
-      dom.className = "selecTcss";
-      dom.id = "demo-" + Date.now();
-      dom.appendChild(docObj);
-      range.insertNode(dom);
-      handleCopy(selecT);
-      Qmsg.success("已复制，正在获取网络发音");
-      window.getSelection().empty();
+      if (is_select_mark) {
+        const range = window.getSelection().getRangeAt(0);
+        const docObj = range.extractContents();
+        let dom = document.createElement("span");
+        dom.className = "selecTcss";
+        dom.id = "demo-" + Date.now();
+        dom.appendChild(docObj);
+        range.insertNode(dom);
+        if (is_voc) word_sound(selecT);
+        if (is_copy) {
+          handleCopy(selecT);
+          if (is_voc) Qmsg.success("已复制，正在获取网络发音");
+          else Qmsg.success("已复制");
+        }
+        window.getSelection().empty();
+      }
     } else if (
       e.target.className == "" &&
       e.target.id.substring(0, 4) == "demo"
     ) {
       e.target.className = "selecTcss";
-      word_sound(selecT);
-      handleCopy(selecT);
-      Qmsg.success("已复制，正在获取网络发音");
+      if (is_voc) word_sound(selecT);
+      if (is_copy) {
+        handleCopy(selecT);
+        if (is_voc) Qmsg.success("已复制，正在获取网络发音");
+        else Qmsg.success("已复制");
+      }
       window.getSelection().empty();
     } else if (
       e.target.className == "" &&
@@ -1386,7 +1402,7 @@ document.getElementById("demo").ondblclick = (e) => {
     ) {
       e.target.className = "word-filler";
       window.getSelection().empty();
-      if (is_voc) elemExplain(fillObjs[currentFill], false);
+      if (is_voc_copy_explain) elemExplain(fillObjs[currentFill], false);
       add_now(o);
       fresh_listWords();
     }
