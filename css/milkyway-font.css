@@ -447,7 +447,7 @@ input[type='checkbox'].switch:checked::after {
 }
 
 #setting-div-mask .explain-head-div {
-    padding: 45px 50px;
+    padding: 30px 50px;
 }
 
 #step {
@@ -457,7 +457,8 @@ input[type='checkbox'].switch:checked::after {
     padding-left: 5px;
 }
 
-#step-confirm {
+#step-confirm,
+#user-add {
     background-color: #409eff;
     color: white;
     border-radius: 10px;

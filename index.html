@@ -49,6 +49,7 @@
                         <th>Text Area</th>
                         <th>Bad List</th>
                         <th>Settings</th>
+                        <th>Users</th>
                     </tr>
                     <tr>
                         <td>
@@ -93,6 +94,11 @@
                         <td>
                             <input type="button" class="dark-button" value="设置" id="setting" style=" width: 85%;"
                                 onkeydown="document.body.onkeydown">
+                        </td>
+                        <td>
+                            <select id="user" class="dark-button" style="width: 75px;margin: 0px 5px;">
+                                <option value="Default" selected>默认</option>
+                            </select>
                         </td>
                     </tr>
                 </tbody>
@@ -215,6 +221,8 @@
             <li> <span>11、方向键 前进步数</span><input id="step" type="number" value="5" max='15'
                     oninput="value=value.replace(/^(0+)|[^\d]+/g,'')"></input> <input id="step-confirm" type="button"
                     class="right" value="确认" onkeydown="document.body.onkeydown"></input></li>
+            <li> <span>12、添加用户</span><input id="user-add" type="button" class="right" value="确认添加"
+                    onkeydown="document.body.onkeydown"></input></li>
         </div>
     </div>
 

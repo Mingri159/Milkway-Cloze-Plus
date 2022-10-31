@@ -349,15 +349,29 @@ function ruleAllWords(words, rules, filterWord, label = "word-filler") {
   }
   return res;
 }
+var now_badList = "badList";
 if (!JSON.parse(localStorage.getItem("badList"))) {
+  let users = ["default"];
+  let now_user = "default";
   localStorage.setItem("badList", JSON.stringify(badList));
+  localStorage.setItem("all-users", JSON.stringify(users));
+  localStorage.setItem("now-user", JSON.stringify(now_user));
+} else {
+  var user = document.getElementById("user");
+  var all_users = JSON.parse(localStorage.getItem("all-users"));
+  if (all_users.length > 1) {
+    for (i = 1; i < all_users.length; i++) add_option(all_users[i], i);
+    var now_user = JSON.parse(localStorage.getItem("now-user"));
+    document.getElementById("user").value = now_user;
+    console.log("now_user", now_user);
+  }
 }
 function keywords() {
   return Object.keys(dictInUse());
 }
 function getSimpleFilter() {
   var dictIndices = keywords();
-  var BadList = JSON.parse(localStorage.getItem("badList"));
+  var BadList = JSON.parse(localStorage.getItem(now_badList));
   return {
     good: (x) => dictIndices.includes(x),
     bad: (x) => BadList.includes(x),
@@ -718,12 +732,12 @@ function transKeys(e) {
         }
         fresh_listWords();
         contextList.pop();
-        var badList_1 = JSON.parse(localStorage.getItem("badList"));
+        var badList_1 = JSON.parse(localStorage.getItem(now_badList));
         badList_1.splice(
           badList_1.indexOf(contextList[contextList.length - 1]),
           1
         );
-        localStorage.setItem("badList", JSON.stringify(badList_1));
+        localStorage.setItem(now_badList, JSON.stringify(badList_1));
       }
     }
   }
@@ -1447,9 +1461,9 @@ document.getElementById("explain-area").oncontextmenu = (e) => {
       document.getElementById(str).className = "";
       if (is_mark_del) document.getElementById(str).style.color = "";
       fresh_listWords();
-      var badList_1 = JSON.parse(localStorage.getItem("badList"));
+      var badList_1 = JSON.parse(localStorage.getItem(now_badList));
       badList_1.push(o.innerText);
-      localStorage.setItem("badList", JSON.stringify(badList_1));
+      localStorage.setItem(now_badList, JSON.stringify(badList_1));
     }
   }
 };
@@ -1466,9 +1480,9 @@ document.getElementById("explain-head").oncontextmenu = (e) => {
       if (is_mark_del) document.getElementById(str).style.color = "";
       if (!is_to_color) fresh_listWords();
       else fresh_listWords_mark(o);
-      var badList_1 = JSON.parse(localStorage.getItem("badList"));
+      var badList_1 = JSON.parse(localStorage.getItem(now_badList));
       badList_1.push(o.innerText);
-      localStorage.setItem("badList", JSON.stringify(badList_1));
+      localStorage.setItem(now_badList, JSON.stringify(badList_1));
     }
   }
 };
@@ -1664,10 +1678,10 @@ document.getElementById("in-badList").onclick = function () {
       "\n注意：\n\n单词统一为小写；\n单词间以【空格】或【回车】隔开;\n\n应经在下方文本框中输入了要【屏蔽】的单词，确认【屏蔽】以下熟词？"
     );
     if (r == true) {
-      var badList_1 = JSON.parse(localStorage.getItem("badList"));
+      var badList_1 = JSON.parse(localStorage.getItem(now_badList));
       badList_1 = badList_1.concat(bad_input_1);
       badList_1 = Array.from(new Set(badList_1));
-      localStorage.setItem("badList", JSON.stringify(badList_1));
+      localStorage.setItem(now_badList, JSON.stringify(badList_1));
       setTimeout(() => {
         Qmsg.success("熟词已合并【屏蔽】，将不会在下次被标注");
         maininput.value = "";
@@ -1695,14 +1709,14 @@ document.getElementById("cancel-badList").onclick = function () {
       "\n注意：\n\n单词统一为小写；\n单词间以【空格】或【回车】隔开；\n\n已经在下方文本框中输入了要【取消屏蔽】的单词，确认【取消屏蔽】？"
     );
     if (r == true) {
-      var badList_2 = JSON.parse(localStorage.getItem("badList"));
+      var badList_2 = JSON.parse(localStorage.getItem(now_badList));
       const new_badList = [];
       badList_2.forEach((item) => {
         if (!can_input.includes(item)) {
           new_badList.push(item);
         }
       });
-      localStorage.setItem("badList", JSON.stringify(new_badList));
+      localStorage.setItem(now_badList, JSON.stringify(new_badList));
       setTimeout(() => {
         Qmsg.success("已取消【屏蔽】，将会在下次被标注");
         maininput.value = "";
@@ -1721,7 +1735,7 @@ document.getElementById("look-badList").onclick = function () {
     look();
   }
   function look() {
-    var badList_look = JSON.parse(localStorage.getItem("badList"));
+    var badList_look = JSON.parse(localStorage.getItem(now_badList));
     console.log("查看已屏蔽", badList_look);
     var num = "共 " + badList_look.length + " 词";
     var str = "";
@@ -1918,7 +1932,6 @@ function selected_handle(s) {
   }
   document.getElementById("demo").innerHTML = resb;
 }
-
 let setting_div_mask = document.querySelector("#setting-div-mask");
 var setting_mask = false;
 document.getElementById("setting").onclick = function () {
@@ -1989,3 +2002,40 @@ document.getElementById("step-confirm").onclick = function () {
   step = document.getElementById("step").value;
   Qmsg.success("步数，已设置");
 };
+var users = JSON.parse(localStorage.getItem("all-users"));
+var now_user = JSON.parse(localStorage.getItem("now-user"));
+document.getElementById("user-add").addEventListener(
+  "click",
+  function () {
+    var add = confirm("\n确认添加新用户吗");
+    if (add) add_user();
+  },
+  false
+);
+function add_option(user_name, user_num) {
+  var op = document.createElement("option");
+  op.setAttribute("value", user_name);
+  op.appendChild(document.createTextNode("用户" + user_num));
+  user.appendChild(op);
+}
+function add_user() {
+  let user_num = users.length;
+  let user_name = "user" + user_num;
+  add_option(user_name, user_num);
+  users.push(user_name);
+  localStorage.setItem("all-users", JSON.stringify(users));
+  now_user = user_name;
+  localStorage.setItem("now-user", JSON.stringify(now_user));
+  Qmsg.success("😃 新用户添加完成");
+  document.getElementById("user").value = user_name;
+  now_badList = now_user;
+  localStorage.setItem(user_name, JSON.stringify(badList));
+}
+var user = document.getElementById("user");
+document.getElementById("user").addEventListener("change", () => {
+  now_user = document.getElementById("user").value;
+  localStorage.setItem("now-user", JSON.stringify(now_user));
+  if (now_user == "Default") now_badList = "badList";
+  else now_badList = now_user;
+  Qmsg.success("已切换用户至" + "【" + now_user + "】");
+});
