@@ -459,6 +459,8 @@ input[type='checkbox'].switch:checked::after {
 
 #step-confirm,
 #user-add {
+    height: 30px;
+    margin-top: 2px !important;
     background-color: #409eff;
     color: white;
     border-radius: 10px;
