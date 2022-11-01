@@ -110,6 +110,7 @@ td {
 #explain-container {
     border-left: dotted 1px grey;
     overflow-y: auto;
+    overflow-x: hidden;
     height: 93vh;
     position: absolute;
     left: 78%;
@@ -120,7 +121,8 @@ td {
     position: absolute;
     width: 78%;
     height: 94vh;
-    overflow-y: scroll
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 #demo {
