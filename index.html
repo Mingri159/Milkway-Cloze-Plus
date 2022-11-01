@@ -14,7 +14,7 @@
     <script src="./js/dict7k.js"></script>
     <script src="./js/dict9k.js"></script>
     <script src="./js/dict2w.js"></script>
-    <script src="./js/badList.js"></script>
+    <script src="./js/knownList.js"></script>
 
     <script src="./js/mark-1.js"></script>
     <script src="./js/mark-2.js"></script>
@@ -47,7 +47,7 @@
                         <th>Start Practice</th>
                         <th>Help</th>
                         <th>Text Area</th>
-                        <th>Bad List</th>
+                        <th>Known List</th>
                         <th>Settings</th>
                         <th>Users</th>
                     </tr>
@@ -84,11 +84,11 @@
                             <a id='text-area-fontzize-minus' class="dark-button"> - </a>
                         </td>
                         <td>
-                            <input type="button" class="dark-button" value="导入badList" id="in-badList"
+                            <input type="button" class="dark-button" value="导入knownList" id="in-knownList"
                                 onkeydown="document.body.onkeydown">
-                            <input type="button" class="dark-button" value="取消屏蔽" id="cancel-badList"
+                            <input type="button" class="dark-button" value="取消屏蔽" id="cancel-knownList"
                                 onkeydown="document.body.onkeydown">
-                            <input type="button" class="dark-button" value="查看已屏蔽" id="look-badList"
+                            <input type="button" class="dark-button" value="查看已屏蔽" id="look-knownList"
                                 onkeydown="document.body.onkeydown">
                         </td>
                         <td>
@@ -130,17 +130,18 @@
             <a id="changeable-head" class="dark-button" style="margin-left: 10px;height: 35px;">🚀 Export </a>
         </span>
         <!-- 切换 -->
+        <input type="button" class="colorful-button" value="中文-默认 " id="Chinese" style="width:72px;margin-left: 5px;"
+            onkeydown="document.body.onkeydown">
+        <span>FontSize:
+            <input type="range" id="font-size" max="45" min="25" value="28" style="width: 80px;">
+        </span>
         <input type="button" class="colorful-button" value="✨单词 " id="main-change" style="width:72px;margin-left: 15px;"
             onkeydown="document.body.onkeydown">
         <input type="button" class="colorful-button" value="宽点" id="wide-more" style="width:45px;margin-left: -3px;"
             onkeydown="document.body.onkeydown">
         <input type="button" class="colorful-button" value="释义-隐藏" id="def-show" style="width:72px;margin-left: -3px;"
             onkeydown="document.body.onkeydown">
-        <input type="button" class="colorful-button" value="中文-默认 " id="Chinese" style="width:72px;margin-left: 5px;"
-            onkeydown="document.body.onkeydown">
-        <span>FontSize:
-            <input type="range" id="font-size" max="45" min="25" value="28" style="width: 80px;">
-        </span>
+
 
         <input type="button" class="colorful-button" value=" 🔍全屏 " id="fullScreen"
             style="margin-left: -3px;height: 35px;" onkeydown="document.body.onkeydown">

@@ -349,18 +349,21 @@ function ruleAllWords(words, rules, filterWord, label = "word-filler") {
   }
   return res;
 }
-
 if (!JSON.parse(localStorage.getItem("all-users"))) {
   var users = ["default"];
   localStorage.setItem("all-users", JSON.stringify(users));
 }
-var now_badList = "badList";
-if (!JSON.parse(localStorage.getItem("badList"))) {
+var now_knownList = "knownList";
+if (!JSON.parse(localStorage.getItem("knownList"))) {
   let users = ["default"];
   let now_user = "default";
-  localStorage.setItem("badList", JSON.stringify(badList));
+  localStorage.setItem("knownList", JSON.stringify(knownList));
   localStorage.setItem("all-users", JSON.stringify(users));
   localStorage.setItem("now-user", JSON.stringify(now_user));
+  if (JSON.parse(localStorage.getItem("badList"))) {
+    localStorage.setItem("knownList", localStorage.getItem("badList"));
+    localStorage.removeItem("badList");
+  }
 } else {
   var user = document.getElementById("user");
   var all_users = JSON.parse(localStorage.getItem("all-users"));
@@ -376,7 +379,7 @@ function keywords() {
 }
 function getSimpleFilter() {
   var dictIndices = keywords();
-  var BadList = JSON.parse(localStorage.getItem(now_badList));
+  var BadList = JSON.parse(localStorage.getItem(now_knownList));
   return {
     good: (x) => dictIndices.includes(x),
     bad: (x) => BadList.includes(x),
@@ -737,12 +740,12 @@ function transKeys(e) {
         }
         fresh_listWords();
         contextList.pop();
-        var badList_1 = JSON.parse(localStorage.getItem(now_badList));
-        badList_1.splice(
-          badList_1.indexOf(contextList[contextList.length - 1]),
+        var knownList_1 = JSON.parse(localStorage.getItem(now_knownList));
+        knownList_1.splice(
+          knownList_1.indexOf(contextList[contextList.length - 1]),
           1
         );
-        localStorage.setItem(now_badList, JSON.stringify(badList_1));
+        localStorage.setItem(now_knownList, JSON.stringify(knownList_1));
       }
     }
   }
@@ -1466,9 +1469,9 @@ document.getElementById("explain-area").oncontextmenu = (e) => {
       document.getElementById(str).className = "";
       if (is_mark_del) document.getElementById(str).style.color = "";
       fresh_listWords();
-      var badList_1 = JSON.parse(localStorage.getItem(now_badList));
-      badList_1.push(o.innerText);
-      localStorage.setItem(now_badList, JSON.stringify(badList_1));
+      var knownList_1 = JSON.parse(localStorage.getItem(now_knownList));
+      knownList_1.push(o.innerText);
+      localStorage.setItem(now_knownList, JSON.stringify(knownList_1));
     }
   }
 };
@@ -1485,9 +1488,9 @@ document.getElementById("explain-head").oncontextmenu = (e) => {
       if (is_mark_del) document.getElementById(str).style.color = "";
       if (!is_to_color) fresh_listWords();
       else fresh_listWords_mark(o);
-      var badList_1 = JSON.parse(localStorage.getItem(now_badList));
-      badList_1.push(o.innerText);
-      localStorage.setItem(now_badList, JSON.stringify(badList_1));
+      var knownList_1 = JSON.parse(localStorage.getItem(now_knownList));
+      knownList_1.push(o.innerText);
+      localStorage.setItem(now_knownList, JSON.stringify(knownList_1));
     }
   }
 };
@@ -1657,7 +1660,7 @@ document.getElementById("text-area-fontzize-minus").onclick = function () {
   maininput.style.fontSize = fontSize + "px";
   maininput.style.lineHeight = fontSize + 1 + "px";
 };
-document.getElementById("in-badList").onclick = function () {
+document.getElementById("in-knownList").onclick = function () {
   var maininput = document.getElementById("maininput");
   var bad_input = maininput.value;
   bad_input = bad_input.replace(/[\u4e00-\u9fa5]/g, " ");
@@ -1669,9 +1672,6 @@ document.getElementById("in-badList").onclick = function () {
   bad_input_1 = bad_input_1.filter(function (s) {
     return s && s.trim();
   });
-  for (i = 0; i < bad_input_1.length; i++) {
-    bad_input_1[i] = bad_input_1[i];
-  }
   bad_input_1 = Array.from(new Set(bad_input_1));
   console.log("处理后bad_input_1", bad_input_1);
   if (!bad_input_1.length) {
@@ -1683,10 +1683,10 @@ document.getElementById("in-badList").onclick = function () {
       "\n注意：\n\n单词统一为小写；\n单词间以【空格】或【回车】隔开;\n\n应经在下方文本框中输入了要【屏蔽】的单词，确认【屏蔽】以下熟词？"
     );
     if (r == true) {
-      var badList_1 = JSON.parse(localStorage.getItem(now_badList));
-      badList_1 = badList_1.concat(bad_input_1);
-      badList_1 = Array.from(new Set(badList_1));
-      localStorage.setItem(now_badList, JSON.stringify(badList_1));
+      var knownList_1 = JSON.parse(localStorage.getItem(now_knownList));
+      knownList_1 = knownList_1.concat(bad_input_1);
+      knownList_1 = Array.from(new Set(knownList_1));
+      localStorage.setItem(now_knownList, JSON.stringify(knownList_1));
       setTimeout(() => {
         Qmsg.success("熟词已合并【屏蔽】，将不会在下次被标注");
         maininput.value = "";
@@ -1694,7 +1694,7 @@ document.getElementById("in-badList").onclick = function () {
     }
   }
 };
-document.getElementById("cancel-badList").onclick = function () {
+document.getElementById("cancel-knownList").onclick = function () {
   var maininput = document.getElementById("maininput");
   var can_input = maininput.value;
   can_input = can_input.split(/[ \r\n]/);
@@ -1714,14 +1714,14 @@ document.getElementById("cancel-badList").onclick = function () {
       "\n注意：\n\n单词统一为小写；\n单词间以【空格】或【回车】隔开；\n\n已经在下方文本框中输入了要【取消屏蔽】的单词，确认【取消屏蔽】？"
     );
     if (r == true) {
-      var badList_2 = JSON.parse(localStorage.getItem(now_badList));
-      const new_badList = [];
-      badList_2.forEach((item) => {
+      var knownList_2 = JSON.parse(localStorage.getItem(now_knownList));
+      const new_knownList = [];
+      knownList_2.forEach((item) => {
         if (!can_input.includes(item)) {
-          new_badList.push(item);
+          new_knownList.push(item);
         }
       });
-      localStorage.setItem(now_badList, JSON.stringify(new_badList));
+      localStorage.setItem(now_knownList, JSON.stringify(new_knownList));
       setTimeout(() => {
         Qmsg.success("已取消【屏蔽】，将会在下次被标注");
         maininput.value = "";
@@ -1729,7 +1729,7 @@ document.getElementById("cancel-badList").onclick = function () {
     }
   }
 };
-document.getElementById("look-badList").onclick = function () {
+document.getElementById("look-knownList").onclick = function () {
   var maininput = document.getElementById("maininput");
   if (maininput.value) {
     var re = confirm(
@@ -1740,12 +1740,12 @@ document.getElementById("look-badList").onclick = function () {
     look();
   }
   function look() {
-    var badList_look = JSON.parse(localStorage.getItem(now_badList));
-    console.log("查看已屏蔽", badList_look);
-    var num = "共 " + badList_look.length + " 词";
+    var knownList_look = JSON.parse(localStorage.getItem(now_knownList));
+    console.log("查看已屏蔽", knownList_look);
+    var num = "共 " + knownList_look.length + " 词";
     var str = "";
-    for (var i = 0; i < badList_look.length; i++) {
-      str += badList_look[i] + "\n";
+    for (var i = 0; i < knownList_look.length; i++) {
+      str += knownList_look[i] + "\n";
     }
     maininput.value = num + "\n\n" + str;
     maininput.scrollTop = 0;
@@ -2033,14 +2033,14 @@ function add_user() {
   localStorage.setItem("now-user", JSON.stringify(now_user));
   Qmsg.success("😃 新用户添加完成");
   document.getElementById("user").value = user_name;
-  now_badList = now_user;
-  localStorage.setItem(user_name, JSON.stringify(badList));
+  now_knownList = now_user;
+  localStorage.setItem(user_name, JSON.stringify(knownList));
 }
 var user = document.getElementById("user");
 document.getElementById("user").addEventListener("change", () => {
   now_user = document.getElementById("user").value;
   localStorage.setItem("now-user", JSON.stringify(now_user));
-  if (now_user == "Default") now_badList = "badList";
-  else now_badList = now_user;
+  if (now_user == "Default") now_knownList = "knownList";
+  else now_knownList = now_user;
   Qmsg.success("已切换用户至" + "【" + now_user + "】");
 });
