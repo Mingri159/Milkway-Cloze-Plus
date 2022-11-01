@@ -53,9 +53,15 @@ function fun_cancel_mark() {
   get_words_filler_all();
   mark_color(words_filler_all, default_color);
   is_mark_default = true;
-  // if (is_also_mark_save)
   is_mark_default_c = true;
   is_all_mark = false;
+  is_fun_mark_1 = false;
+  is_fun_mark_2 = false;
+  is_fun_mark_3 = false;
+  is_fun_mark_4 = false;
+  is_fun_mark_5 = false;
+  is_fun_mark_6 = false;
+  document.getElementById("all-mark").value = "🎨All Mark";
 }
 var is_fun_mark_1 = false;
 var is_fun_mark_2 = false;
@@ -146,8 +152,6 @@ document.getElementById("all-mark").onclick = debounce(function () {
       document.getElementById("all-mark").value = "🎨All Mark";
       document.getElementById("mark-level").value = "mark-0";
     }
-  } else {
-    Qmsg.warning("😥当前无数据");
   }
 }, 1500);
 var close_loadingMsg = false;
@@ -155,7 +159,9 @@ function debounce(callback, delay = 1000) {
   let timer = null;
   return function () {
     timer && clearTimeout(timer);
-    if (!is_all_mark) {
+    if (!is_load_article) {
+      Qmsg.warning("😥当前无数据");
+    } else if (!is_all_mark && is_load_article) {
       var loadingMsg = Qmsg.loading("正在标注【等级】...");
     }
     timer = setTimeout(function () {
@@ -226,7 +232,6 @@ document.getElementById("to-color").onclick = () => {
         if (mark_words_5.length) mark_color_inner(mark_words_5, mark_color_5);
         if (mark_words_6.length) mark_color_inner(mark_words_6, mark_color_6);
       }
-
       function no_sort_wds(wds) {
         var headDiv = document.getElementById("explain-head");
         wds.forEach((o) => {

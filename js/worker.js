@@ -394,7 +394,9 @@ function elemInfo(elem, allFiller1 = allFiller) {
 document.getElementById("main-clicker").onclick = sendText;
 document.getElementById("clear-clicker").onclick = () => {
   document.getElementById("maininput").value = "";
+  is_load_article = false;
 };
+var is_load_article = false;
 function sendText(do_jump = true, removeDup = remove_dup) {
   isSort = false;
   document.getElementById("toUPcase").innerHTML = "↑";
@@ -439,6 +441,7 @@ function sendText(do_jump = true, removeDup = remove_dup) {
   }
   if (document.getElementById("explain-head").childNodes.length > 0) {
     open_mask();
+    is_load_article = true;
   }
 }
 function tailCover(s, head = 1, tail = 1) {
