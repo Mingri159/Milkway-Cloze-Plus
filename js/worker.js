@@ -349,6 +349,11 @@ function ruleAllWords(words, rules, filterWord, label = "word-filler") {
   }
   return res;
 }
+
+if (!JSON.parse(localStorage.getItem("all-users"))) {
+  var users = ["default"];
+  localStorage.setItem("all-users", JSON.stringify(users));
+}
 var now_badList = "badList";
 if (!JSON.parse(localStorage.getItem("badList"))) {
   let users = ["default"];
