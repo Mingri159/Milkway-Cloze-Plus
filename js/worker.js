@@ -546,9 +546,9 @@ function elemFill(elem, s) {
   elem.innerHTML = s;
   if (s == inText.toLowerCase()) {
     elemModify(elem);
-    if (is_voc_copy_explain) elemExplain(elem, false);
+    fillNext(1, false);
   } else {
-    if (is_voc_copy_explain) elemExplain(elem, true);
+    elemExplain(elem, true);
     covered = covered.slice(s.length);
     document.getElementById("exp-head").innerHTML = s + covered;
     elem.className = "word-filler-current";
@@ -588,8 +588,8 @@ function startFill() {
   fillObjs = [...demo.getElementsByClassName("word-filler")];
   currentFill = 0;
   coverAll();
-  fillNext(1, false);
-  fillPrevious(1, false);
+  fillNext(1, false, false);
+  fillPrevious(1, false, false);
   if (!lastExclude)
     alert(
       "Finish the cloze using keyboard, pressing: \n ,/. to move back/forth; \n BACKSPACE/SPACE to clear the buffer;\n  1 / ENTER to show the partial / full solution of the blank."
@@ -624,7 +624,7 @@ function startRead(i = currentFill) {
   );
 }
 var isNone = false;
-function fillNext(pace = 1, check = true) {
+function fillNext(pace = 1, check = true, voc = true) {
   isClozeNow = false;
   clear_current_style_1();
   clear_current_style_2();
@@ -661,9 +661,9 @@ function fillNext(pace = 1, check = true) {
   cloze_now(elem);
   elemBring(elem, 100);
   var elemState = true;
-  elemExplain(elem, !elemState);
+  if (voc) elemExplain(elem, !elemState);
 }
-function fillPrevious(pace = 1, check = true) {
+function fillPrevious(pace = 1, check = true, voc = true) {
   isClozeNow = false;
   clear_current_style_1();
   clear_current_style_2();
@@ -705,7 +705,7 @@ function fillPrevious(pace = 1, check = true) {
   if (!elemCheck(elem)) {
     elemState = false;
   }
-  elemExplain(elem, !elemState);
+  if (voc) elemExplain(elem, !elemState);
 }
 function showIndexInfo(i, n) {
   var ar = document.getElementById("explain-area");
