@@ -588,6 +588,8 @@ function startFill() {
   fillObjs = [...demo.getElementsByClassName("word-filler")];
   currentFill = 0;
   coverAll();
+  fillNext(1, false);
+  fillPrevious(1, false);
   if (!lastExclude)
     alert(
       "Finish the cloze using keyboard, pressing: \n ,/. to move back/forth; \n BACKSPACE/SPACE to clear the buffer;\n  1 / ENTER to show the partial / full solution of the blank."
@@ -622,7 +624,7 @@ function startRead(i = currentFill) {
   );
 }
 var isNone = false;
-function fillNext(pace = 1) {
+function fillNext(pace = 1, check = true) {
   isClozeNow = false;
   clear_current_style_1();
   clear_current_style_2();
@@ -632,9 +634,11 @@ function fillNext(pace = 1) {
     ele.className = "";
     isNone = false;
   }
-  if (!elemCheck(fillObjs[last_currentFill])) {
-    input_err();
-    Qmsg.error("😣上一处 输入不正确");
+  if (check) {
+    if (!elemCheck(fillObjs[last_currentFill])) {
+      input_err();
+      Qmsg.error("😣上一处 输入不正确");
+    }
   }
   currentFill = (currentFill + pace) % fillObjs.length;
   last_currentFill = currentFill;
@@ -642,7 +646,6 @@ function fillNext(pace = 1) {
   var elem = fillObjs[currentFill];
   if (!elemCheck(fillObjs[currentFill])) {
     input_err();
-    Qmsg.error("😣当前输入不正确 请输入");
     isClozeNow = true;
     elemCover(fillObjs[currentFill]);
   }
@@ -660,7 +663,7 @@ function fillNext(pace = 1) {
   var elemState = true;
   elemExplain(elem, !elemState);
 }
-function fillPrevious(pace = 1) {
+function fillPrevious(pace = 1, check = true) {
   isClozeNow = false;
   clear_current_style_1();
   clear_current_style_2();
@@ -670,9 +673,11 @@ function fillPrevious(pace = 1) {
     ele.className = "";
     isNone = false;
   }
-  if (!elemCheck(fillObjs[last_currentFill])) {
-    input_err();
-    Qmsg.error("😣上一处 输入不正确");
+  if (check) {
+    if (!elemCheck(fillObjs[last_currentFill])) {
+      input_err();
+      Qmsg.error("😣上一处 输入不正确");
+    }
   }
   currentFill =
     (((currentFill - pace) % fillObjs.length) + fillObjs.length) %
@@ -682,7 +687,6 @@ function fillPrevious(pace = 1) {
   var elem = fillObjs[currentFill];
   if (!elemCheck(fillObjs[currentFill])) {
     input_err();
-    Qmsg.error("🤔当前输入不正确 请输入");
     isClozeNow = true;
     elemCover(fillObjs[currentFill]);
   }
@@ -824,6 +828,7 @@ document.getElementById("maininput").onkeydown = (e) => e.stopPropagation();
 document.getElementById("show-answer").onclick = listWords;
 document.getElementById("refill-clicker").style.display = "none";
 function listWords(excludeLess = true) {
+  currentInput = "";
   [...demo.getElementsByClassName("word-filler-current")].forEach(
     (e) => (e.className = "word-filler")
   );
@@ -1896,6 +1901,7 @@ function clear_current_style_3() {
   }
 }
 function cloze_now(elem) {
+  console.log(elem);
   if (elem.firstChild.id == "") {
     isClozeNow = true;
   }
@@ -1918,6 +1924,9 @@ function re_is_done() {
 function input_err() {
   var eleme = fillObjs[last_currentFill];
   console.log("eleme 输入错误", eleme);
+  if (!eleme.innerText) {
+    document.getElementById(eleme.id).innerText = "---";
+  }
   eleme.className = "word-filler-err";
 }
 function selected_handle(s) {
