@@ -8,7 +8,7 @@
 
 二次开发： [@胡桃的精通沙](https://space.bilibili.com/96466254)
 
-更新：[https://forum.freemdict.com/t/topic/16422](https://forum.freemdict.com/t/topic/16422)
+功能更新详情：[https://forum.freemdict.com/t/topic/16422](https://forum.freemdict.com/t/topic/16422)
 
 ---
 
@@ -18,7 +18,7 @@
 
 - worker.js：主进程文件；
 
-- badList.js：使其不被标注；
+- knownList.js：使其不被标注；
 
 - rules.js：词形还原规则；
 
