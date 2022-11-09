@@ -20,6 +20,10 @@ td {
     margin: 0
 }
 
+body::-webkit-scrollbar {
+    width: 0px;
+}
+
 #maininput {
     margin-left: 10px;
     width: 98%;
