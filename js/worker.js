@@ -78,6 +78,13 @@ function loadString(search) {
     if (res.theme) changeTheme(res.theme);
   };
   if (!res.article) {
+    search = search.replace(/\n/g, "");
+    search = search.replace(
+      /<(?!((\s?i)|(\s?p)|(\s?strong)|(\s?em)))(\n)?[^>]+>/g,
+      ""
+    );
+    search = search.replace(/class\s*?=\s*?(["])[\s\S]*?\1/g, "");
+    search = search.replace(/id\s*?=\s*?(["])[\s\S]*?\1/g, "");
     document.getElementById("maininput").value = search;
     sendText();
   }
@@ -142,7 +149,7 @@ function fReader(swa = true, mul = false) {
   if (mul) {
     f.accept = ".json";
     f.multiple = "multiple";
-  } else f.accept = ".json , .txt";
+  } else f.accept = ".json, .txt, .html";
   f.onchange = (e) => {
     console.log("读取文件");
     Array.from(f.files).forEach((fi) => {
@@ -349,6 +356,7 @@ function ruleAllWords(words, rules, filterWord, label = "word-filler") {
   }
   return res;
 }
+
 if (!JSON.parse(localStorage.getItem("all-users"))) {
   var users = ["default"];
   localStorage.setItem("all-users", JSON.stringify(users));
@@ -407,6 +415,7 @@ function sendText(do_jump = true, removeDup = remove_dup) {
   mark_reset();
   document.getElementById("font-size").value = 25;
   document.getElementById("demo").style.fontSize = "25px";
+
   var s = document.getElementById("maininput").value;
   s = s.replace(/([a-zA-Z]+)+-\n([a-zA-Z]+)/g, "$1$2\n");
   if (!s) do_jump = false;
@@ -416,8 +425,10 @@ function sendText(do_jump = true, removeDup = remove_dup) {
   currentFill = 0;
   last_currentFill = 0;
   state_in_excise = false;
+
   var words = allWords(s);
   var wordsValid = ruleAllWords(words, ruleArray, getSimpleFilter());
+
   allFiller = fillAllLabeled(s, wordsValid);
   demo.innerHTML = "";
   demo.innerHTML = allFiller.enlonged;
