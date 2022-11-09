@@ -16,7 +16,6 @@ td {
     text-align: center
 }
 
-
 .body {
     margin: 0
 }
@@ -85,8 +84,11 @@ td {
     font-size: 115%;
     position: relative;
     white-space: nowrap;
+    padding-right: 5px;
+    padding-left: 3px;
     border: #ca234EDD solid 3px;
     border-radius: 10px;
+    padding: 1px 3px 3px
 }
 
 .word-filler-done {
@@ -99,12 +101,11 @@ td {
 }
 
 .word-filler-dup {
-    /* color: #30b787; */
     font-family: auto;
     cursor: pointer;
     background-image: linear-gradient(90deg, orange, #30b787);
     -webkit-background-clip: text;
-    color: transparent;
+    color: transparent
 }
 
 #explain-container {
@@ -122,7 +123,7 @@ td {
     width: 78%;
     height: 94vh;
     overflow-y: scroll;
-    overflow-x: hidden;
+    overflow-x: hidden
 }
 
 #demo {
@@ -156,7 +157,9 @@ td {
 #explain-head .word-filler-done {
     display: block;
     font-weight: lighter;
-    font-family: Times
+    font-family: Times;
+    overflow: hidden;
+    text-overflow: ellipsis
 }
 
 #explain-head .word-filler-done::before,
@@ -170,7 +173,7 @@ td {
     right: 20px
 }
 
-@media (max-width:1500px) {
+@media (max-width:1550px) {
     .about {
         display: none
     }
@@ -208,10 +211,6 @@ td {
     color: #17ad29
 }
 
-::-webkit-scrollbar {
-    width: 3px
-}
-
 #maininput::-webkit-scrollbar {
     width: 5px
 }
@@ -226,6 +225,23 @@ td {
 #maininput::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: #888
+}
+
+::-webkit-scrollbar {
+    width: 8px
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    border-style: dashed;
+    border-color: transparent;
+    border-width: 2px;
+    background-color: rgba(157, 165, 183, .4);
+    background-clip: padding-box
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(157, 165, 183, .7)
 }
 
 #maininput {
@@ -263,7 +279,7 @@ td {
     text-decoration: underline;
     animation: slidingTextRight .4s 1;
     cursor: auto;
-    pointer-events: none;
+    pointer-events: none
 }
 
 textarea::-webkit-scrollbar-thumb {
@@ -312,24 +328,23 @@ textarea::-webkit-scrollbar-thumb {
     border-radius: 13px;
     margin: 5px;
     user-select: none;
-    margin-bottom: 10px;
-}
-
-.btn-case:hover {
-    border: #f27474 2px solid;
-}
-
-#toUPcase {
-    background-color: #be85ff80;
     margin-bottom: 10px
 }
 
+.btn-case:hover {
+    border: #f27474 2px solid
+}
+
+#toUPcase {
+    background-color: #be85ff80
+}
+
 #to-color {
-    background-color: #f761a1;
+    background-color: #f761a1
 }
 
 #to-default-color {
-    background-color: #6078ea;
+    background-color: #6078ea
 }
 
 #explain-head {
@@ -392,21 +407,21 @@ textarea::-webkit-scrollbar-thumb {
 
 #Chinese {
     border: 2px solid #3ac250;
-    border-radius: 5px;
+    border-radius: 5px
 }
 
 li {
-    list-style-type: none;
+    list-style-type: none
 }
 
 #setting-div li {
     margin-left: 50px;
     font-size: 25px;
-    margin: 15px 20px;
+    margin: 15px 20px
 }
 
-input[type='checkbox'].switch {
-    outline: none;
+input[type=checkbox].switch {
+    outline: 0;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -415,10 +430,10 @@ input[type='checkbox'].switch {
     height: 20px;
     background: #ccc;
     border-radius: 10px;
-    transition: border-color .3s, background-color .3s;
+    transition: border-color .3s, background-color .3s
 }
 
-input[type='checkbox'].switch::after {
+input[type=checkbox].switch::after {
     content: '';
     display: inline-block;
     width: 1rem;
@@ -429,34 +444,34 @@ input[type='checkbox'].switch::after {
     transition: .4s;
     top: 2px;
     position: absolute;
-    left: 2px;
+    left: 2px
 }
 
-input[type='checkbox'].switch:checked {
-    background: rgb(19, 206, 102);
+input[type=checkbox].switch:checked {
+    background: #13ce66
 }
 
-input[type='checkbox'].switch:checked::after {
+input[type=checkbox].switch:checked::after {
     content: '';
     position: absolute;
     left: 55%;
-    top: 2px;
+    top: 2px
 }
 
 #setting-div .right {
     float: right;
-    margin-top: 7px;
+    margin-top: 7px
 }
 
 #setting-div-mask .explain-head-div {
-    padding: 30px 50px;
+    padding: 30px 50px
 }
 
 #step {
     margin-left: 50px;
     width: 50px;
     height: 25px;
-    padding-left: 5px;
+    padding-left: 5px
 }
 
 #step-confirm,
@@ -464,6 +479,6 @@ input[type='checkbox'].switch:checked::after {
     height: 30px;
     margin-top: 2px !important;
     background-color: #409eff;
-    color: white;
-    border-radius: 10px;
+    color: #fff;
+    border-radius: 10px
 }
