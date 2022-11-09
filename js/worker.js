@@ -81,7 +81,7 @@ function loadString(search, fileName = " .txt") {
     if (fileName.endsWith(".html")) {
       search = search.replace(/\n/g, "");
       search = search.replace(
-        /<(?!((\s?i)|(\s?p)|(\s?strong)|(\s?em)))(\n)?[^>]+>/g,
+        /<(?!((\s?h1)|(\s?h2)|(\s?h3)|(\s?h4)|(\s?h5)|(\s?h6)|(\s?i)|(\s?p)|(\s?strong)|(\s?em)))(\n)?[^>]+>/g,
         ""
       );
       search = search.replace(/class\s*?=\s*?(["])[\s\S]*?\1/g, "");
@@ -92,10 +92,10 @@ function loadString(search, fileName = " .txt") {
   }
   return res;
 }
-function loadJson(jsonStr) {
+function loadJson(jsonStr, fileName) {
   var res = JSON.parse(jsonStr);
   if (!res.article) {
-    Qmsg.error("😶请检查文件内容，未读取到文本", { showClose: true });
+    Qmsg.error("😶请检查文件内容格式，未读取到文本", { showClose: true });
   }
   res.submitter = function (switcharticle = true) {
     if (res.dict) {
@@ -151,7 +151,7 @@ function fReader(swa = true, mul = false) {
   if (mul) {
     f.accept = ".json";
     f.multiple = "multiple";
-  } else f.accept = ".json, .txt, .html";
+  } else f.accept = ".json , .txt,.html";
   f.onchange = (e) => {
     console.log("读取文件");
     Array.from(f.files).forEach((fi) => {
@@ -243,7 +243,15 @@ function fillAll(s, words) {
 function fillAllLabeled(s, words) {
   var res = new Object();
   var wordList = [];
-  var sorted = words.sort((a, b) => a[0] >= b[0]);
+  var sorted = words.sort((a, b) => {
+    return a[0] - b[0];
+  });
+  for (i = 0; i < sorted.length - 1; i++) {
+    if (sorted[i][0] + sorted[i][1] - sorted[i + 1][0] > 0) {
+      console.log("删除", sorted[i + 1]);
+      sorted.splice(i + 1, 1);
+    }
+  }
   var nLast = 0;
   var s1 = "";
   for (var i in sorted) {
@@ -269,13 +277,41 @@ function fillAllLabeled(s, words) {
 var s = document.getElementById("maininput").value;
 var words1 = allWords(s);
 function allWords(s) {
-  var reWord = /(([a-zA-Z]+)+-*)+|([a-zA-Z]+)/g;
+  let reWord = /(([a-zA-Z]+)+-*)+|([a-zA-Z]+)/g;
   var iterAll = s.matchAll(reWord);
   var words = [];
   for (var w of iterAll) {
     words.push([w.index, w[0].length, w[0]]);
   }
   return words;
+}
+var phr_res = [];
+var phr_in_text = [];
+function allPhrases(s) {
+  if (s) {
+    let reWord = /(([a-zA-Z]+)+-*)+|([a-zA-Z]+)/g;
+    var iterAll = s.matchAll(reWord);
+    var words = [];
+    for (var w of iterAll) {
+      words.push([w.index, w[0].length, w[0]]);
+    }
+    for (var w of words) {
+      var ww = w[2];
+      var wNew = word2rules(ww, ruleArray);
+      phr_res.push(wNew);
+    }
+    phr_in_text = [];
+    mark_phr();
+    let phr_111 = [];
+    for (n = 0; n < phr_in_text.length; n++) {
+      let reg = phr_in_text[n][0];
+      var iterAll = s.matchAll(reg);
+      for (var w of iterAll) {
+        phr_111.push([w.index, w[0].length, w[0], phr_in_text[n][1]]);
+      }
+    }
+    return phr_111;
+  }
 }
 function useRule(s, r, st = [], last = new Object()) {
   if (!s || s.length == 0) return null;
@@ -358,7 +394,26 @@ function ruleAllWords(words, rules, filterWord, label = "word-filler") {
   }
   return res;
 }
-
+function ruleAllPhrases(
+  phrases = [],
+  rules,
+  filterWord,
+  label = "word-filler"
+) {
+  var res = [];
+  for (var w of phrases) {
+    var wp = w[0];
+    var wl = w[1];
+    var ww = w[2];
+    var wo = w[3];
+    var iValid = [wo].findIndex(filterWord.good);
+    var iBad = [wo].findIndex(filterWord.bad);
+    if (iValid >= 0 && (iValid < iBad || iBad < 0)) {
+      res.push([wp, wl, wo, label]);
+    }
+  }
+  return res;
+}
 if (!JSON.parse(localStorage.getItem("all-users"))) {
   var users = ["default"];
   localStorage.setItem("all-users", JSON.stringify(users));
@@ -417,8 +472,8 @@ function sendText(do_jump = true, removeDup = remove_dup) {
   mark_reset();
   document.getElementById("font-size").value = 25;
   document.getElementById("demo").style.fontSize = "25px";
-
   var s = document.getElementById("maininput").value;
+  console.log("开始处理文本");
   s = s.replace(/([a-zA-Z]+)+-\n([a-zA-Z]+)/g, "$1$2\n");
   if (!s) do_jump = false;
   if (do_jump) {
@@ -427,11 +482,16 @@ function sendText(do_jump = true, removeDup = remove_dup) {
   currentFill = 0;
   last_currentFill = 0;
   state_in_excise = false;
-
   var words = allWords(s);
   var wordsValid = ruleAllWords(words, ruleArray, getSimpleFilter());
-
-  allFiller = fillAllLabeled(s, wordsValid);
+  var phrasesValid = [];
+  var isPhr = document.getElementById("nonsense-voting").value;
+  if (isPhr == "dict2w+dict9k+dict_phr") {
+    var phrases = allPhrases(s);
+    phrasesValid = ruleAllPhrases(phrases, ruleArray, getSimpleFilter());
+  }
+  var valid = phrasesValid.concat(wordsValid);
+  allFiller = fillAllLabeled(s, valid);
   demo.innerHTML = "";
   demo.innerHTML = allFiller.enlonged;
   fillObjs = [];
@@ -530,7 +590,7 @@ elemNoter.className = "current-noter-container";
 var bringPreserve = demo.parentNode.getClientRects()[0].height / 3;
 function elemBring(o, reserve = bringPreserve, fill = true) {
   var omo = document.getElementById(o.id);
-  var t = o.offsetTop - o.parentNode.offsetTop;
+  var t = o.offsetTop - document.getElementById("demo").offsetTop;
   demo.parentNode.scrollTop = t - reserve * 2;
   if (fill) omo.className = "word-filler-current";
   else {
@@ -1070,6 +1130,8 @@ function getDef(d, cover = false) {
   var res = "";
   if (!cover && d.ipa) {
     res = res + `<span class="ipa">${d.ipa}</span>` + " <br>";
+  } else {
+    res = res + " <br>"; //换行
   }
   if (d.def) {
     res = res + `<span class="def">${d.def}</span>`;
@@ -1378,14 +1440,14 @@ document.getElementById("demo").onclick = (e) => {
 };
 document.getElementById("demo").ondblclick = (e) => {
   clearTimeout(click_store);
-  o = e.target;
+  var o = e.target;
   if (is_voc_copy_explain) {
-    if (e.target.className == "demo-area" || e.target.className == "") {
+    if (o.className == "demo-area" || o.className == "") {
       const selection = window.getSelection();
       var selecT = selection.toString().replace(/\ /g, "");
     } else if (
-      e.target.className == "word-filler" ||
-      e.target.className == "word-filler-done"
+      o.className == "word-filler" ||
+      o.className == "word-filler-done"
     ) {
       if (!o.childNodes[0].className) {
         clear_current_style_3();
@@ -1406,7 +1468,7 @@ document.getElementById("demo").ondblclick = (e) => {
     var nowTarget = e.target.id;
     var pattern2 = new RegExp("[A-Za-z]+");
     let isEnglish = pattern2.test(selecT);
-    if (nowTarget === "demo" && isEnglish) {
+    if (nowTarget === "" || (nowTarget === "demo" && isEnglish)) {
       console.log("选中单词 处理前", selecT);
       var select2word2rules = word2rules(selecT, ruleArray);
       if (select2word2rules.length == 1) {
@@ -1463,7 +1525,6 @@ document.getElementById("demo").oncontextmenu = (e) => {
     };
   }
   o = e.target;
-  console.log("o.className", o.className);
   if (o.className == "selecTcss") {
     o.className = "";
     return;
@@ -1485,7 +1546,7 @@ document.getElementById("explain-area").oncontextmenu = (e) => {
   if (!state_in_excise) {
     if (o.className == "word-filler" || o.className == "word-filler-done") {
       add_context_item(o);
-      console.log("取消标注");
+      console.log("取消标注，已屏蔽" + o.innerText);
       var str = o.id.replace(/-exp/g, "");
       document.getElementById(str).className = "";
       if (is_mark_del) document.getElementById(str).style.color = "";
@@ -1499,11 +1560,10 @@ document.getElementById("explain-area").oncontextmenu = (e) => {
 document.getElementById("explain-head").oncontextmenu = (e) => {
   e.preventDefault();
   o = e.target;
-  console.log("o.className", o.className, o.id);
   if (!state_in_excise) {
     if (o.className == "word-filler" || o.className == "word-filler-done") {
       add_context_item(o);
-      console.log("取消标注");
+      console.log("取消标注，已屏蔽" + o.innerText);
       var str = o.id.replace(/-exp/g, "");
       document.getElementById(str).className = "";
       if (is_mark_del) document.getElementById(str).style.color = "";
@@ -1877,9 +1937,7 @@ document.getElementById("toUPcase").onclick = function () {
 };
 function add_now(o) {
   clear_current_style_2();
-  if (o.parentNode.id == "demo") {
-    o.insertBefore(elemNoter, o.firstChild);
-  }
+  o.insertBefore(elemNoter, o.firstChild);
 }
 function clear_current_style_1() {
   var elem0 = fillObjs[currentFill];
@@ -2008,8 +2066,8 @@ document.getElementById("is-db-select").addEventListener("change", () => {
   if (is_on) is_dbl_select = true;
   else is_dbl_select = false;
 });
-document.getElementById("is_dup").addEventListener("change", () => {
-  var is_on = document.getElementById("is_dup").checked;
+document.getElementById("is-dup").addEventListener("change", () => {
+  var is_on = document.getElementById("is-dup").checked;
   if (is_on) is_dup = true;
   else is_dup = false;
 });
@@ -2069,3 +2127,36 @@ document.getElementById("user").addEventListener("change", () => {
   else now_knownList = now_user;
   Qmsg.success("已切换用户至" + "【" + now_user + "】");
 });
+function mark_phr() {
+  var all_phr = Array.from(Object.keys(dict_phr));
+  for (l = 0; l < all_phr.length; l++) {
+    console.log(
+      "----------------\n" +
+        l +
+        " --|-- " +
+        all_phr.length +
+        "-----【" +
+        all_phr[l] +
+        "】\n-------------"
+    );
+    look_phr(phr_res, all_phr[l].split(" "), l);
+  }
+  console.log("找到的文中词组 phr_in_text：", phr_in_text);
+  function look_phr(arr, phr, l) {
+    var o_phr = [];
+    for (i = 0; i < arr.length; i++) {
+      if (arr[i].indexOf(phr[0]) !== -1) {
+        for (k = 0; k < phr.length; k++) {
+          if (k < phr.length - 1 && i < arr.length - 1) {
+            if (arr[i + 1].indexOf(phr[k + 1]) !== -1) {
+              if (!o_phr.length) {
+                o_phr.push(arr[i][0], arr[i + 1][0]);
+              } else break;
+            }
+          }
+        }
+      }
+    }
+    if (o_phr.length) phr_in_text.push([o_phr.join(" "), all_phr[l]]);
+  }
+}
