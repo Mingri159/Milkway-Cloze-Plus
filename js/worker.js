@@ -32,7 +32,7 @@ function getDataString(a, l, u = urlData) {
     window.currentThemeIndex;
   return u;
 }
-function loadString(search) {
+function loadString(search, fileName = " .txt") {
   let article = search.match(/article=([^&]+)/);
   let lastExclude = search.match(/redundant=([^&]+)/);
   let theme = search.match(/theme=([^&]+)/);
@@ -78,13 +78,15 @@ function loadString(search) {
     if (res.theme) changeTheme(res.theme);
   };
   if (!res.article) {
-    search = search.replace(/\n/g, "");
-    search = search.replace(
-      /<(?!((\s?i)|(\s?p)|(\s?strong)|(\s?em)))(\n)?[^>]+>/g,
-      ""
-    );
-    search = search.replace(/class\s*?=\s*?(["])[\s\S]*?\1/g, "");
-    search = search.replace(/id\s*?=\s*?(["])[\s\S]*?\1/g, "");
+    if (fileName.endsWith(".html")) {
+      search = search.replace(/\n/g, "");
+      search = search.replace(
+        /<(?!((\s?i)|(\s?p)|(\s?strong)|(\s?em)))(\n)?[^>]+>/g,
+        ""
+      );
+      search = search.replace(/class\s*?=\s*?(["])[\s\S]*?\1/g, "");
+      search = search.replace(/id\s*?=\s*?(["])[\s\S]*?\1/g, "");
+    }
     document.getElementById("maininput").value = search;
     sendText();
   }
@@ -155,7 +157,7 @@ function fReader(swa = true, mul = false) {
     Array.from(f.files).forEach((fi) => {
       let fun = fi.name.endsWith(".json") ? loadJson : loadString;
       fi.text()
-        .then((t) => fun(t))
+        .then((t) => fun(t, fi.name))
         .then((loadObj) => loadObj.submitter(swa));
     });
   };
