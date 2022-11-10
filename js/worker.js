@@ -250,6 +250,7 @@ function fillAllLabeled(s, words) {
     if (sorted[i][0] + sorted[i][1] - sorted[i + 1][0] > 0) {
       console.log("删除", sorted[i + 1]);
       sorted.splice(i + 1, 1);
+      i--;
     }
   }
   var nLast = 0;
@@ -2127,6 +2128,7 @@ document.getElementById("user").addEventListener("change", () => {
   else now_knownList = now_user;
   Qmsg.success("已切换用户至" + "【" + now_user + "】");
 });
+
 function mark_phr() {
   var all_phr = Array.from(Object.keys(dict_phr));
   for (l = 0; l < all_phr.length; l++) {
@@ -2139,20 +2141,23 @@ function mark_phr() {
         all_phr[l] +
         "】\n-------------"
     );
-    look_phr(phr_res, all_phr[l].split(" "), l);
+    look_phr(phr_res, all_phr[l].split(" "));
   }
   console.log("找到的文中词组 phr_in_text：", phr_in_text);
-  function look_phr(arr, phr, l) {
+
+  function look_phr(arr, phr) {
     var o_phr = [];
     for (i = 0; i < arr.length; i++) {
       if (arr[i].indexOf(phr[0]) !== -1) {
-        for (k = 0; k < phr.length; k++) {
-          if (k < phr.length - 1 && i < arr.length - 1) {
-            if (arr[i + 1].indexOf(phr[k + 1]) !== -1) {
-              if (!o_phr.length) {
-                o_phr.push(arr[i][0], arr[i + 1][0]);
-              } else break;
-            }
+        o_phr.push(arr[i][0]);
+        for (k = 1; k < phr.length; k++) {
+          if (i + k < arr.length) {
+            if (arr[i + k].indexOf(phr[k]) !== -1) {
+              o_phr.push(arr[i + k][0]);
+            } else o_phr = [];
+          } else {
+            o_phr = [];
+            break;
           }
         }
       }
