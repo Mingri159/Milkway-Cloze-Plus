@@ -820,6 +820,7 @@ function transKeys(e) {
             lsat_context.className;
         }
         fresh_listWords();
+        if (lsat_context.check_current) currentFill++;
         contextList.pop();
         var knownList_1 = JSON.parse(localStorage.getItem(now_knownList));
         knownList_1.splice(
@@ -1536,19 +1537,36 @@ document.getElementById("demo").oncontextmenu = (e) => {
   }
 };
 var contextList = [];
-function add_context_item(o) {
+function add_context_item(o, check_current = false) {
   var demo_item = {};
   demo_item.id = o.id;
   demo_item.className = o.className;
+  demo_item.check_current = check_current;
   contextList.push(demo_item);
 }
+
+function check_currentFill(str) {
+  var all_word_filler = document
+    .getElementById("demo")
+    .querySelectorAll(".word-filler");
+  for (i = 0; i < all_word_filler.length; i++) {
+    if (all_word_filler[i].id == str) {
+      if (i < currentFill) {
+        currentFill--;
+        last_currentFill = currentFill;
+        return true;
+      }
+    }
+  }
+}
+
 document.getElementById("explain-area").oncontextmenu = (e) => {
   o = e.target;
   if (!state_in_excise) {
     if (o.className == "word-filler" || o.className == "word-filler-done") {
-      add_context_item(o);
       console.log("取消标注，已屏蔽" + o.innerText);
       var str = o.id.replace(/-exp/g, "");
+      add_context_item(o, check_currentFill(str));
       document.getElementById(str).className = "";
       if (is_mark_del) document.getElementById(str).style.color = "";
       fresh_listWords();
@@ -1563,9 +1581,9 @@ document.getElementById("explain-head").oncontextmenu = (e) => {
   o = e.target;
   if (!state_in_excise) {
     if (o.className == "word-filler" || o.className == "word-filler-done") {
-      add_context_item(o);
       console.log("取消标注，已屏蔽" + o.innerText);
       var str = o.id.replace(/-exp/g, "");
+      add_context_item(o, check_currentFill(str));
       document.getElementById(str).className = "";
       if (is_mark_del) document.getElementById(str).style.color = "";
       if (!is_to_color) fresh_listWords();
