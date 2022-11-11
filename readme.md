@@ -1,8 +1,6 @@
 # **禁止商用**
 
-原作者： @QThePerfect
-
-发帖：[https://forum.freemdict.com/t/topic/2228](https://forum.freemdict.com/t/topic/2228)
+原作者： [@QThePerfect](https://forum.freemdict.com/t/topic/2228)
 
 项目仓库地址： [qtheperfect/milkyway: Milkyway-Cloze: Practice Cloze With Any Text (github.com)](https://github.com/qtheperfect/milkyway/)
 
