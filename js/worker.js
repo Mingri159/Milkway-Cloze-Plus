@@ -2163,18 +2163,23 @@ document.getElementById("user").addEventListener("change", () => {
 function mark_phr() {
   var all_phr = Array.from(Object.keys(dict_phr));
   for (l = 0; l < all_phr.length; l++) {
-    console.log(
-      "----------------\n" +
-        l +
-        " --|-- " +
-        all_phr.length +
-        "-----【" +
-        all_phr[l] +
-        "】\n-------------"
-    );
+    console.log("-----" + l + " --|--" + all_phr.length);
     look_phr(phr_res, all_phr[l].split(" "), l);
   }
-  console.log("找到的文中词组 phr_in_text：", phr_in_text);
+  function fn1(tempArr) {
+    for (let i = 0; i < tempArr.length; i++) {
+      for (let j = i + 1; j < tempArr.length; j++) {
+        if (tempArr[i][1] == tempArr[j][1]) {
+          tempArr.splice(j, 1);
+          j--;
+        }
+      }
+    }
+    return tempArr;
+  }
+  phr_in_text = fn1(phr_in_text);
+
+  console.log("找到的文中【去重后】词组 phr_in_text：", phr_in_text);
 
   function look_phr(arr, phr, m) {
     var o_phr = [];
