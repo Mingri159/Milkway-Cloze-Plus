@@ -5,7 +5,7 @@ function completeLoading() {
   if (document.readyState == "complete") {
     setTimeout(() => {
       document.getElementById("main-loading").style.display = "none";
-    }, 2000);
+    }, 800);
   } else {
     document.getElementById("main-loading").style.display = "block";
   }
