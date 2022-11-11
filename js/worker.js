@@ -514,7 +514,7 @@ function sendText(do_jump = true, removeDup = remove_dup) {
     isSpan = false;
   }
   if (document.getElementById("explain-head").childNodes.length > 0) {
-    open_mask();
+    open_words_mask();
     is_load_article = true;
   }
 }
@@ -1084,8 +1084,8 @@ function fresh_listWords() {
   });
   return res;
 }
-function fresh_listWords_mark(o) {
-  remove_o(mark_word, o);
+function fresh_listWords_mark(o = false) {
+  if (o) remove_o(mark_word, o);
   var headDiv = document.getElementById("explain-head");
   headDiv.innerText = "";
   no_sort_wds(mark_word);
@@ -1607,38 +1607,8 @@ document.getElementById("explain-head").oncontextmenu = (e) => {
       add_context_item(o, check_currentFill(str));
       document.getElementById(str).className = "";
       if (is_mark_del) document.getElementById(str).style.color = "";
-      if (isSort) {
-        console.log("恢复 sort");
-        var words1 = [...demo.getElementsByClassName("word-filler")];
-        var words2 = [...demo.getElementsByClassName("word-filler-done")];
-        var headDiv = document.getElementById("explain-head");
-        headDiv.innerHTML = "";
-        sort_wds(words1);
-        sort_wds(words2);
-        function sort_wds(wds) {
-          wds
-            .sort((a, b) => (elemInfo(a).voc >= elemInfo(b).voc ? 1 : -1))
-            .forEach((o) => {
-              var oHead = o.cloneNode();
-              oHead.innerText = elemInfo(o).voc;
-              headDiv.appendChild(oHead);
-              headDiv.append(" ");
-              oHead.onclick = () => {
-                wordInfo = elemInfo(o);
-
-                wordInfo.audio.play();
-                word2board(wordInfo.voc);
-
-                var cNew = fillObjs.findIndex((e) => e == o);
-                if (cNew && cNew >= 0) {
-                  currentFill = cNew;
-                }
-                if (navigator.clipboard)
-                  navigator.clipboard.writeText(elemInfo(o).voc); // <---bug  6.1  oo
-              };
-            });
-        }
-      } else fresh_listWords();
+      if (isSort) words_sort();
+      else fresh_listWords();
       if (is_to_color) fresh_listWords_mark(o);
       var knownList_1 = JSON.parse(localStorage.getItem(now_knownList));
       knownList_1.push(o.innerText);
@@ -1783,7 +1753,7 @@ document.getElementById("nav-show").onclick = (e) => {
 document.getElementById("explain-con-top").onclick = function () {
   if (word_list.childNodes.length > 0) {
     fresh_listWords();
-    open_mask();
+    open_words_mask();
     setTimeout(() => {
       document.getElementById("explain-outer").scrollTop = 0;
     }, 200);
@@ -1905,9 +1875,11 @@ document.getElementById("look-knownList").onclick = function () {
 };
 let word_list = document.getElementById("explain-head");
 let word_list_mask = document.querySelector("#explain-outer-mask");
-function open_mask() {
+function open_words_mask() {
   word_list_mask.style.display = "flex";
   document.body.style.overflow = "hidden";
+  if (is_to_color) fresh_listWords_mark();
+  else words_sort();
 }
 word_list_mask.onclick = function (e) {
   if (e.target == word_list_mask) {
@@ -2006,6 +1978,40 @@ document.getElementById("toUPcase").onclick = function () {
     });
   }
 };
+function words_sort() {
+  if (isSort) {
+    console.log("恢复 sort");
+    var words1 = [...demo.getElementsByClassName("word-filler")];
+    var words2 = [...demo.getElementsByClassName("word-filler-done")];
+    var headDiv = document.getElementById("explain-head");
+    headDiv.innerHTML = "";
+    sort_wds(words1);
+    sort_wds(words2);
+    function sort_wds(wds) {
+      wds
+        .sort((a, b) => (elemInfo(a).voc >= elemInfo(b).voc ? 1 : -1))
+        .forEach((o) => {
+          var oHead = o.cloneNode();
+          oHead.innerText = elemInfo(o).voc;
+          headDiv.appendChild(oHead);
+          headDiv.append(" ");
+          oHead.onclick = () => {
+            wordInfo = elemInfo(o);
+
+            wordInfo.audio.play();
+            word2board(wordInfo.voc);
+
+            var cNew = fillObjs.findIndex((e) => e == o);
+            if (cNew && cNew >= 0) {
+              currentFill = cNew;
+            }
+            if (navigator.clipboard)
+              navigator.clipboard.writeText(elemInfo(o).voc); // <---bug  6.1  oo
+          };
+        });
+    }
+  }
+}
 function add_now(o) {
   clear_current_style_2();
   o.insertBefore(elemNoter, o.firstChild);
