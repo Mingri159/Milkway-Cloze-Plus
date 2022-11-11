@@ -1,3 +1,5 @@
+# **禁止商用**
+
 原作者： @QThePerfect
 
 发帖：[https://forum.freemdict.com/t/topic/2228](https://forum.freemdict.com/t/topic/2228)
