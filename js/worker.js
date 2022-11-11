@@ -2101,8 +2101,17 @@ document.getElementById("is-db-select").addEventListener("change", () => {
 document.getElementById("is-dup").addEventListener("change", () => {
   var is_on = document.getElementById("is-dup").checked;
   if (is_on) is_dup = true;
-  else is_dup = false;
+  else {
+    is_dup = false;
+    clear_dup();
+  }
 });
+function clear_dup() {
+  let dup = document
+    .getElementById("demo")
+    .querySelectorAll(".word-filler-dup");
+  for (d of dup) d.className = "none-dup";
+}
 document.getElementById("is-menu-prevent").addEventListener("change", () => {
   var is_on = document.getElementById("is-menu-prevent").checked;
   if (is_on) is_menu_prevent = true;
