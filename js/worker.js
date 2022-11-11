@@ -830,17 +830,25 @@ function transKeys(e) {
         localStorage.setItem(now_knownList, JSON.stringify(knownList_1));
       }
     }
+
     if (e.ctrlKey && e.keyCode == 88) {
       e.preventDefault();
-      console.log("Ctrl + X");
+      console.log("Ctrl + X , 隐藏/显示buttons");
       if (!is_nav_show && is_buttons_show) hide_buttons();
       else if (is_nav_show) Qmsg.warning("仅【🎈Nav -】时生效");
       else show_buttons();
     }
+
     if (e.ctrlKey && e.keyCode == 65) {
       e.preventDefault();
-      console.log("Ctrl + A");
+      console.log("Ctrl + A , 宽点");
       wide_more();
+    }
+
+    if (e.ctrlKey && e.keyCode == 83) {
+      e.preventDefault();
+      console.log("Ctrl + S , 设置");
+      open_setting();
     }
   }
   if (65 <= e.keyCode && e.keyCode <= 90) {
@@ -2054,11 +2062,12 @@ function selected_handle(s) {
 }
 let setting_div_mask = document.querySelector("#setting-div-mask");
 var setting_mask = false;
-document.getElementById("setting").onclick = function () {
+document.getElementById("setting").onclick = (e) => open_setting();
+function open_setting() {
   setting_mask = true;
   setting_div_mask.style.display = "flex";
   document.body.style.overflow = "hidden";
-};
+}
 setting_div_mask.onclick = function (e) {
   if (e.target == setting_div_mask) {
     setting_mask = false;
