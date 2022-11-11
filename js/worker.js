@@ -1607,8 +1607,39 @@ document.getElementById("explain-head").oncontextmenu = (e) => {
       add_context_item(o, check_currentFill(str));
       document.getElementById(str).className = "";
       if (is_mark_del) document.getElementById(str).style.color = "";
-      if (!is_to_color) fresh_listWords();
-      else fresh_listWords_mark(o);
+      if (isSort) {
+        console.log("恢复 sort");
+        var words1 = [...demo.getElementsByClassName("word-filler")];
+        var words2 = [...demo.getElementsByClassName("word-filler-done")];
+        var headDiv = document.getElementById("explain-head");
+        headDiv.innerHTML = "";
+        sort_wds(words1);
+        sort_wds(words2);
+        function sort_wds(wds) {
+          wds
+            .sort((a, b) => (elemInfo(a).voc >= elemInfo(b).voc ? 1 : -1))
+            .forEach((o) => {
+              var oHead = o.cloneNode();
+              oHead.innerText = elemInfo(o).voc;
+              headDiv.appendChild(oHead);
+              headDiv.append(" ");
+              oHead.onclick = () => {
+                wordInfo = elemInfo(o);
+
+                wordInfo.audio.play();
+                word2board(wordInfo.voc);
+
+                var cNew = fillObjs.findIndex((e) => e == o);
+                if (cNew && cNew >= 0) {
+                  currentFill = cNew;
+                }
+                if (navigator.clipboard)
+                  navigator.clipboard.writeText(elemInfo(o).voc); // <---bug  6.1  oo
+              };
+            });
+        }
+      } else fresh_listWords();
+      if (is_to_color) fresh_listWords_mark(o);
       var knownList_1 = JSON.parse(localStorage.getItem(now_knownList));
       knownList_1.push(o.innerText);
       localStorage.setItem(now_knownList, JSON.stringify(knownList_1));
