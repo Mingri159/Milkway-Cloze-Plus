@@ -845,6 +845,12 @@ function transKeys(e) {
       console.log("Ctrl + S , 设置");
       open_setting();
     }
+    if (e.ctrlKey && e.keyCode == 68) {
+      e.preventDefault();
+      console.log("Ctrl + D , 清除/恢复重复生词的标注");
+      if (!is_clear_dup) clear_dup();
+      else add_dup();
+    }
   }
   if (65 <= e.keyCode && e.keyCode <= 90) {
     if (isClozeNow) charAdder(k2char(e.keyCode));
@@ -2144,11 +2150,20 @@ document.getElementById("is-dup").addEventListener("change", () => {
     clear_dup();
   }
 });
+var is_clear_dup = false;
 function clear_dup() {
   let dup = document
     .getElementById("demo")
     .querySelectorAll(".word-filler-dup");
-  for (d of dup) d.className = "none-dup";
+  if (dup.length) {
+    for (d of dup) d.className = "none-dup";
+    is_clear_dup = true;
+  } else Qmsg.warning("还没有数据");
+}
+function add_dup() {
+  let dup = document.getElementById("demo").querySelectorAll(".none-dup");
+  for (d of dup) d.className = "word-filler-dup";
+  is_clear_dup = false;
 }
 document.getElementById("is-menu-prevent").addEventListener("change", () => {
   var is_on = document.getElementById("is-menu-prevent").checked;
