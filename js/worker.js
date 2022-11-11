@@ -253,6 +253,7 @@ function fillAllLabeled(s, words) {
       i--;
     }
   }
+  console.log("sorted", sorted);
   var nLast = 0;
   var s1 = "";
   for (var i in sorted) {
@@ -278,7 +279,7 @@ function fillAllLabeled(s, words) {
 var s = document.getElementById("maininput").value;
 var words1 = allWords(s);
 function allWords(s) {
-  let reWord = /(([a-zA-Z]+)+-*)+|([a-zA-Z]+)/g;
+  let reWord = /([a-zA-z]+'([a-z]+)?)|(([a-zA-Z]+)+-*)+|([a-zA-Z]+)/g;
   var iterAll = s.matchAll(reWord);
   var words = [];
   for (var w of iterAll) {
@@ -290,7 +291,7 @@ var phr_res = [];
 var phr_in_text = [];
 function allPhrases(s) {
   if (s) {
-    let reWord = /(([a-zA-Z]+)+-*)+|([a-zA-Z]+)/g;
+    let reWord = /([a-zA-z]+'([a-z]+)?)|(([a-zA-Z]+)+-*)+|([a-zA-Z]+)/g;
     var iterAll = s.matchAll(reWord);
     var words = [];
     for (var w of iterAll) {
@@ -305,8 +306,8 @@ function allPhrases(s) {
     mark_phr();
     let phr_111 = [];
     for (n = 0; n < phr_in_text.length; n++) {
-      let reg = phr_in_text[n][0];
-      var iterAll = s.matchAll(reg);
+      let reg_p = phr_in_text[n][0];
+      var iterAll = s.matchAll(reg_p);
       for (var w of iterAll) {
         phr_111.push([w.index, w[0].length, w[0], phr_in_text[n][1]]);
       }
@@ -395,12 +396,7 @@ function ruleAllWords(words, rules, filterWord, label = "word-filler") {
   }
   return res;
 }
-function ruleAllPhrases(
-  phrases = [],
-  rules,
-  filterWord,
-  label = "word-filler"
-) {
+function ruleAllPhrases(phrases = [], filterWord, label = "word-filler") {
   var res = [];
   for (var w of phrases) {
     var wp = w[0];
@@ -464,6 +460,7 @@ document.getElementById("clear-clicker").onclick = () => {
 };
 var is_load_article = false;
 function sendText(do_jump = true, removeDup = remove_dup) {
+  var isPhr = document.getElementById("nonsense-voting").value;
   isSort = false;
   document.getElementById("toUPcase").innerHTML = "↑";
   setTimeout(() => {
@@ -486,12 +483,13 @@ function sendText(do_jump = true, removeDup = remove_dup) {
   var words = allWords(s);
   var wordsValid = ruleAllWords(words, ruleArray, getSimpleFilter());
   var phrasesValid = [];
-  var isPhr = document.getElementById("nonsense-voting").value;
   if (isPhr == "dict2w+dict9k+dict_phr") {
+    var s = document.getElementById("maininput").value;
     var phrases = allPhrases(s);
-    phrasesValid = ruleAllPhrases(phrases, ruleArray, getSimpleFilter());
+    phrasesValid = ruleAllPhrases(phrases, getSimpleFilter());
   }
   var valid = phrasesValid.concat(wordsValid);
+  console.log("valid", valid);
   allFiller = fillAllLabeled(s, valid);
   demo.innerHTML = "";
   demo.innerHTML = allFiller.enlonged;
@@ -830,7 +828,6 @@ function transKeys(e) {
         localStorage.setItem(now_knownList, JSON.stringify(knownList_1));
       }
     }
-
     if (e.ctrlKey && e.keyCode == 88) {
       e.preventDefault();
       console.log("Ctrl + X , 隐藏/显示buttons");
@@ -838,13 +835,11 @@ function transKeys(e) {
       else if (is_nav_show) Qmsg.warning("仅【🎈Nav -】时生效");
       else show_buttons();
     }
-
     if (e.ctrlKey && e.keyCode == 65) {
       e.preventDefault();
       console.log("Ctrl + A , 宽点");
       wide_more();
     }
-
     if (e.ctrlKey && e.keyCode == 83) {
       e.preventDefault();
       console.log("Ctrl + S , 设置");
@@ -1153,7 +1148,7 @@ function getDef(d, cover = false) {
   if (!cover && d.ipa) {
     res = res + `<span class="ipa">${d.ipa}</span>` + " <br>";
   } else {
-    res = res + " <br>"; //换行
+    res = res + " <br>";
   }
   if (d.def) {
     res = res + `<span class="def">${d.def}</span>`;
@@ -1467,6 +1462,7 @@ document.getElementById("demo").ondblclick = (e) => {
   if (is_voc_copy_explain) {
     if (o.className == "demo-area" || o.className == "") {
       const selection = window.getSelection();
+      console.log("selection.toString()", selection.toString());
       var selecT = selection.toString().replace(/\ /g, "");
     } else if (
       o.className == "word-filler" ||
@@ -1489,6 +1485,7 @@ document.getElementById("demo").ondblclick = (e) => {
       return;
     }
     var nowTarget = e.target.id;
+    // console.log("nowTarget", nowTarget);
     var pattern2 = new RegExp("[A-Za-z]+");
     let isEnglish = pattern2.test(selecT);
     if (nowTarget === "" || (nowTarget === "demo" && isEnglish)) {
@@ -1565,7 +1562,6 @@ function add_context_item(o, check_current = false) {
   demo_item.check_current = check_current;
   contextList.push(demo_item);
 }
-
 function check_currentFill(str) {
   var all_word_filler = document
     .getElementById("demo")
@@ -1574,13 +1570,11 @@ function check_currentFill(str) {
     if (all_word_filler[i].id == str) {
       if (i < currentFill) {
         currentFill--;
-        last_currentFill = currentFill;
         return true;
       }
     }
   }
 }
-
 document.getElementById("explain-area").oncontextmenu = (e) => {
   o = e.target;
   if (!state_in_excise) {
@@ -1997,16 +1991,14 @@ function words_sort() {
           headDiv.append(" ");
           oHead.onclick = () => {
             wordInfo = elemInfo(o);
-
             wordInfo.audio.play();
             word2board(wordInfo.voc);
-
             var cNew = fillObjs.findIndex((e) => e == o);
             if (cNew && cNew >= 0) {
               currentFill = cNew;
             }
             if (navigator.clipboard)
-              navigator.clipboard.writeText(elemInfo(o).voc); // <---bug  6.1  oo
+              navigator.clipboard.writeText(elemInfo(o).voc);
           };
         });
     }
@@ -2214,12 +2206,17 @@ document.getElementById("user").addEventListener("change", () => {
   else now_knownList = now_user;
   Qmsg.success("已切换用户至" + "【" + now_user + "】");
 });
-
 function mark_phr() {
   var all_phr = Array.from(Object.keys(dict_phr));
+  // console.log("原文数组化", phr_res, phr_res.length);
   for (l = 0; l < all_phr.length; l++) {
     console.log("-----" + l + " --|--" + all_phr.length);
-    look_phr(phr_res, all_phr[l].split(" "), l);
+    var s_phr = all_phr[l].replace(/\,|\.|\;/g, " ");
+    s_phr = s_phr.split(" ");
+    s_phr = s_phr.filter(function (s) {
+      return s && s.trim();
+    });
+    look_phr(phr_res, s_phr, l);
   }
   function fn1(tempArr) {
     for (let i = 0; i < tempArr.length; i++) {
@@ -2233,9 +2230,7 @@ function mark_phr() {
     return tempArr;
   }
   phr_in_text = fn1(phr_in_text);
-
-  console.log("找到的文中【去重后】词组 phr_in_text：", phr_in_text);
-
+  console.log("找到的文中词组【去重后】phr_in_text：", phr_in_text);
   function look_phr(arr, phr, m) {
     var o_phr = [];
     for (i = 0; i < arr.length; i++) {
@@ -2269,7 +2264,6 @@ function hide_buttons() {
   text_container.style.height = "99.5vh";
   explain_container.style.height = "99.5vh";
 }
-
 function show_buttons() {
   is_buttons_show = true;
   buttons.style.display = "block";
