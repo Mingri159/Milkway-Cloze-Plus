@@ -808,7 +808,7 @@ function transKeys(e) {
   if (maininput !== document.activeElement) {
     if (e.ctrlKey && e.keyCode == 90) {
       e.preventDefault();
-      console.log("ctrl + z");
+      console.log("Ctrl + Z");
       if (contextList.length) {
         var lsat_context = contextList[contextList.length - 1];
         if (lsat_context.id.includes("exp")) {
@@ -831,8 +831,16 @@ function transKeys(e) {
       }
     }
     if (e.ctrlKey && e.keyCode == 88) {
+      e.preventDefault();
+      console.log("Ctrl + X");
       if (!is_nav_show && is_buttons_show) hide_buttons();
+      else if (is_nav_show) Qmsg.warning("仅【🎈Nav -】时生效");
       else show_buttons();
+    }
+    if (e.ctrlKey && e.keyCode == 65) {
+      e.preventDefault();
+      console.log("Ctrl + A");
+      wide_more();
     }
   }
   if (65 <= e.keyCode && e.keyCode <= 90) {
@@ -1223,9 +1231,10 @@ document.getElementById("main-change").onclick = (e) => {
   }
 };
 var is_wide = false;
-document.getElementById("wide-more").onclick = (e) => {
-  var text_container = document.getElementById("text-container");
-  var explain_container = document.getElementById("explain-container");
+var text_container = document.getElementById("text-container");
+var explain_container = document.getElementById("explain-container");
+document.getElementById("wide-more").onclick = (e) => wide_more();
+function wide_more() {
   if (change == "right") {
     if (!is_wide) {
       text_container.style.width = "70%";
@@ -1241,7 +1250,7 @@ document.getElementById("wide-more").onclick = (e) => {
   } else {
     Qmsg.warning("单词释义列表仅在【右侧】时有效");
   }
-};
+}
 var is_def_show = true;
 document.getElementById("def-show").onclick = (e) => {
   var def = document.querySelectorAll(".def");
@@ -2163,11 +2172,11 @@ function mark_phr() {
         all_phr[l] +
         "】\n-------------"
     );
-    look_phr(phr_res, all_phr[l].split(" "));
+    look_phr(phr_res, all_phr[l].split(" "), l);
   }
   console.log("找到的文中词组 phr_in_text：", phr_in_text);
 
-  function look_phr(arr, phr) {
+  function look_phr(arr, phr, m) {
     var o_phr = [];
     for (i = 0; i < arr.length; i++) {
       if (arr[i].indexOf(phr[0]) !== -1) {
@@ -2176,6 +2185,10 @@ function mark_phr() {
           if (i + k < arr.length) {
             if (arr[i + k].indexOf(phr[k]) !== -1) {
               o_phr.push(arr[i + k][0]);
+              if (k + 1 == phr.length && o_phr.length > 1) {
+                phr_in_text.push([o_phr.join(" "), all_phr[m]]);
+                o_phr = [];
+              }
             } else o_phr = [];
           } else {
             o_phr = [];
@@ -2184,7 +2197,6 @@ function mark_phr() {
         }
       }
     }
-    if (o_phr.length) phr_in_text.push([o_phr.join(" "), all_phr[l]]);
   }
 }
 var buttons = document.getElementById("buttons");
