@@ -831,9 +831,16 @@ function transKeys(e) {
     if (e.ctrlKey && e.keyCode == 88) {
       e.preventDefault();
       console.log("Ctrl + X , 隐藏/显示buttons");
-      if (!is_nav_show && is_buttons_show) hide_buttons();
-      else if (is_nav_show) Qmsg.warning("仅【🎈Nav -】时生效");
-      else show_buttons();
+      if (is_buttons_show && is_nav_show) {
+        hide_nav();
+        hide_buttons();
+        is_nav_show = true;
+      } else if (is_buttons_show && !is_nav_show) {
+        hide_buttons();
+      } else if (!is_buttons_show && is_nav_show) {
+        show_nav();
+        show_buttons();
+      } else if (!is_buttons_show && !is_nav_show) show_buttons();
     }
     if (e.ctrlKey && e.keyCode == 65) {
       e.preventDefault();
@@ -1739,17 +1746,23 @@ function exitFullscreen() {
 }
 var is_nav_show = true;
 document.getElementById("nav-show").onclick = (e) => {
-  var vav_show = document.getElementById("nav");
-  if (is_nav_show) {
-    vav_show.style.display = "none";
-    is_nav_show = false;
-    document.getElementById("nav-show").value = "🎈Nav -";
-  } else {
-    vav_show.style.display = "";
-    is_nav_show = true;
-    document.getElementById("nav-show").value = "🎈Nav +";
-  }
+  if (is_nav_show) hide_nav();
+  else show_nav();
 };
+
+function hide_nav() {
+  var vav_show = document.getElementById("nav");
+  vav_show.style.display = "none";
+  is_nav_show = false;
+  document.getElementById("nav-show").value = "🎈Nav -";
+}
+function show_nav() {
+  var vav_show = document.getElementById("nav");
+  vav_show.style.display = "";
+  is_nav_show = true;
+  document.getElementById("nav-show").value = "🎈Nav +";
+}
+
 document.getElementById("explain-con-top").onclick = function () {
   if (word_list.childNodes.length > 0) {
     fresh_listWords();
@@ -2270,6 +2283,7 @@ function mark_phr() {
   }
 }
 var buttons = document.getElementById("buttons");
+var demo_container = document.getElementById("demo-container");
 var text_container = document.getElementById("text-container");
 var explain_container = document.getElementById("explain-container");
 var is_buttons_show = true;
@@ -2278,10 +2292,12 @@ function hide_buttons() {
   buttons.style.display = "none";
   text_container.style.height = "99.5vh";
   explain_container.style.height = "99.5vh";
+  demo_container.style.borderTop = "none";
 }
 function show_buttons() {
   is_buttons_show = true;
   buttons.style.display = "block";
   text_container.style.height = "94.5vh";
   explain_container.style.height = "94.5vh";
+  demo_container.style.borderTop = "solid";
 }
