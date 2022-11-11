@@ -420,7 +420,7 @@ li {
 
 #setting-div li {
     margin-left: 50px;
-    font-size: 25px;
+    font-size: 20px;
     margin: 15px 20px
 }
 
@@ -486,3 +486,5 @@ input[type=checkbox].switch:checked::after {
     color: #fff;
     border-radius: 10px
 }
+
+.none-dup {}
