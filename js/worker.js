@@ -253,7 +253,6 @@ function fillAllLabeled(s, words) {
       i--;
     }
   }
-  console.log("sorted", sorted);
   var nLast = 0;
   var s1 = "";
   for (var i in sorted) {
@@ -433,7 +432,7 @@ if (!JSON.parse(localStorage.getItem("knownList"))) {
     for (i = 1; i < all_users.length; i++) add_option(all_users[i], i);
     var now_user = JSON.parse(localStorage.getItem("now-user"));
     document.getElementById("user").value = now_user;
-    console.log("now_user", now_user);
+    console.log("当前用户", now_user);
   }
 }
 function keywords() {
@@ -489,7 +488,6 @@ function sendText(do_jump = true, removeDup = remove_dup) {
     phrasesValid = ruleAllPhrases(phrases, getSimpleFilter());
   }
   var valid = phrasesValid.concat(wordsValid);
-  console.log("valid", valid);
   allFiller = fillAllLabeled(s, valid);
   demo.innerHTML = "";
   demo.innerHTML = allFiller.enlonged;
@@ -586,6 +584,7 @@ function elemReveal(elem) {
 }
 var elemNoter = document.createElement("span");
 elemNoter.className = "current-noter-container";
+elemNoter.id = "current-noter-container-id";
 var bringPreserve = demo.parentNode.getClientRects()[0].height / 3;
 function elemBring(o, reserve = bringPreserve, fill = true) {
   var omo = document.getElementById(o.id);
@@ -802,130 +801,177 @@ function transKeys(e) {
   function k2char(k) {
     return "abcdefghijklmnopqrstuvwxyz"[k - 65];
   }
-  var maininput = document.getElementById("maininput");
-  if (maininput !== document.activeElement) {
-    if (e.ctrlKey && e.keyCode == 90) {
-      e.preventDefault();
-      console.log("Ctrl + Z");
-      if (contextList.length) {
-        var lsat_context = contextList[contextList.length - 1];
-        if (lsat_context.id.includes("exp")) {
-          document.getElementById(
-            lsat_context.id.replace(/-exp/g, "")
-          ).className = lsat_context.className;
-        } else {
-          document.getElementById(lsat_context.id).className =
-            lsat_context.className;
+  if (e.ctrlKey && e.shiftKey && e.keyCode == 32) {
+    e.preventDefault();
+    console.log("Ctrl + Shift + Space , 未完成");
+    // is_add_words = true;
+    // open_add_words();
+    return;
+  }
+  if (!is_add_words) {
+    var maininput = document.getElementById("maininput");
+    if (maininput !== document.activeElement) {
+      if (e.ctrlKey && e.keyCode == 90) {
+        e.preventDefault();
+        console.log("Ctrl + Z");
+        if (contextList.length) {
+          var lsat_context = contextList[contextList.length - 1];
+          if (lsat_context.id.includes("exp")) {
+            document.getElementById(
+              lsat_context.id.replace(/-exp/g, "")
+            ).className = lsat_context.className;
+          } else {
+            document.getElementById(lsat_context.id).className =
+              lsat_context.className;
+          }
+          fresh_listWords();
+          if (lsat_context.check_current) currentFill++;
+          contextList.pop();
+          var knownList_1 = JSON.parse(localStorage.getItem(now_knownList));
+          knownList_1.splice(
+            knownList_1.indexOf(contextList[contextList.length - 1]),
+            1
+          );
+          localStorage.setItem(now_knownList, JSON.stringify(knownList_1));
         }
-        fresh_listWords();
-        if (lsat_context.check_current) currentFill++;
-        contextList.pop();
-        var knownList_1 = JSON.parse(localStorage.getItem(now_knownList));
-        knownList_1.splice(
-          knownList_1.indexOf(contextList[contextList.length - 1]),
-          1
-        );
-        localStorage.setItem(now_knownList, JSON.stringify(knownList_1));
+        return;
+      }
+      if (e.ctrlKey && e.keyCode == 88) {
+        e.preventDefault();
+        console.log("Ctrl + X , 隐藏/显示buttons");
+        if (is_buttons_show && is_nav_show) {
+          hide_nav();
+          hide_buttons();
+          is_nav_show = true;
+        } else if (is_buttons_show && !is_nav_show) {
+          hide_buttons();
+        } else if (!is_buttons_show && is_nav_show) {
+          show_nav();
+          show_buttons();
+        } else if (!is_buttons_show && !is_nav_show) show_buttons();
+        return;
+      }
+      if (e.ctrlKey && e.keyCode == 65) {
+        e.preventDefault();
+        console.log("Ctrl + A , 宽点");
+        wide_more();
+        return;
+      }
+      if (e.ctrlKey && e.keyCode == 83) {
+        e.preventDefault();
+        console.log("Ctrl + S , 设置");
+        open_setting();
+        return;
+      }
+      if (e.ctrlKey && e.keyCode == 68) {
+        e.preventDefault();
+        console.log("Ctrl + D , 清除/恢复重复生词的标注");
+        if (!is_clear_dup) clear_dup();
+        else add_dup();
+        return;
+      }
+      if (e.ctrlKey && e.keyCode == 77) {
+        e.preventDefault();
+        console.log("Ctrl + M , 屏蔽该词");
+        add_to_knownList();
+        return;
       }
     }
-    if (e.ctrlKey && e.keyCode == 88) {
+    if (65 <= e.keyCode && e.keyCode <= 90) {
+      if (isClozeNow) charAdder(k2char(e.keyCode));
+    } else if (e.keyCode == 188 || e.keyCode == 37) {
+      e.stopPropagation();
+      fillPrevious();
+    } else if (e.keyCode == 190 || e.keyCode == 13 || e.keyCode == 39) {
+      fillNext();
+    } else if (e.keyCode == 8) {
+      if (isClozeNow) {
+        function truncate() {
+          return currentInput.split("").slice(0, -1).join("");
+        }
+        console.log("退一位", truncate());
+        elemFill(fillObjs[currentFill], truncate());
+        currentInput = truncate();
+      }
+    } else if (e.keyCode == 32) {
       e.preventDefault();
-      console.log("Ctrl + X , 隐藏/显示buttons");
-      if (is_buttons_show && is_nav_show) {
-        hide_nav();
-        hide_buttons();
-        is_nav_show = true;
-      } else if (is_buttons_show && !is_nav_show) {
-        hide_buttons();
-      } else if (!is_buttons_show && is_nav_show) {
-        show_nav();
-        show_buttons();
-      } else if (!is_buttons_show && !is_nav_show) show_buttons();
-    }
-    if (e.ctrlKey && e.keyCode == 65) {
+      e.stopPropagation();
+      if (document.querySelectorAll(".word-filler").length) {
+        if (!spacebar) {
+          elemClear(fillObjs[currentFill]);
+          elemBring(fillObjs[currentFill]);
+          spacebar = true;
+          isClozeNow = true;
+        } else {
+          var info = elemInfo(fillObjs[currentFill]);
+          var inText = info.inText;
+          fillObjs[currentFill].innerHTML = inText;
+          fillObjs[currentFill].className = "word-filler-current";
+          spacebar = false;
+          isClozeNow = false;
+        }
+      }
+    } else if (e.keyCode == 53) {
+      elemReveal(fillObjs[currentFill]);
+      elemExplain(fillObjs[currentFill], false);
+      fresh_listWords();
+    } else if (e.keyCode == 222) elemExplain(fillObjs[currentFill], false);
+    else if (e.keyCode == 49) partialRevealer();
+    else if (e.keyCode == 52) {
+      var o = fillObjs[currentFill];
+      if (o.className != "word-filler-done") {
+        elemReveal(o);
+      } else o.className = "word-filler";
+      fresh_listWords();
+    } else if (e.keyCode == 57) fillPrevious(step);
+    else if (e.keyCode == 48 || e.keyCode == 40) {
+      fillNext(step);
+    } else if (e.keyCode == 38) {
       e.preventDefault();
-      console.log("Ctrl + A , 宽点");
-      wide_more();
-    }
-    if (e.ctrlKey && e.keyCode == 83) {
-      e.preventDefault();
-      console.log("Ctrl + S , 设置");
-      open_setting();
-    }
-    if (e.ctrlKey && e.keyCode == 68) {
-      e.preventDefault();
-      console.log("Ctrl + D , 清除/恢复重复生词的标注");
-      if (!is_clear_dup) clear_dup();
-      else add_dup();
+      fillPrevious(step);
     }
   }
-  if (65 <= e.keyCode && e.keyCode <= 90) {
-    if (isClozeNow) charAdder(k2char(e.keyCode));
-  } else if (e.keyCode == 188 || e.keyCode == 37) {
-    e.stopPropagation();
-    fillPrevious();
-  } else if (e.keyCode == 190 || e.keyCode == 13 || e.keyCode == 39) {
-    fillNext();
-  } else if (e.keyCode == 8) {
-    if (isClozeNow) {
-      function truncate() {
-        return currentInput.split("").slice(0, -1).join("");
+}
+function mousewheel(e) {
+  e = e || window.event;
+  var maininput = document.getElementById("maininput");
+  if (maininput !== document.activeElement) {
+    if (e.shiftKey) return;
+    if (e.ctrlKey) {
+      e.preventDefault();
+      var fonts = document.getElementById("font-size").value;
+      document.getElementById("demo").style.fontSize = fonts + "px";
+      if (e.wheelDelta < 0 || e.detail < 0) {
+        fonts--;
+        document.getElementById("demo").style.fontSize = fonts + "px";
+        document.getElementById("font-size").value = fonts;
+      } else if (e.wheelDelta > 0 || e.detail > 0) {
+        fonts++;
+        document.getElementById("demo").style.fontSize = fonts + "px";
+        document.getElementById("font-size").value = fonts;
       }
-      console.log("退一位", truncate());
-      elemFill(fillObjs[currentFill], truncate());
-      currentInput = truncate();
     }
-  } else if (e.keyCode == 32) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!spacebar) {
-      elemClear(fillObjs[currentFill]);
-      elemBring(fillObjs[currentFill]);
-      spacebar = true;
-      isClozeNow = true;
-    } else {
-      var info = elemInfo(fillObjs[currentFill]);
-      var inText = info.inText;
-      fillObjs[currentFill].innerHTML = inText;
-      fillObjs[currentFill].className = "word-filler-current";
-      spacebar = false;
-      isClozeNow = false;
-    }
-  } else if (e.keyCode == 53) {
-    elemReveal(fillObjs[currentFill]);
-    elemExplain(fillObjs[currentFill], false);
-    fresh_listWords();
-  } else if (e.keyCode == 222) elemExplain(fillObjs[currentFill], false);
-  else if (e.keyCode == 49) partialRevealer();
-  else if (e.keyCode == 52) {
-    var o = fillObjs[currentFill];
-    if (o.className != "word-filler-done") {
-      elemReveal(o);
-    } else o.className = "word-filler";
-    fresh_listWords();
-  } else if (e.keyCode == 57) fillPrevious(step);
-  else if (e.keyCode == 48 || e.keyCode == 40) {
-    fillNext(step);
-  } else if (e.keyCode == 38) {
-    e.preventDefault();
-    fillPrevious(step);
   } else {
-    if (
-      !(
-        e.keyCode == 122 ||
-        e.keyCode == 123 ||
-        e.keyCode == 16 ||
-        e.keyCode == 17 ||
-        e.keyCode == 18
-      )
-    ) {
-      if (!setting_mask) {
-        console.log(e.keyCode);
-        Qmsg.warning("😶无效的按键");
+    if (e.shiftKey) return;
+    if (e.ctrlKey) {
+      e.preventDefault();
+      if (e.wheelDelta < 0 || e.detail < 0) {
+        if (fontSize > 14) {
+          fontSize = fontSize - 2;
+          maininput.style.fontSize = fontSize + "px";
+          maininput.style.lineHeight = fontSize + 1 + "px";
+        }
+      } else if (e.wheelDelta > 0 || e.detail > 0) {
+        if (fontSize < 30) {
+          fontSize = fontSize + 2;
+          maininput.style.fontSize = fontSize + "px";
+          maininput.style.lineHeight = fontSize + 1 + "px";
+        }
       }
     }
   }
 }
+document.addEventListener("wheel", mousewheel, { passive: false });
 document.body.onkeydown = (e) => transKeys(e);
 document.getElementById("maininput").onkeydown = (e) => e.stopPropagation();
 document.getElementById("show-answer").onclick = listWords;
@@ -1105,10 +1151,7 @@ function fresh_listWords_mark(o = false) {
   if (mark_words_6.length) mark_color_inner(mark_words_6, mark_color_6);
   function remove_o(arr, o) {
     for (i = 0; i < arr.length; i++) {
-      if (o.id == arr[i].id) {
-        console.log("o.id", o.id);
-        arr.splice(i, 1);
-      }
+      if (o.id == arr[i].id) arr.splice(i, 1);
     }
   }
   function no_sort_wds(wds) {
@@ -1498,7 +1541,6 @@ document.getElementById("demo").ondblclick = (e) => {
       return;
     }
     var nowTarget = e.target.id;
-    // console.log("nowTarget", nowTarget);
     var pattern2 = new RegExp("[A-Za-z]+");
     let isEnglish = pattern2.test(selecT);
     if (nowTarget === "" || (nowTarget === "demo" && isEnglish)) {
@@ -1543,7 +1585,6 @@ document.getElementById("demo").ondblclick = (e) => {
     ) {
       e.target.className = "word-filler";
       window.getSelection().empty();
-      if (is_voc_copy_explain) elemExplain(fillObjs[currentFill], false);
       add_now(o);
       fresh_listWords();
     }
@@ -1565,7 +1606,18 @@ document.getElementById("demo").oncontextmenu = (e) => {
     o.className = "word-filler";
     fresh_listWords();
     return;
-  }
+  } else if (o.className == "word-filler") {
+    check_currentFill(o.id, false);
+    if (o.childNodes[0].id == "current-noter-container-id")
+      remove_word_filler_current();
+    else {
+      o.className = "";
+      for (i = 0; i < fillObjs.length; i++) {
+        if (fillObjs[i].id == o.id) fillObjs.splice(i, 1);
+      }
+      fresh_listWords();
+    }
+  } else if (o.className == "word-filler-current") remove_word_filler_current();
 };
 var contextList = [];
 function add_context_item(o, check_current = false) {
@@ -1575,7 +1627,7 @@ function add_context_item(o, check_current = false) {
   demo_item.check_current = check_current;
   contextList.push(demo_item);
 }
-function check_currentFill(str) {
+function check_currentFill(str, ret) {
   var all_word_filler = document
     .getElementById("demo")
     .querySelectorAll(".word-filler");
@@ -1583,7 +1635,7 @@ function check_currentFill(str) {
     if (all_word_filler[i].id == str) {
       if (i < currentFill) {
         currentFill--;
-        return true;
+        if (ret) return true;
       }
     }
   }
@@ -1594,7 +1646,7 @@ document.getElementById("explain-area").oncontextmenu = (e) => {
     if (o.className == "word-filler" || o.className == "word-filler-done") {
       console.log("取消标注，已屏蔽" + o.innerText);
       var str = o.id.replace(/-exp/g, "");
-      add_context_item(o, check_currentFill(str));
+      add_context_item(o, check_currentFill(str, true));
       document.getElementById(str).className = "";
       if (is_mark_del) document.getElementById(str).style.color = "";
       fresh_listWords();
@@ -1611,7 +1663,7 @@ document.getElementById("explain-head").oncontextmenu = (e) => {
     if (o.className == "word-filler" || o.className == "word-filler-done") {
       console.log("取消标注，已屏蔽" + o.innerText);
       var str = o.id.replace(/-exp/g, "");
-      add_context_item(o, check_currentFill(str));
+      add_context_item(o, check_currentFill(str, true));
       document.getElementById(str).className = "";
       if (is_mark_del) document.getElementById(str).style.color = "";
       if (isSort) words_sort();
@@ -1749,7 +1801,6 @@ document.getElementById("nav-show").onclick = (e) => {
   if (is_nav_show) hide_nav();
   else show_nav();
 };
-
 function hide_nav() {
   var vav_show = document.getElementById("nav");
   vav_show.style.display = "none";
@@ -1762,7 +1813,6 @@ function show_nav() {
   is_nav_show = true;
   document.getElementById("nav-show").value = "🎈Nav +";
 }
-
 document.getElementById("explain-con-top").onclick = function () {
   if (word_list.childNodes.length > 0) {
     fresh_listWords();
@@ -1993,7 +2043,7 @@ document.getElementById("toUPcase").onclick = function () {
 };
 function words_sort() {
   if (isSort) {
-    console.log("恢复 sort");
+    console.log("恢复 字母排序");
     var words1 = [...demo.getElementsByClassName("word-filler")];
     var words2 = [...demo.getElementsByClassName("word-filler-done")];
     var headDiv = document.getElementById("explain-head");
@@ -2060,7 +2110,6 @@ function clear_current_style_3() {
   }
 }
 function cloze_now(elem) {
-  console.log(elem);
   if (elem.firstChild.id == "") {
     isClozeNow = true;
   }
@@ -2236,7 +2285,7 @@ document.getElementById("user").addEventListener("change", () => {
 });
 function mark_phr() {
   var all_phr = Array.from(Object.keys(dict_phr));
-  // console.log("原文数组化", phr_res, phr_res.length);
+  console.log("原文数组化", phr_res, phr_res.length);
   for (l = 0; l < all_phr.length; l++) {
     console.log("-----" + l + " --|--" + all_phr.length);
     var s_phr = all_phr[l].replace(/\,|\.|\;/g, " ");
