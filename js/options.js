@@ -34,8 +34,11 @@ var is_dbl_select = false;
 // 原生右键菜单 默认屏蔽     【已使用】
 var is_menu_prevent = true;
 
-// 标注出重复的单词 word-filler-dup
+// 标注出重复的单词 word-filler-dup 【已使用】
 var is_dup = true;
+
+// 词组识别 是否启用预置文件  【未使用】
+var is_phr_preset = true;
 
 // 提示 弹窗
 window.QMSG_GLOBALS = {
