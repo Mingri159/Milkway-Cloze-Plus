@@ -198,9 +198,9 @@ function refreshChangeableMilkyway() {
   var reviewLocation = getDataString(mainString, window.redundantList);
   head.href = reviewLocation;
   head.download = "AXV_" + getDate() + ".milkyway";
-  console.log(
-    decodeURIComponent(getDataString(mainString, window.redundantList, url1))
-  );
+  // console.log(
+  //   decodeURIComponent(getDataString(mainString, window.redundantList, url1))
+  // );
   window.cookin(decodeURIComponent(reviewLocation));
 }
 function refreshChangeable() {
@@ -248,7 +248,7 @@ function fillAllLabeled(s, words) {
   });
   for (i = 0; i < sorted.length - 1; i++) {
     if (sorted[i][0] + sorted[i][1] - sorted[i + 1][0] > 0) {
-      console.log("删除", sorted[i + 1]);
+      // console.log("删除", sorted[i + 1]);
       sorted.splice(i + 1, 1);
       i--;
     }
@@ -803,7 +803,7 @@ function transKeys(e) {
   }
   if (e.ctrlKey && e.shiftKey && e.keyCode == 32) {
     e.preventDefault();
-    console.log("Ctrl + Shift + Space , 未完成");
+    console.log("Ctrl + Shift + Space , 功能暂未完成");
     // is_add_words = true;
     // open_add_words();
     return;
@@ -2285,9 +2285,9 @@ document.getElementById("user").addEventListener("change", () => {
 });
 function mark_phr() {
   var all_phr = Array.from(Object.keys(dict_phr));
-  console.log("原文数组化", phr_res, phr_res.length);
+  // console.log("原文数组化", phr_res, phr_res.length);
   for (l = 0; l < all_phr.length; l++) {
-    console.log("-----" + l + " --|--" + all_phr.length);
+    // console.log("-----" + l + " --|--" + all_phr.length);
     var s_phr = all_phr[l].replace(/\,|\.|\;/g, " ");
     s_phr = s_phr.split(" ");
     s_phr = s_phr.filter(function (s) {
@@ -2307,7 +2307,7 @@ function mark_phr() {
     return tempArr;
   }
   phr_in_text = fn1(phr_in_text);
-  console.log("找到的文中词组【去重后】phr_in_text：", phr_in_text);
+  // console.log("找到的文中词组【去重后】phr_in_text：", phr_in_text);
   function look_phr(arr, phr, m) {
     var o_phr = [];
     for (i = 0; i < arr.length; i++) {
