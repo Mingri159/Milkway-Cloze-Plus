@@ -29,3 +29,9 @@
 ##### 3、按键说明
 
 - [ReadMe ](https://mingri159.github.io/myBlog/pages/e189d2/)
+
+##### 4、本地Mdx查询单词
+
+- 需要下载 [ninja33/mdx-server: a service to read mdx/mdd file and provide http interface (github.com)](https://github.com/ninja33/mdx-server)
+
+- **使用详情**请查看上述链接；
