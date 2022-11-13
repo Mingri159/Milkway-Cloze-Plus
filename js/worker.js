@@ -198,9 +198,6 @@ function refreshChangeableMilkyway() {
   var reviewLocation = getDataString(mainString, window.redundantList);
   head.href = reviewLocation;
   head.download = "AXV_" + getDate() + ".milkyway";
-  // console.log(
-  //   decodeURIComponent(getDataString(mainString, window.redundantList, url1))
-  // );
   window.cookin(decodeURIComponent(reviewLocation));
 }
 function refreshChangeable() {
@@ -248,7 +245,6 @@ function fillAllLabeled(s, words) {
   });
   for (i = 0; i < sorted.length - 1; i++) {
     if (sorted[i][0] + sorted[i][1] - sorted[i + 1][0] > 0) {
-      // console.log("删除", sorted[i + 1]);
       sorted.splice(i + 1, 1);
       i--;
     }
@@ -459,6 +455,7 @@ document.getElementById("clear-clicker").onclick = () => {
 };
 var is_load_article = false;
 function sendText(do_jump = true, removeDup = remove_dup) {
+  var s = document.getElementById("maininput").value;
   var isPhr = document.getElementById("nonsense-voting").value;
   isSort = false;
   document.getElementById("toUPcase").innerHTML = "↑";
@@ -469,7 +466,6 @@ function sendText(do_jump = true, removeDup = remove_dup) {
   mark_reset();
   document.getElementById("font-size").value = 25;
   document.getElementById("demo").style.fontSize = "25px";
-  var s = document.getElementById("maininput").value;
   console.log("开始处理文本");
   s = s.replace(/([a-zA-Z]+)+-\n([a-zA-Z]+)/g, "$1$2\n");
   if (!s) do_jump = false;
@@ -499,11 +495,6 @@ function sendText(do_jump = true, removeDup = remove_dup) {
   if (removeDup) refineList();
   excludeRedundant();
   listWords(false);
-  for (var o of document.getElementsByClassName("word-filler-dup")) {
-    o.onclick = function () {
-      if (is_voc_copy_explain) elemExplain(this, false);
-    };
-  }
   if (isSpan) {
     document.getElementById("Chinese").value = "中文-默认";
     isShow = "default";
@@ -563,6 +554,7 @@ function elemExplain(
   if (cover) var explainHead = tailCover(voc, head, tail);
   else {
     var explainHead = voc + " &#8594 " + inText;
+    if (is_mdx_show) go_to_mdx(voc);
     if (is_voc) {
       info.audio.currentTime = 0;
       info.audio.play();
@@ -667,33 +659,6 @@ function startFill() {
     );
 }
 document.getElementById("excise-clicker").onclick = startFill;
-var readState = [];
-function startRead(i = currentFill) {
-  var rate = document.getElementById("read-speed").value / 100.0;
-  if (readState.length == 0) {
-    [...demo.getElementsByClassName("word-filler-current")].forEach((e) => {
-      e.className = "word-filler";
-    });
-    fillObjs = [...demo.getElementsByClassName("word-filler")];
-  }
-  if (!currentFill || currentFill < 0) currentFill = 0;
-  let ti = i - currentFill;
-  if (ti > 2 || ti < -2) {
-    i = currentFill;
-  } else {
-    i = i % fillObjs.length;
-    currentFill = i;
-  }
-  var blankLast = fillObjs[i];
-  var info = elemInfo(blankLast);
-  fillObjs.forEach((e) => (e.className = "word-filler"));
-  elemBring(blankLast, bringPreserve, false);
-  elemExplain(blankLast, false);
-  readState.unshift();
-  readState.push(
-    setTimeout(() => startRead(i + 1), info.audio.duration * (1 + rate) * 1000)
-  );
-}
 var isNone = false;
 function fillNext(pace = 1, check = true, voc = true) {
   isClozeNow = false;
@@ -803,9 +768,9 @@ function transKeys(e) {
   }
   if (e.ctrlKey && e.shiftKey && e.keyCode == 32) {
     e.preventDefault();
-    console.log("Ctrl + Shift + Space , 功能暂未完成");
-    // is_add_words = true;
-    // open_add_words();
+    console.log("Ctrl + Shift + Space ");
+    is_add_words = true;
+    open_add_words();
     return;
   }
   if (!is_add_words) {
@@ -849,6 +814,8 @@ function transKeys(e) {
           show_nav();
           show_buttons();
         } else if (!is_buttons_show && !is_nav_show) show_buttons();
+        if (!is_buttons_show && is_mdx_high) mdx_div.style.height = "97vh";
+        else mdx_div.style.height = "91vh";
         return;
       }
       if (e.ctrlKey && e.keyCode == 65) {
@@ -986,10 +953,6 @@ function listWords(excludeLess = true) {
   );
   wordSet = [];
   var dictList = dictInUse();
-  if (readState && readState.length > 0) {
-    readState.forEach((n) => clearTimeout(n));
-    readState = [];
-  }
   var words1 = [...demo.getElementsByClassName("word-filler")];
   var words2 = [...demo.getElementsByClassName("word-filler-done")];
   var words3 = [...demo.getElementsByClassName("word-filler-err")];
@@ -1151,7 +1114,9 @@ function fresh_listWords_mark(o = false) {
   if (mark_words_6.length) mark_color_inner(mark_words_6, mark_color_6);
   function remove_o(arr, o) {
     for (i = 0; i < arr.length; i++) {
-      if (o.id == arr[i].id) arr.splice(i, 1);
+      if (o.id == arr[i].id) {
+        arr.splice(i, 1);
+      }
     }
   }
   function no_sort_wds(wds) {
@@ -1300,11 +1265,13 @@ function wide_more() {
       explain_container.style.left = "70%";
       is_wide = true;
       document.getElementById("wide-more").value = "窄点";
+      if (is_mdx_high) document.getElementById("mdx-div").style.width = "30%";
     } else {
       text_container.style.width = "78%";
       explain_container.style.left = "78%";
       is_wide = false;
       document.getElementById("wide-more").value = "宽点";
+      if (is_mdx_high) document.getElementById("mdx-div").style.width = "22%";
     }
   } else {
     Qmsg.warning("单词释义列表仅在【右侧】时有效");
@@ -1417,6 +1384,7 @@ document.getElementById("demo").onclick = (e) => {
   click_store = setTimeout(function () {
     if (o.className == "word-filler") {
       if (is_voc_copy_explain) elemExplain(o, false);
+      else if (is_mdx_show) go_to_mdx(o.innerText);
       if (!o.childNodes[0].className) {
         isClozeNow = false;
         currentInput = "";
@@ -1440,9 +1408,9 @@ document.getElementById("demo").onclick = (e) => {
           }
         }
       }
-    } else if (o.className == "current-noter-container") {
     } else if (o.className == "word-filler-done") {
       if (is_voc_copy_explain) elemExplain(o, false);
+      else if (is_mdx_show) go_to_mdx(o.innerText);
       clear_current_style_3();
       clear_current_style_2();
       clear_current_style_1();
@@ -1454,6 +1422,7 @@ document.getElementById("demo").onclick = (e) => {
       add_now(o);
     } else if (o.className == "word-filler-dup") {
       if (is_voc_copy_explain) elemExplain(o, false);
+      else if (is_mdx_show) go_to_mdx(o.innerText);
       if (!elemCheck(fillObjs[currentFill])) {
         input_err();
         Qmsg.error("上一处 输入不正确");
@@ -1492,11 +1461,11 @@ document.getElementById("demo").onclick = (e) => {
       isClozeNow = true;
       var elem0 = fillObjs[currentFill];
       document.getElementById(elem0.id).className = "word-filler-current";
-    } else if (e.target.className == "selecTcss") {
-      fff = e.target.innerText;
-      if (is_voc) word_sound(fff);
+    } else if (o.className == "selecTcss") {
+      if (is_mdx_show) go_to_mdx(o.innerText);
+      if (is_voc) word_sound(o.innerText);
       if (is_copy) {
-        handleCopy(fff);
+        handleCopy(o.innerText);
         if (is_voc) Qmsg.success("已复制,正在获取网络发音");
         else Qmsg.success("已复制");
       }
@@ -1544,6 +1513,7 @@ document.getElementById("demo").ondblclick = (e) => {
     var pattern2 = new RegExp("[A-Za-z]+");
     let isEnglish = pattern2.test(selecT);
     if (nowTarget === "" || (nowTarget === "demo" && isEnglish)) {
+      if (is_mdx_show) go_to_mdx(selecT);
       console.log("选中单词 处理前", selecT);
       var select2word2rules = word2rules(selecT, ruleArray);
       if (select2word2rules.length == 1) {
@@ -1858,7 +1828,6 @@ document.getElementById("in-knownList").onclick = function () {
     return s && s.trim();
   });
   bad_input_1 = Array.from(new Set(bad_input_1));
-  console.log("处理后bad_input_1", bad_input_1);
   if (!bad_input_1.length) {
     alert(
       "请先在下方的文本框中输入要屏蔽的单词【熟词、基础词】，\n\n单词统一为小写；\n单词间以【空格】或【回车】隔开；\n\n可【一定程度】自动去除中文及标点符号【但不要包含特殊符号】；"
@@ -2285,9 +2254,7 @@ document.getElementById("user").addEventListener("change", () => {
 });
 function mark_phr() {
   var all_phr = Array.from(Object.keys(dict_phr));
-  // console.log("原文数组化", phr_res, phr_res.length);
   for (l = 0; l < all_phr.length; l++) {
-    // console.log("-----" + l + " --|--" + all_phr.length);
     var s_phr = all_phr[l].replace(/\,|\.|\;/g, " ");
     s_phr = s_phr.split(" ");
     s_phr = s_phr.filter(function (s) {
@@ -2307,7 +2274,6 @@ function mark_phr() {
     return tempArr;
   }
   phr_in_text = fn1(phr_in_text);
-  // console.log("找到的文中词组【去重后】phr_in_text：", phr_in_text);
   function look_phr(arr, phr, m) {
     var o_phr = [];
     for (i = 0; i < arr.length; i++) {
@@ -2350,3 +2316,4 @@ function show_buttons() {
   explain_container.style.height = "94.5vh";
   demo_container.style.borderTop = "solid";
 }
+0;

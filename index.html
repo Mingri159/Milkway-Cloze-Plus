@@ -12,6 +12,8 @@
     <link id="overall-style" rel="stylesheet" href="./css/milkyway-dark.css" type="text/css">
     <link id="mark" rel="stylesheet" href="./css/mark.css">
     <link rel="stylesheet" href="./js/message/message.min.css">
+    <!-- <link id="mark" rel="stylesheet" href="./css/add-words.css"> -->
+    <link id="mark" rel="stylesheet" href="./css/mdx-div.css">
 
 </head>
 
@@ -57,11 +59,6 @@
                                 <option value="dict9k">Cet-6</option>
                                 <option value="dict2w+dict9k" selected="selected">COCA20000</option>
                                 <option value="dict2w+dict9k+dict_phr">2w+词组</option>
-                                <!-- <option value="dictList_mw">Tofel</option>
-                            <option value="dictList_mw">Ielts</option>
-                            <option value="dict9k+dictList_mw">Cet+Tofel</option>
-                            <option value="dictList_mw+dict9k">Tofel+Cet</option> -->
-
                             </select>
                         </td>
                         <td> <input type="button" class="colorful-button" id="go-down" value="Go To The Text &gt;&gt;"
@@ -72,8 +69,8 @@
                         <td>
                             <a id='text-area-long' class="dark-button">🔻</a>
                             <a id='text-area-short' class="dark-button"> 🔺</a>
-                            <a id='text-area-fontzize-add' class="dark-button">+</a>
-                            <a id='text-area-fontzize-minus' class="dark-button"> - </a>
+                            <a id='text-area-fontzize-add' class="dark-button" style="display:none ;">+</a>
+                            <a id='text-area-fontzize-minus' class="dark-button" style="display:none ;"> - </a>
                         </td>
                         <td>
                             <input type="button" class="dark-button" value="导入knownList" id="in-knownList"
@@ -109,11 +106,8 @@
             onkeydown="document.body.onkeydown">
         <input type="button" class="colorful-button" value="✍ Cloze Excise" id="excise-clicker"
             onkeydown="document.body.onkeydown">
-        <!-- <input type="button" class="dark-button" value="✅ Exclude Marks" id="exclude-clicker"
-            onkeydown="document.body.onkeydown"> -->
         <input type="button" class="dark-button" value="♽ Re-test" id="refill-clicker"
             onkeydown="document.body.onkeydown">
-        <!-- <input type="button" class="dark-button" value="▶  Read" id="start-reader" onkeydown="document.body.onkeydown"> -->
         <span style="margin-left: 10px;">
             <input type="button" class="dark-button" value="📂 Load Words" id="local-list"
                 onkeydown="document.body.onkeydown">
@@ -124,7 +118,9 @@
         <!-- 切换 -->
         <input type="button" class="colorful-button" value="中文-默认 " id="Chinese" style="width:72px;margin-left: 5px;"
             onkeydown="document.body.onkeydown">
-        <span>FontSize:
+        <input type="button" class="colorful-button" value="📚Local Mdx " id="local-mdx"
+            style="width:95px;margin-left: 15px;" onkeydown="document.body.onkeydown">
+        <span style="display: none;">FontSize:
             <input type="range" id="font-size" max="45" min="25" value="28" style="width: 80px;">
         </span>
         <input type="button" class="colorful-button" value="✨单词 " id="main-change" style="width:72px;margin-left: 15px;"
@@ -176,6 +172,26 @@
         <div id="explain-container" class="demo-area" style="font-size:25px">
             <!-- 单词列表 -->
             <div id="explain-area" class="demo-area"> </div>
+        </div>
+
+        <!-- 本地mdx查询结果 -->
+        <div id="mdx-div">
+            <div id="mdx-btn-wrapper">
+                <li id="mdx-div-1"> ╳ </li>
+                <li id="mdx-div-2"> ⇳ </li>
+                <li id="mdx-div-3"> ⇨ </li>
+                <li id="mdx-div-4"> ⇦ </li>
+                <li id="mdx-div-5"> ＞ </li>
+                <li id="mdx-div-6"> ＜ </li>
+                <li id="mdx-pick-color">
+                    <button data-jscolor="{
+        			onChange: 'update(this, \'#mdx-div\')', value:'cdcdcd'}"></button>
+
+                </li>
+                <li id="mdx-resize"></li>
+            </div>
+
+            <iframe id="mdx-iframe" src="./tip/tip.html" frameborder="0"></iframe>
         </div>
     </div>
 
@@ -246,6 +262,6 @@
 <script src="./js/mark.js"></script>
 <script src="./js/add-words.js"> </script>
 <script src="./js/worker.js"> </script>
-
+<script src="./js/mdx-query.js"> </script>
 
 </html>
