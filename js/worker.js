@@ -814,8 +814,10 @@ function transKeys(e) {
           show_nav();
           show_buttons();
         } else if (!is_buttons_show && !is_nav_show) show_buttons();
-        if (!is_buttons_show && is_mdx_high) mdx_div.style.height = "97vh";
-        else mdx_div.style.height = "91vh";
+        if (!is_buttons_show && is_mdx_high) {
+          mdx_div.style.top = "23px";
+          mdx_div.style.height = "97vh";
+        } else mdx_div.style.height = "91vh";
         return;
       }
       if (e.ctrlKey && e.keyCode == 65) {
@@ -2316,4 +2318,3 @@ function show_buttons() {
   explain_container.style.height = "94.5vh";
   demo_container.style.borderTop = "solid";
 }
-0;
