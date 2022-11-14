@@ -815,9 +815,9 @@ function transKeys(e) {
           show_buttons();
         } else if (!is_buttons_show && !is_nav_show) show_buttons();
         if (!is_buttons_show && is_mdx_high) {
-          mdx_div.style.top = "23px";
-          mdx_div.style.height = "97vh";
-        } else mdx_div.style.height = "91vh";
+          mdx_div.style.top = 0;
+          mdx_div.style.height = "100vh";
+        } else mdx_div.style.height = "94vh";
         return;
       }
       if (e.ctrlKey && e.keyCode == 65) {

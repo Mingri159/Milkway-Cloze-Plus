@@ -155,9 +155,9 @@ document.getElementById("mdx-div-2").onclick = () => {
     if (!is_mdx_wide) mdx_div_position_record();
     mdx_div.style.removeProperty("left");
     mdx_div.style.right = 0;
-    mdx_div.style.top = "23px";
+    mdx_div.style.top = 0;
     mdx_div.style.width = "30%";
-    if (is_buttons_show) mdx_div.style.height = "91vh";
+    if (is_buttons_show) mdx_div.style.height = "94vh";
     else mdx_div.style.height = "97vh";
     document.getElementById("mdx-div-2").innerText = " ⇵ ";
     document.getElementById("mdx-div-4").innerText = " ⇦ ";

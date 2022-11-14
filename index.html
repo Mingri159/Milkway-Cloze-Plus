@@ -177,22 +177,25 @@
         <!-- 本地mdx查询结果 -->
         <div id="mdx-div">
             <div id="mdx-btn-wrapper">
-                <li id="mdx-div-1"> ╳ </li>
-                <li id="mdx-div-2"> ⇳ </li>
-                <li id="mdx-div-3"> ⇨ </li>
-                <li id="mdx-div-7"> ◊ </li>
-                <li id="mdx-div-4"> ⇦ </li>
-                <li id="mdx-div-5"> ＞ </li>
-                <li id="mdx-div-6"> ＜ </li>
-                <li id="mdx-pick-color">
-                    <button data-jscolor="{
-        			onChange: 'update(this, \'#mdx-div\')', value:'cdcdcd'}"></button>
-
-                </li>
+                <div style="display: flex;flex-direction: row-reverse;">
+                    <li id="mdx-div-1"> ╳ </li>
+                    <li id="mdx-div-2"> ⇳ </li>
+                    <li id="mdx-div-3"> ⇨ </li>
+                    <li id="mdx-div-7"> ◊ </li>
+                    <li id="mdx-div-4"> ⇦ </li>
+                    <li id="mdx-div-5"> ＞ </li>
+                    <li id="mdx-div-6"> ＜ </li>
+                    <li id="mdx-pick-color">
+                        <button data-jscolor="{
+            			onChange: 'update(this, \'#mdx-div\')', value:'cdcdcd'}"></button>
+                    </li>
+                </div>
                 <li id="mdx-resize"></li>
             </div>
-
-            <iframe id="mdx-iframe" src="./tip/tip.html" frameborder="0"></iframe>
+            <div id="iframe-wrapper">
+                <iframe id="mdx-iframe" src="./tip/tip.html" frameborder="0"></iframe>
+            </div>
+            <div id="mdx-word-hold"> </div>
         </div>
     </div>
 

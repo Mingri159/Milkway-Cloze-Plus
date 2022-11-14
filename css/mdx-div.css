@@ -6,49 +6,52 @@
     z-index: 5;
     width: 500px;
     height: 600px;
-    border-radius: 0 0 10px 10px;
-    display: none;
+    border-radius: 10px 10px 10px 10px;
+    display: none
 }
 
 #mdx-btn-wrapper {
+    height: 22px;
     width: 100%;
-    text-align: right;
-    user-select: none;
-    color: black;
     position: absolute;
-    top: -22px;
-    right: 0;
-    background-color: white;
-    border-radius: 10px 10px 0 0;
+    z-index: 6;
+    top: 0;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    user-select: none;
+    color: #000;
+    background-color: #fff;
+    border-radius: 10px 10px 0 0
 }
 
 #mdx-btn-wrapper li {
-    float: right;
+    display: inline-block;
     padding: 0 20px;
     width: 22px;
-    height: 22px;
+    height: 22px
 }
 
 #mdx-div-1 {
     border-radius: 0 10px 0 0;
     padding-left: 10px !important;
-    margin-left: 5px;
+    margin-left: 5px
 }
 
 #mdx-div-1:hover {
-    background-color: rgb(246, 87, 116);
+    background-color: #f65774
 }
 
 #mdx-pick-color {
     display: flex;
-    padding: 2px;
+    padding: 2px
 }
 
 #mdx-pick-color button {
     border-radius: 15px;
     border: 1px solid rgba(184, 184, 184);
     height: 16px;
-    margin: auto -10px;
+    margin: auto -10px
 }
 
 #mdx-resize {
@@ -57,11 +60,40 @@
     margin: 0 !important;
     padding: 0 !important;
     cursor: nwse-resize;
-    border-radius: 10px 0 0 0;
+    border-radius: 10px 0 0 0
 }
 
+#iframe-wrapper {
+    width: 100%;
+    position: absolute;
+    z-index: 6;
+    top: 22px;
+    bottom: 22px
+}
 
 iframe {
     width: 100%;
-    height: 100%;
+    height: 100%
+}
+
+#mdx-word-hold {
+    padding-left: 5px;
+    height: 22px;
+    width: 100%;
+    position: absolute;
+    z-index: 6;
+    bottom: 0
+}
+
+#mdx-word-hold li {
+    float: left;
+    padding: 0 5px;
+    color: #000;
+    cursor: pointer
+}
+
+#mdx-word-hold li:hover {
+    color: #fff;
+    background-color: #7899fa;
+    border-radius: 10px
 }
