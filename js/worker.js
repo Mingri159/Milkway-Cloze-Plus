@@ -817,7 +817,8 @@ function transKeys(e) {
         if (!is_buttons_show && is_mdx_high) {
           mdx_div.style.top = 0;
           mdx_div.style.height = "100vh";
-        } else mdx_div.style.height = "94vh";
+        } else if (is_buttons_show && is_mdx_high)
+          mdx_div.style.height = "94.5vh";
         return;
       }
       if (e.ctrlKey && e.keyCode == 65) {
