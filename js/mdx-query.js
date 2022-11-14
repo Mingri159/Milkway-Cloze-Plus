@@ -38,6 +38,25 @@ var is_mdx_high = false;
 var is_mdx_wide = false;
 var mdx_position = { top: "", left: "", right: "", width: "", height: "" };
 function go_to_mdx(mdx_word) {
+  word_query(mdx_word);
+  var word_r = word2rules(mdx_word, ruleArray);
+  console.log("word_r", word_r);
+  var str = "";
+  for (i = 0; i < word_r.length; i++) {
+    str += "<li>" + word_r[i] + "</li>";
+  }
+  document.getElementById("mdx-word-hold").innerHTML = str;
+  var word_r_lis = document
+    .getElementById("mdx-word-hold")
+    .querySelectorAll("li");
+  for (var i = 0; i < word_r_lis.length; i++) {
+    let li_val = word_r_lis[i].innerText;
+    word_r_lis[i].onclick = function () {
+      word_query(li_val);
+    };
+  }
+}
+function word_query(mdx_word) {
   document.getElementById("mdx-iframe").src =
     "http://localhost:8000/" + mdx_word;
 }
