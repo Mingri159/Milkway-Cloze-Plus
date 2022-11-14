@@ -845,6 +845,12 @@ function transKeys(e) {
         add_to_knownList();
         return;
       }
+      if (e.ctrlKey && e.keyCode == 66) {
+        e.preventDefault();
+        console.log("Ctrl + B , Local Mdx ");
+        mdx_show();
+        return;
+      }
     }
     if (65 <= e.keyCode && e.keyCode <= 90) {
       if (isClozeNow) charAdder(k2char(e.keyCode));
