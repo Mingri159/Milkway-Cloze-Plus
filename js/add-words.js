@@ -7,11 +7,20 @@ let cancel_btn = document.getElementById("cancel-btn");
 let confirm_btn = document.getElementById("confirm-btn");
 var is_add_words = false;
 function open_add_words() {
+  if (!is_add_words) {
+    if (is_buttons_show && is_nav_show) {
+      hide_nav();
+      hide_buttons();
+      is_nav_show = true;
+    } else if (is_buttons_show && !is_nav_show) hide_buttons();
+  }
   add_container.style.display = "flex";
   document.body.style.overflow = "hidden";
   const selection = window.getSelection();
   add_words.value = selection.toString();
+  is_add_words = true;
 }
+
 function close_add_words() {
   is_add_words = false;
   if (is_ipa) remove_ipa_form();
@@ -19,6 +28,14 @@ function close_add_words() {
   add_def.value = "";
   add_container.style.display = "none";
   document.body.style.overflow = "auto";
+  if (!is_buttons_show && is_nav_show) {
+    show_nav();
+    show_buttons();
+  } else if (!is_buttons_show && !is_nav_show) show_buttons();
+  if (!is_buttons_show && is_mdx_high) {
+    mdx_div.style.top = 0;
+    mdx_div.style.height = "100vh";
+  } else if (is_buttons_show && is_mdx_high) mdx_div.style.height = "94.5vh";
 }
 function confirm_add_words() {
   close_add_words();

@@ -783,7 +783,7 @@ function transKeys(e) {
   if (e.ctrlKey && e.shiftKey && e.keyCode == 32) {
     e.preventDefault();
     console.log("Ctrl + Shift + Space ");
-    is_add_words = true;
+    // is_add_words = true;
     open_add_words();
     return;
   }
