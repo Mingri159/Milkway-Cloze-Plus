@@ -269,12 +269,10 @@ function mdx_wheel(e) {
     if (e.wheelDelta < 0 || e.detail < 0) {
       init_zoom_iframe -= 0.1;
       if (init_zoom_iframe < 1) init_zoom_iframe = 1;
-      console.log(init_zoom_iframe);
       zoom_iframe(init_zoom_iframe);
     } else if (e.wheelDelta > 0 || e.detail > 0) {
       init_zoom_iframe += 0.1;
       if (init_zoom_iframe > 1.5) init_zoom_iframe = 1.5;
-      console.log(init_zoom_iframe);
       zoom_iframe(init_zoom_iframe);
     }
   }
