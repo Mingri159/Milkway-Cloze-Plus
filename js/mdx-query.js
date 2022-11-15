@@ -251,3 +251,35 @@ function resize_default() {
   mdx_div.style.height = "500px";
   is_resize_default = true;
 }
+var init_zoom_iframe = 1;
+let mdx_iframe = document.getElementById("mdx-iframe");
+function zoom_iframe(m) {
+  mdx_iframe.style.width = 100 / m + "%";
+  mdx_iframe.style.height = 100 / m + "%";
+  mdx_iframe.style.transform = "scale(" + m + ")";
+}
+
+function mdx_wheel(e) {
+  e = e || window.event;
+  if (e.shiftKey) return;
+  if (e.ctrlKey) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.wheelDelta < 0 || e.detail < 0) {
+      init_zoom_iframe -= 0.1;
+      if (init_zoom_iframe < 1) init_zoom_iframe = 1;
+      console.log(init_zoom_iframe);
+      zoom_iframe(init_zoom_iframe);
+    } else if (e.wheelDelta > 0 || e.detail > 0) {
+      init_zoom_iframe += 0.1;
+      if (init_zoom_iframe > 1.5) init_zoom_iframe = 1.5;
+      console.log(init_zoom_iframe);
+      zoom_iframe(init_zoom_iframe);
+    }
+  }
+}
+
+document
+  .getElementById("mdx-div")
+  .addEventListener("wheel", mdx_wheel, { passive: false });

@@ -88,7 +88,11 @@
 
 iframe {
     width: 100%;
-    height: 100%
+    height: 100%;
+    transform: scale(1);
+    transform-origin: 0% 0%;
+    -webkit-transform: scale(1);
+    -webkit-transform-origin: 0% 0%;
 }
 
 #mdx-word-hold {
