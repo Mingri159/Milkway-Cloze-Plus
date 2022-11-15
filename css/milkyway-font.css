@@ -488,3 +488,44 @@ input[type=checkbox].switch:checked::after {
 }
 
 .none-dup {}
+
+#selectButton {
+    width: 160px;
+    height: 25px;
+    font-size: 14px;
+    background-color: black;
+    color: #ffa31a;
+    border-radius: 8px;
+    margin: 2px;
+    text-align: center;
+}
+
+#selectdiv {
+    display: none;
+    position: absolute;
+    border: 1px solid #A9A9A9;
+    width: 165px;
+    overflow: none;
+    color: #ffa31a;
+    background-color: black;
+    font-size: 13px;
+    padding: 5px 0;
+    user-select: none;
+    border-radius: 8px;
+}
+
+#selectdiv div {
+    display: flex;
+    justify-content: start;
+    margin: 0 23px;
+
+}
+
+#selectdiv div:hover {
+    background-color: #ccc;
+    color: #000;
+}
+
+#selectdiv input {
+    pointer-events: none;
+}

@@ -47,6 +47,18 @@ function mdx_show() {
     is_mdx_show = false;
   }
 }
+document.getElementById("mdx-btn").onclick = (e) => mdx_show();
+document.getElementById("query-btn").onclick = (e) => query_fun();
+function query_fun() {
+  if (add_words.value) {
+    if (is_mdx_show) go_to_mdx(add_words.value);
+    else
+      window.open(
+        "https://www.youdao.com/result?word=" + add_words.value + "&lang=en",
+        "_blank"
+      );
+  }
+}
 function go_to_mdx(mdx_word) {
   word_query(mdx_word);
   var word_r = word2rules(mdx_word, ruleArray);
@@ -233,7 +245,7 @@ function mdx_div_position_record() {
 }
 function resize_default() {
   if (mdx_div.style.left) mdx_div.style.removeProperty("left");
-  mdx_div.style.right = "20px";
+  mdx_div.style.right = 0;
   mdx_div.style.top = "100px";
   mdx_div.style.width = "380px";
   mdx_div.style.height = "500px";

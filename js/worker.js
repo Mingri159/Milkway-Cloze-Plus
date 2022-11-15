@@ -100,6 +100,7 @@ function loadJson(jsonStr, fileName) {
   res.submitter = function (switcharticle = true) {
     if (res.dict) {
       document.getElementById("nonsense-voting").value = res.dict;
+      use_dict_json(res.dict);
     }
     if (res.article && switcharticle) {
       window.article = res.article;
@@ -125,7 +126,7 @@ function loadJson(jsonStr, fileName) {
 }
 function saveJson(affectSaver = true) {
   var res = {};
-  res.dict = document.getElementById("nonsense-voting").value;
+  res.dict = selectedlist.join("+");
   res.article = document.getElementById("maininput").value;
   res.redundantList = window.redundantList;
   res.selected = window.selected;
@@ -431,6 +432,20 @@ if (!JSON.parse(localStorage.getItem("knownList"))) {
     console.log("当前用户", now_user);
   }
 }
+var user_add_word = {};
+if (!JSON.parse(localStorage.getItem("add-word"))) {
+  let l_word = {};
+  localStorage.setItem("add-word", JSON.stringify(l_word));
+} else {
+  user_add_word = JSON.parse(localStorage.getItem("add-word"));
+}
+var user_add_phr = {};
+if (!JSON.parse(localStorage.getItem("add-phr"))) {
+  let l_phr = {};
+  localStorage.setItem("add-phr", JSON.stringify(l_phr));
+} else {
+  user_add_phr = JSON.parse(localStorage.getItem("add-phr"));
+}
 function keywords() {
   return Object.keys(dictInUse());
 }
@@ -456,7 +471,6 @@ document.getElementById("clear-clicker").onclick = () => {
 var is_load_article = false;
 function sendText(do_jump = true, removeDup = remove_dup) {
   var s = document.getElementById("maininput").value;
-  var isPhr = document.getElementById("nonsense-voting").value;
   isSort = false;
   document.getElementById("toUPcase").innerHTML = "↑";
   setTimeout(() => {
@@ -478,7 +492,7 @@ function sendText(do_jump = true, removeDup = remove_dup) {
   var words = allWords(s);
   var wordsValid = ruleAllWords(words, ruleArray, getSimpleFilter());
   var phrasesValid = [];
-  if (isPhr == "dict2w+dict9k+dict_phr") {
+  if (selectedlist.indexOf("dict_phr") !== -1) {
     var s = document.getElementById("maininput").value;
     var phrases = allPhrases(s);
     phrasesValid = ruleAllPhrases(phrases, getSimpleFilter());
@@ -1201,7 +1215,9 @@ function refineList() {
   return wordSet;
 }
 function dictInUse() {
-  var inuse = document.getElementById("nonsense-voting").value;
+  var inuse = selectedlist.join("+");
+  if (selectedlist.indexOf("dict2w") !== -1) inuse += "+user_add_word";
+  if (selectedlist.indexOf("dict_phr") !== -1) inuse += "+user_add_phr";
   if (typeof window[inuse] != "undefined") return window[inuse];
   else {
     res = inuse
@@ -2262,7 +2278,9 @@ document.getElementById("user").addEventListener("change", () => {
   Qmsg.success("已切换用户至" + "【" + now_user + "】");
 });
 function mark_phr() {
-  var all_phr = Array.from(Object.keys(dict_phr));
+  var all_phr = Array.from(Object.keys(dict_phr)).concat(
+    Array.from(Object.keys(user_add_phr))
+  );
   for (l = 0; l < all_phr.length; l++) {
     var s_phr = all_phr[l].replace(/\,|\.|\;/g, " ");
     s_phr = s_phr.split(" ");

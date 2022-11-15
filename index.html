@@ -12,7 +12,7 @@
     <link id="overall-style" rel="stylesheet" href="./css/milkyway-dark.css" type="text/css">
     <link id="mark" rel="stylesheet" href="./css/mark.css">
     <link rel="stylesheet" href="./js/message/message.min.css">
-    <!-- <link id="mark" rel="stylesheet" href="./css/add-words.css"> -->
+    <link id="mark" rel="stylesheet" href="./css/add-words.css">
     <link id="mark" rel="stylesheet" href="./css/mdx-div.css">
 
 </head>
@@ -54,12 +54,17 @@
                                 style=" width: 85%;" onkeydown="document.body.onkeydown">
                         </td>
                         <td>
-                            <select id="nonsense-voting" class="dark-button">
+                            <select id="nonsense-voting" class="dark-button" style="display:none ;">
                                 <option value="dictList">Cet-4</option>
                                 <option value="dict9k">Cet-6</option>
                                 <option value="dict2w+dict9k" selected="selected">COCA20000</option>
                                 <option value="dict2w+dict9k+dict_phr">2w+词组</option>
                             </select>
+                            <span>
+                                <input type="text" id="selectButton" onclick="myclick();" readonly="true"></input>
+                            </span>
+                            <span id="selectdiv" onMouseOver="mousein()" onMouseOut="mouseout()">
+                            </span>
                         </td>
                         <td> <input type="button" class="colorful-button" id="go-down" value="Go To The Text &gt;&gt;"
                                 onclick="gotobottom()"> </td>
@@ -234,6 +239,23 @@
         </div>
     </div>
 
+    <!-- 添加【单词】【词组】至localstorage -->
+    <div id="add-words-container" class="container">
+        <div class="form-wrapper">
+            <div class="form-header">添加或查询 | 单词或词组</div>
+            <input id="add-words" placeholder="输入 单词或词组" spellcheck="false" type="text" class="input-item">
+            <textarea id="add-def" placeholder="释义" spellcheck="false" class="input-item"></textarea>
+            <div class="form-footer">
+                <div id="ipa-btn" class="btn">音标</div>
+                <div id="mdx-btn" class="btn">MDX</div>
+                <div id="cancel-btn" class="btn">取消</div>
+                <div id="query-btn" class="btn">查询</div>
+                <div id="confirm-btn" class="btn">确认</div>
+            </div>
+        </div>
+    </div>
+
+
 </body>
 
 <script src="./js/loading.js"></script>
@@ -258,6 +280,7 @@
 <script src="./js/jscolor/jscolor.min.js"></script>
 
 <script src="./js/options.js"></script>
+<script src="./js/select.js"></script>
 <script src="./js/mark.js"></script>
 <script src="./js/add-words.js"> </script>
 <script src="./js/worker.js"> </script>
