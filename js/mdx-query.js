@@ -215,7 +215,11 @@ document.getElementById("mdx-div-4").onclick = () => {
       mdx_div.style.top = mdx_position.top;
       mdx_div.style.height = mdx_position.height;
     }
-    mdx_div.style.width = mdx_position.width;
+    if (is_mdx_high && is_wide) {
+      mdx_div.style.width = "30%";
+    } else if (is_mdx_high && !is_wide) {
+      mdx_div.style.width = "22%";
+    } else mdx_div.style.width = mdx_position.width;
     is_mdx_wide = false;
     document.getElementById("mdx-div-4").innerText = " ⇦ ";
   }
