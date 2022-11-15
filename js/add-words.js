@@ -14,6 +14,10 @@ function open_add_words() {
       is_nav_show = true;
     } else if (is_buttons_show && !is_nav_show) hide_buttons();
   }
+  if (!is_buttons_show && is_mdx_high) {
+    mdx_div.style.top = 0;
+    mdx_div.style.height = "100vh";
+  } else if (is_buttons_show && is_mdx_high) mdx_div.style.height = "94.5vh";
   add_container.style.display = "flex";
   document.body.style.overflow = "hidden";
   const selection = window.getSelection();
