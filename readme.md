@@ -26,11 +26,15 @@
 
 - mark-*.js：各等级所含词汇；
 
+- mdx-query.js：本地启动mdx-sever后，查询单词；
+
+- add-words.js：添加【单词 | 词组】至localStorage，用于补充词典文件缺少的词条；
+
 ##### 3、按键说明
 
 - [ReadMe ](https://mingri159.github.io/myBlog/pages/e189d2/)
 
-##### 4、本地Mdx查询单词
+##### 4、本地mdx查询单词
 
 - 需要下载 [ninja33/mdx-server: a service to read mdx/mdd file and provide http interface (github.com)](https://github.com/ninja33/mdx-server)
 
