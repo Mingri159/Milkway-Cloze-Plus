@@ -26,14 +26,14 @@
 }
 
 #mdx-btn-wrapper li {
-    width: 22px;
+    width: 28px;
     height: 22px
 }
 
 .li-btn {
     display: flex;
     flex-direction: row-reverse;
-    gap: 18px;
+    gap: 10px;
     text-align: center;
 }
 
@@ -69,6 +69,7 @@
 }
 
 #mdx-resize {
+    width: 22px !important;
     float: left !important;
     background-color: #7899fa;
     margin: 0 !important;
