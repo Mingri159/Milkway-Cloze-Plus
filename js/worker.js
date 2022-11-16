@@ -776,12 +776,16 @@ function charAdder(c) {
 }
 var spacebar = false;
 var timer = null;
+var nav_btn_condition;
 function transKeys(e) {
   function k2char(k) {
     return "abcdefghijklmnopqrstuvwxyz"[k - 65];
   }
   if (e.ctrlKey && e.shiftKey && e.keyCode == 32) {
     e.preventDefault();
+    if (is_nav_show && is_buttons_show) nav_btn_condition = 1;
+    if (!is_nav_show && is_buttons_show) nav_btn_condition = 2;
+    if (!is_nav_show && !is_buttons_show) nav_btn_condition = 3;
     console.log("Ctrl + Shift + Space ");
     // is_add_words = true;
     open_add_words();

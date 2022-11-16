@@ -32,10 +32,10 @@ function close_add_words() {
   add_def.value = "";
   add_container.style.display = "none";
   document.body.style.overflow = "auto";
-  if (!is_buttons_show && is_nav_show) {
+  if (nav_btn_condition == 1) {
     show_nav();
     show_buttons();
-  } else if (!is_buttons_show && !is_nav_show) show_buttons();
+  } else if (nav_btn_condition == 2) show_buttons();
   if (!is_buttons_show && is_mdx_high) {
     mdx_div.style.top = 0;
     mdx_div.style.height = "100vh";
