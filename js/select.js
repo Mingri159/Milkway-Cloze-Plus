@@ -1,5 +1,5 @@
 var initlist = ["Cet-4", "Cet-6", "COCA20000", "词组"];
-var init_list_value = ["dict7k", "dict9k", "dict2w", "dict_phr"];
+var init_list_value = ["dictList", "dict9k", "dict2w", "dict_phr"];
 var all_check_box;
 var selectdiv = document.getElementById("selectdiv");
 var indiv = false;
