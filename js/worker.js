@@ -862,6 +862,7 @@ function transKeys(e) {
         e.preventDefault();
         console.log("Ctrl + M , 屏蔽该词");
         add_to_knownList();
+        fillNext(1, false, false);
         return;
       }
       if (e.ctrlKey && e.keyCode == 66) {
