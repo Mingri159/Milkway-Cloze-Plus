@@ -181,7 +181,7 @@ document.getElementById("mdx-div-2").onclick = () => {
     mdx_div.style.top = 0;
     mdx_div.style.width = "30%";
     if (is_buttons_show) mdx_div.style.height = "94.5vh";
-    else mdx_div.style.height = "97vh";
+    else mdx_div.style.height = "100vh";
     document.getElementById("mdx-div-2").innerText = " ⇵ ";
     document.getElementById("mdx-div-4").innerText = " ⇦ ";
     is_mdx_high = true;
@@ -211,18 +211,7 @@ document.getElementById("mdx-div-4").onclick = () => {
     mdx_div.style.width = "80%";
     document.getElementById("mdx-div-4").innerText = " ⇿ ";
   } else {
-    if (!is_mdx_high) {
-      mdx_div.style.left = mdx_position.left;
-      mdx_div.style.top = mdx_position.top;
-      mdx_div.style.height = mdx_position.height;
-    }
-    if (is_mdx_high && is_wide) {
-      mdx_div.style.width = "30%";
-    } else if (is_mdx_high && !is_wide) {
-      mdx_div.style.width = "22%";
-    } else mdx_div.style.width = mdx_position.width;
-    is_mdx_wide = false;
-    document.getElementById("mdx-div-4").innerText = " ⇦ ";
+    close_mdx_wide();
   }
 };
 document.getElementById("mdx-div-5").onclick = () => {
@@ -263,14 +252,12 @@ function zoom_iframe(m) {
   mdx_iframe.style.height = 100 / m + "%";
   mdx_iframe.style.transform = "scale(" + m + ")";
 }
-
 function mdx_wheel(e) {
   e = e || window.event;
   if (e.shiftKey) return;
   if (e.ctrlKey) {
     e.preventDefault();
     e.stopPropagation();
-
     if (e.wheelDelta < 0 || e.detail < 0) {
       init_zoom_iframe -= 0.1;
       if (init_zoom_iframe < 1) init_zoom_iframe = 1;
@@ -282,7 +269,24 @@ function mdx_wheel(e) {
     }
   }
 }
-
 document
   .getElementById("mdx-div")
   .addEventListener("wheel", mdx_wheel, { passive: false });
+document.getElementById("mdx-div").addEventListener("mouseout", function () {
+  if (is_mdx_wide)
+    document.getElementById("text-container").onclick = close_mdx_wide;
+});
+function close_mdx_wide() {
+  if (!is_mdx_high) {
+    mdx_div.style.left = mdx_position.left;
+    mdx_div.style.top = mdx_position.top;
+    mdx_div.style.height = mdx_position.height;
+  }
+  if (is_mdx_high && is_wide) {
+    mdx_div.style.width = "30%";
+  } else if (is_mdx_high && !is_wide) {
+    mdx_div.style.width = "22%";
+  } else mdx_div.style.width = mdx_position.width;
+  is_mdx_wide = false;
+  document.getElementById("mdx-div-4").innerText = " ⇦ ";
+}
