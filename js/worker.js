@@ -863,6 +863,10 @@ function transKeys(e) {
         console.log("Ctrl + M , 屏蔽该词");
         add_to_knownList();
         fillNext(1, false, false);
+        if (is_mdx_show)
+          go_to_mdx(
+            document.getElementsByClassName("word-filler-current")[0].innerText
+          );
         return;
       }
       if (e.ctrlKey && e.keyCode == 66) {
