@@ -43,6 +43,7 @@ function mdx_show() {
     mdx_div.style.display = "block";
     is_mdx_show = true;
     zoom_iframe(1.2);
+    init_zoom_iframe = 1.2;
   } else {
     mdx_div.style.display = "none";
     is_mdx_show = false;
