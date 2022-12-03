@@ -709,6 +709,8 @@ function fillNext(pace = 1, check = true, voc = true) {
     isNone = true;
   }
   cloze_now(elem);
+  if (isClozeNow) spacebar = true;
+  else spacebar = false;
   elemBring(elem, 100);
   var elemState = true;
   if (voc) elemExplain(elem, !elemState);
@@ -744,6 +746,8 @@ function fillPrevious(pace = 1, check = true, voc = true) {
     isDone = true;
   }
   cloze_now(elem);
+  if (isClozeNow) spacebar = true;
+  else spacebar = false;
   if (document.getElementById(elem.id).className == "word-filler-dup") {
     isDup = true;
   }
