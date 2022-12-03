@@ -40,6 +40,9 @@ var is_dup = true;
 // 词组识别 是否启用预置文件  【未使用】
 var is_phr_preset = true;
 
+//在完型填空模式下 跳转上一个单词时 清空单词拼写
+var is_cloze_last_clear = false;
+
 // 提示 弹窗
 window.QMSG_GLOBALS = {
   DEFAULTS: {

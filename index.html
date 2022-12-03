@@ -231,10 +231,13 @@
             </li>
             <li> <span>10、屏蔽单词时，文中的等级标注，是否去除</span><input id="is-mark-del" type="checkbox" checked class="switch right">
             </li>
-            <li> <span>11、方向键 前进步数</span><input id="step" type="number" value="5" max='15'
+            <li> <span>11、Cloze模式下，跳转上一个单词时，清空单词</span><input id="is-cloze-last-clear" type="checkbox"
+                    class="switch right">
+            </li>
+            <li> <span>12、方向键 前进步数</span><input id="step" type="number" value="5" max='15'
                     oninput="value=value.replace(/^(0+)|[^\d]+/g,'')"></input> <input id="step-confirm" type="button"
                     class="right" value="确认" onkeydown="document.body.onkeydown"></input></li>
-            <li> <span>12、添加用户</span><input id="user-add" type="button" class="right" value="确认添加"
+            <li> <span>13、添加用户</span><input id="user-add" type="button" class="right" value="确认添加"
                     onkeydown="document.body.onkeydown"></input></li>
         </div>
     </div>

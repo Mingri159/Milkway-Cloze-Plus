@@ -723,7 +723,7 @@ function fillPrevious(pace = 1, check = true, voc = true) {
     ele.className = "";
     isNone = false;
   }
-  if (check) {
+  if (check && !is_cloze_last_clear) {
     if (!elemCheck(fillObjs[last_currentFill])) {
       input_err();
       Qmsg.error("😣上一处 输入不正确");
@@ -750,6 +750,12 @@ function fillPrevious(pace = 1, check = true, voc = true) {
   if (document.getElementById(elem.id).className == "") {
     isNone = true;
   }
+  if (state_in_excise && is_cloze_last_clear) {
+    isClozeNow = true;
+    elemCover(fillObjs[currentFill]); // 变填空
+    console.log("bian tiankong ");
+  }
+  if (!is_clear_dup) clear_dup();
   elemBring(elem);
   var elemState = true;
   if (!elemCheck(elem)) {
@@ -976,6 +982,7 @@ document.getElementById("maininput").onkeydown = (e) => e.stopPropagation();
 document.getElementById("show-answer").onclick = listWords;
 document.getElementById("refill-clicker").style.display = "none";
 function listWords(excludeLess = true) {
+  if (is_clear_dup) add_dup();
   currentInput = "";
   [...demo.getElementsByClassName("word-filler-current")].forEach(
     (e) => (e.className = "word-filler")
@@ -2245,6 +2252,13 @@ document.getElementById("is-mark-del").addEventListener("change", () => {
   if (is_on) is_mark_del = true;
   else is_mark_del = false;
 });
+document
+  .getElementById("is-cloze-last-clear")
+  .addEventListener("change", () => {
+    var is_on = document.getElementById("is-cloze-last-clear").checked;
+    if (is_on) is_cloze_last_clear = true;
+    else is_cloze_last_clear = false;
+  });
 document.getElementById("step-confirm").onclick = function () {
   step = document.getElementById("step").value;
   Qmsg.success("步数，已设置");
