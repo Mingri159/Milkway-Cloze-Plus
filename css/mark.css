@@ -10,27 +10,27 @@
 
 #explain-head .word-filler[style="color: rgb(255, 118, 118);"]:after,
 #explain-area .word-filler[style="color: rgb(255, 118, 118);"]:after {
-    content: "中考";
+       content: "\4e2d\8003";
 }
 
 #explain-head .word-filler[style="color: rgb(96, 148, 234);"]:after,
 #explain-area .word-filler[style="color: rgb(96, 148, 234);"]:after {
-    content: "高考";
+        content: "\9ad8\8003";
 }
 
 #explain-head .word-filler[style="color: rgb(115, 110, 254);"]:after,
 #explain-area .word-filler[style="color: rgb(115, 110, 254);"]:after {
-    content: "考研";
+      content: "\8003\7814";
 }
 
 #explain-head .word-filler[style="color: rgb(221, 210, 120);"]:after,
 #explain-area .word-filler[style="color: rgb(221, 210, 120);"]:after {
-    content: "六级";
+        content: "\516d\7ea7";
 }
 
 #explain-head .word-filler[style="color: rgb(206, 159, 252);"]:after,
 #explain-area .word-filler[style="color: rgb(206, 159, 252);"]:after {
-    content: "专八";
+        content: "\4e13\516b";
 }
 
 #explain-head .word-filler[style="color: rgb(197, 53, 239);"]:after,
