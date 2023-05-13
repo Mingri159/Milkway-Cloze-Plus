@@ -1,0 +1,110 @@
+body,
+html {
+    height: 100%
+}
+
+.container {
+    height: 100%;
+    background: #000000c7;
+    display: none;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    z-index: 4
+}
+
+.form-wrapper {
+    background-color: #212121;
+    width: 450px;
+    height: 405px;
+    border-radius: 15px;
+    padding: 20px 30px;
+    position: relative;
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%, -50%)
+}
+
+.form-header {
+    font-family: 宋体;
+    font-size: 25px;
+    font-weight: 700;
+    text-align: center;
+    color: #abc1ee;
+    margin-bottom: 20px
+}
+
+.input-item {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+    border: 0;
+    padding: 5px;
+    height: 44px;
+    border: 1px solid #807d7d;
+    font-size: 20px;
+    line-height: 20px;
+    border-radius: 5px;
+    background-color: #1e1e1e;
+    border-color: rgba(184, 184, 184, .15);
+    color: #b8b8b8;
+    outline: 0
+}
+
+::-webkit-input-placeholder {
+    color: #999;
+    font-size: 16px
+}
+
+#add-def {
+    height: 200px;
+    resize: none
+}
+
+.form-footer {
+    text-align: right;
+    margin-top: 20px;
+    user-select: none
+}
+
+.btn {
+    cursor: pointer;
+    text-align: center;
+    padding: 8px;
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    font-size: 14px;
+    border-radius: 4px
+}
+
+#ipa-btn {
+    color: #fff;
+    background-color: #909399;
+    margin-right: 20px
+}
+
+#mdx-btn {
+    color: #fff;
+    background-color: #909399;
+    margin-right: 85px;
+}
+
+#cancel-btn {
+    color: #606266;
+    background: #fff;
+    margin-right: 20px
+}
+
+#query-btn {
+    color: #fff;
+    background: #6cc440;
+    margin-right: 20px
+}
+
+#confirm-btn {
+    color: #fff;
+    background: #409eff;
+    border-color: #409eff
+}

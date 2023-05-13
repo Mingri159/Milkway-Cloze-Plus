@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<!-- saved from url=(0059)https://milkywaycloze.tk/milkyway/?ghoriginal=fulgenssequar -->
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title id="title">Milkyway-Cloze-Plus</title>
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+    <link id="font-style" rel="stylesheet" href="./css/loading.css" type="text/css">
+    <link id="font-style" rel="stylesheet" href="./css/milkyway-font.css" type="text/css">
+    <link id="overall-style" rel="stylesheet" href="./css/milkyway-dark.css" type="text/css">
+   <link rel="stylesheet" href="./js/message/message.min.css">
+    <link id="mark" rel="stylesheet" href="./css/mark.css">
+    <link id="add-words" rel="stylesheet" href="./css/add-words.css">
+    <link id="mdx-div-css" rel="stylesheet" href="./css/mdx-div.css">
+
+</head>
+
+<body class="body">
+    <div id="main-loading">
+        <div id="flex">
+            <svg viewBox="25 25 50 50">
+                <circle r="20" cy="50" cx="50"></circle>
+            </svg>
+        </div>
+    </div>
+    <div id="nav">
+        <center>
+            <h2>Milkyway-Cloze-Plus: Online Comprehensive Vocabulary Learning Aided By Context Cognition</h2>
+        </center>
+
+        <center>
+            <table class="colorful-button">
+                <tbody>
+                    <tr>
+                        <th>Switch Themes</th>
+                        <th>Text Input </th>
+                        <th> English level </th>
+                        <th>Start Practice</th>
+                        <th>Help</th>
+                        <th>Text Area</th>
+                        <th>Known List</th>
+                        <th>Settings</th>
+                        <th>Users</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" class="dark-button" id="overall-restyle" value="Switch To LIGHT Theme"
+                                onclick="changeTheme()" currentthemeindex="1">
+                        </td>
+                        <td>
+                            <input type="button" class="dark-button" value="Clear" id="clear-clicker"
+                                style=" width: 85%;" onkeydown="document.body.onkeydown">
+                        </td>
+                        <td>
+                            <select id="nonsense-voting" class="dark-button" style="display:none ;">
+                                <option value="dictList">Cet-4</option>
+                                <option value="dict9k">Cet-6</option>
+                                <option value="dict2w+dict9k" selected="selected">COCA20000</option>
+                                <option value="dict2w+dict9k+dict_phr">2w+词组</option>
+                            </select>
+                            <span>
+                                <input type="text" id="selectButton" onclick="myclick();" readonly="true"></input>
+                            </span>
+                            <span id="selectdiv" onMouseOver="mousein()" onMouseOut="mouseout()">
+                            </span>
+                        </td>
+                        <td> <input type="button" class="colorful-button" id="go-down" value="Go To The Text &gt;&gt;"
+                                onclick="gotobottom()"> </td>
+                        <td> <a target="_blank" href="https://mingri159.github.io/myBlog/pages/e189d2/"
+                                class="dark-button">
+                                ReadMe </a> </td>
+                        <td>
+                            <a id='text-area-long' class="dark-button">🔻</a>
+                            <a id='text-area-short' class="dark-button"> 🔺</a>
+                            <a id='text-area-fontzize-add' class="dark-button" style="display:none ;">+</a>
+                            <a id='text-area-fontzize-minus' class="dark-button" style="display:none ;"> - </a>
+                        </td>
+                        <td>
+                            <input type="button" class="dark-button" value="导入knownList" id="in-knownList"
+                                onkeydown="document.body.onkeydown">
+                            <input type="button" class="dark-button" value="取消屏蔽" id="cancel-knownList"
+                                onkeydown="document.body.onkeydown">
+                            <input type="button" class="dark-button" value="查看已屏蔽" id="look-knownList"
+                                onkeydown="document.body.onkeydown">
+                        </td>
+                        <td>
+                            <input type="button" class="dark-button" value="设置" id="setting" style=" width: 85%;"
+                                onkeydown="document.body.onkeydown">
+                        </td>
+                        <td>
+                            <select id="user" class="dark-button" style="width: 75px;margin: 0px 5px;">
+                                <option value="Default" selected>默认</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </center>
+
+        <!-- 文本输入 -->
+        <textarea id="maininput"></textarea>
+    </div>
+
+    <!-- 功能button -->
+    <div id="buttons">
+        <input type="button" class="colorful-button" value="👆 Click To Start" id="main-clicker"
+            onkeydown="document.body.onkeydown">
+        <input type="button" class="colorful-button" value="Pause: 22/22" id="show-answer"
+            onkeydown="document.body.onkeydown">
+        <input type="button" class="colorful-button" value="✍ Cloze Excise" id="excise-clicker"
+            onkeydown="document.body.onkeydown">
+        <input type="button" class="dark-button" value="♽ Re-test" id="refill-clicker"
+            onkeydown="document.body.onkeydown">
+        <span style="margin-left: 10px;">
+            <input type="button" class="dark-button" value="📂 Load Words" id="local-list"
+                onkeydown="document.body.onkeydown">
+            <input type="button" class="dark-button" value="📄 Load Article" id="local-loader"
+                onkeydown="document.body.onkeydown">
+            <a id="changeable-head" class="dark-button" style="margin-left: 10px;height: 35px;">🚀 Export </a>
+        </span>
+        <input type="button" class="colorful-button" value="中文-默认 " id="Chinese" style="width:72px;margin-left: 15px;"
+            onkeydown="document.body.onkeydown">
+        <input type="button" class="colorful-button" value="📚Local Mdx " id="local-mdx"
+            style="width:95px;margin-left: 10px;" onkeydown="document.body.onkeydown">
+        <span style="display: none;">FontSize:
+            <input type="range" id="font-size" max="45" min="25" value="28" style="width: 80px;height: 10px;">
+        </span>
+        <input type="button" class="colorful-button" value="✨单词 " id="main-change" style="width:72px;margin-left: 5px;"
+            onkeydown="document.body.onkeydown">
+        <input type="button" class="colorful-button" value="宽点" id="wide-more" style="width:45px;margin-left: -3px;"
+            onkeydown="document.body.onkeydown">
+        <input type="button" class="colorful-button" value="释义-隐藏" id="def-show" style="width:72px;margin-left: -3px;"
+            onkeydown="document.body.onkeydown">
+        <input type="button" class="colorful-button" value=" 🔍全屏 " id="fullScreen" style="height: 35px;"
+            onkeydown="document.body.onkeydown">
+        <input type="button" class="colorful-button" value="🎈Nav +" id="nav-show"
+            style="margin-left: -3px;height: 32px;" onkeydown="document.body.onkeydown">
+        <input type="button" class="colorful-button" value="生词" id="explain-con-top" style="height: 35px;"
+            onkeydown="document.body.onkeydown">
+        <select id="mark-level" class="dark-button">
+            <option value="mark-0" selected>默认</option>
+            <option value="mark-1" style="color:#ff7676;">中考词汇</option>
+            <option value="mark-2" style="color:#6094ea">高考词汇</option>
+            <option value="mark-3" style="color:#736efe">考研词汇</option>
+            <option value="mark-4" style="color:#ddd278">CET-6词汇</option>
+            <option value="mark-5" style="color:#ce9ffc">专八词汇</option>
+            <option value="mark-6" style="color:#c535ef">GRE词汇</option>
+        </select>
+        <input type="button" class="colorful-button" value="🎨All Mark" id="all-mark" style="height: 35px;"
+            onkeydown="document.body.onkeydown">
+        <input type="button" class="colorful-button" value="Tail +" id="word-tail"
+            style="margin-left: -3px;height: 30px;" onkeydown="document.body.onkeydown">
+        <span class="about">
+            <p>原作者：<a target="_blank" href="https://milkywaycloze.tk/milkyway/?install=frfrm">&ensp;</a>
+                <a target="_blank" href="https://github.com/qtheperfect/milkyway"> @QThePerfect</a>
+                <a target="_blank" href="https://forum.freemdict.com/t/topic/2228">></a>
+            </p>
+            <p>二次开发：<a target="_blank" href="https://space.bilibili.com/96466254">@胡桃的精通沙</a></p>
+        </span>
+    </div>
+
+
+    <div id="demo-container" class="demo-container">
+        <div id="text-container" class="demo-area">
+            <div id="top-border"></div>
+            <div id="demo" class="demo-area" style="font-size:25px"></div>
+            <div id="bottom-border"></div>
+        </div>
+
+        <div id="explain-container" class="demo-area" style="font-size:25px">
+            <!-- 单词列表 -->
+            <div id="explain-area" class="demo-area"> </div>
+        </div>
+
+        <!-- 本地mdx查询结果 -->
+        <div id="mdx-div">
+            <div id="mdx-btn-wrapper">
+                <div class="li-btn">
+                    <li id="mdx-div-1"> ╳ </li>
+                    <li id="mdx-div-2"> ⇳ </li>
+                    <li id="mdx-div-3"> ⇨ </li>
+                    <li id="mdx-div-7"> ◊ </li>
+                    <li id="mdx-div-4"> ⇦ </li>
+                    <li id="mdx-div-5"> ＞ </li>
+                    <li id="mdx-div-6"> ＜ </li>
+                    <li id="mdx-pick-color">
+                        <button data-jscolor="{
+            			onChange: 'update(this, \'#mdx-div\')', value:'cdcdcd'}"></button>
+                    </li>
+                </div>
+                <li id="mdx-resize"></li>
+            </div>
+            <div id="iframe-wrapper">
+                <iframe id="mdx-iframe" src="./tip/tip.html" frameborder="0"></iframe>
+            </div>
+            <div id="mdx-word-hold"> </div>
+        </div>
+    </div>
+
+    <!-- 生词弹窗 -->
+    <div id='explain-outer-mask' class="explain-head-mask">
+        <div id="explain-outer" class='explain-head-div'>
+            <div id="btn_up_case">
+                <span id="toUPcase" class="btn-case">↑</span>
+                <span id="to-color" class="btn-case">M</span>
+                <span id="to-default-color" class="btn-case">D</span>
+                <span id="btn-copy" class="btn-case">C</span>
+            </div>
+            <div id="explain-head" class="demo-area"> </div>
+        </div>
+    </div>
+
+    <div id="setting-div-mask" class="explain-head-mask">
+        <div id="setting-div" class='explain-head-div'>
+            <li> <span>1、 【主窗口】单击双击的发音、复制、跳转释义</span><input id="is-voc-copy-explain" type="checkbox" checked
+                    class="switch right"></li>
+            <li> <span>2、 【主窗口】单击双击的发音</span><input id="is-voc" type="checkbox" checked class="switch right"></li>
+            <li> <span>3、 【主窗口】单击双击的复制</span><input id="is-copy" type="checkbox" checked class="switch right"></li>
+            <li> <span>4、 【主窗口】单击跳转释义 </span><input id="is-explain" type="checkbox" checked class="switch right"></li>
+            <li> <span>5、 【主窗口】双击标注</span><input id="is-select-mark" type="checkbox" checked class="switch right"></li>
+            <li> <span>6、 【主窗口】双击选中（word-filler）</span><input id="is-db-select" type="checkbox" class="switch right">
+            </li>
+            <li> <span>7、 【主窗口】标注重复的单词</span><span style="font-size:20px">（关闭时将一同清除文中标注） </span><input id="is-dup"
+                    type="checkbox" checked class="switch right"></li>
+            <li> <span>8、 【主窗口】屏蔽原生右键菜单</span><input id="is-menu-prevent" type="checkbox" checked class="switch right">
+            </li>
+            <li> <span>9、 生词弹窗-【M按钮】保存等级排序</span><input id="is-also-mark-save" type="checkbox" checked
+                    class="switch right">
+            </li>
+            <li> <span>10、屏蔽单词时，文中的等级标注，是否去除</span><input id="is-mark-del" type="checkbox" checked class="switch right">
+            </li>
+            <li> <span>11、Cloze模式下，跳转上一个单词时，清空单词</span><input id="is-cloze-last-clear" type="checkbox"
+                    class="switch right">
+            </li>
+            <li> <span>12、方向键 前进步数</span><input id="step" type="number" value="5" max='15'
+                    oninput="value=value.replace(/^(0+)|[^\d]+/g,'')"></input> <input id="step-confirm" type="button"
+                    class="right" value="确认" onkeydown="document.body.onkeydown"></input></li>
+            <li> <span>13、添加用户</span><input id="user-add" type="button" class="right" value="确认添加"
+                    onkeydown="document.body.onkeydown"></input></li>
+        </div>
+    </div>
+
+    <!-- 添加【单词】【词组】至localstorage -->
+    <div id="add-words-container" class="container">
+        <div class="form-wrapper">
+            <div class="form-header">添加或查询 | 单词或词组</div>
+            <input id="add-words" placeholder="输入 单词或词组" spellcheck="false" type="text" class="input-item">
+            <textarea id="add-def" placeholder="释义" spellcheck="false" class="input-item"></textarea>
+            <div class="form-footer">
+                <div id="ipa-btn" class="btn">音标</div>
+                <div id="mdx-btn" class="btn">MDX</div>
+                <div id="cancel-btn" class="btn">取消</div>
+                <div id="query-btn" class="btn">查询</div>
+                <div id="confirm-btn" class="btn">确认</div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+<script src="./js/loading.js"></script>
+
+<script src="./js/dict/dict7k.js"></script>
+<script src="./js/dict/dict9k.js"></script>
+<script src="./js/dict/dict2w.js"></script>
+<script src="./js/dict/dict_phr.js"></script>
+<script src="./js/knownList.js"></script>
+
+<script src="./js/dict/mark-1.js"></script>
+<script src="./js/dict/mark-2.js"></script>
+<script src="./js/dict/mark-3.js"></script>
+<script src="./js/dict/mark-4.js"></script>
+<script src="./js/dict/mark-5.js"></script>
+<script src="./js/dict/mark-6.js"></script>
+
+<script src="./js/rules.js"></script>
+<script src="./js/redundantList.js"></script>
+<script src="./js/init.js"> </script>
+<script src="./js/message/message.min.js"></script>
+<script src="./js/jscolor/jscolor.min.js"></script>
+
+<script src="./js/options.js"></script>
+<script src="./js/select.js"></script>
+<script src="./js/mark.js"></script>
+<script src="./js/add-words.js"> </script>
+<script src="./js/worker.js"> </script>
+<script src="./js/mdx-query.js"> </script>
+
+</html>

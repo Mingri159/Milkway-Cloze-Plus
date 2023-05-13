@@ -1,0 +1,132 @@
+* {
+    box-sizing: border-box;
+}
+
+.body {
+    background: rgba(40, 40, 30);
+    color: rgba(220, 220, 220)
+}
+
+div {
+    scrollbar-color: #930 #101;
+    scrollbar-width: 8px;
+}
+
+
+#maininput {
+    color: #ffa31a;
+    background: #000;
+}
+
+#demo-container {
+    background: #000;
+}
+
+#exp-head {
+    color: #add8e6;
+}
+
+.colorful-button {
+    background: #ffa31a;
+    color: #000
+}
+
+.dark-button {
+    color: #ffa31a;
+    background: #000;
+    border-color: #ffa31a;
+}
+
+.word-filler {
+    color: #ffa31a;
+}
+
+.word-filler-current {
+    color: #be85ff;
+    /* border: 1px solid #ffa31a */
+}
+
+.word-filler-done {
+    color: #30b787;
+}
+
+#demo {
+    border: solid 1px gray;
+    background-color: #000;
+    color: #cdcdcd;
+}
+
+.red-zone {
+    color: #fc2200;
+}
+
+.current-noter-container {
+
+    border: #ca234EDD solid 3px;
+}
+
+@keyframes blinkingText {
+    0% {
+        color: #cf8
+    }
+
+    30% {
+        color: #f29
+    }
+
+    60% {
+        color: #33f
+    }
+}
+
+@keyframes slidingTextLeft {
+    from {
+        left: -1em
+    }
+
+    to {
+        left: -1ch
+    }
+}
+
+@keyframes slidingTextRight {
+    from {
+        right: 100%;
+        background-color: #84208090;
+        border-right: 0
+    }
+
+    to {
+        right: -6px;
+        background-color: #99664030;
+        border-right: 0
+    }
+}
+
+.about a {
+    text-decoration: none;
+    color: #ccc
+}
+
+#explain-area p::before,
+#explain-head .word-filler-done::before,
+#explain-head .word-filler::before {
+    counter-increment: chapter;
+    content: counter(chapter) '. ';
+    color: #ee5757;
+    font-family: 'Times New Roman', Times;
+    font-weight: lighter
+}
+
+.explain-head-mask {
+    background-color: rgba(0, 0, 0, .8)
+}
+
+.explain-head-div {
+    background-color: #28281e
+}
+
+#bottom-border,
+#top-border {
+    background-color: #28281e
+}

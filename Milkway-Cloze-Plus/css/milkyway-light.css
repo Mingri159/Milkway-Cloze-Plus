@@ -1,0 +1,131 @@
+* {
+    box-sizing: border-box;
+}
+
+.body {
+    background: #dddfe2;
+    color: rgb(11 11 11)
+}
+
+div {
+    scrollbar-color: #fc8 #300;
+    scrollbar-width: 5px;
+}
+
+#maininput {
+    color: #31353e;
+    background: #ccc
+}
+
+#exp-head {
+    color: #409eff;
+}
+
+#explain-area {
+    border-color: #ecbd6f;
+}
+
+.colorful-button {
+    background: #efca73;
+    border: 2px solid #88590a;
+    color: #000
+}
+
+.dark-button {
+    color: #efc37a;
+    background: #0d1d29;
+    border-color: #cfc3ca
+}
+
+.word-filler {
+    color: #dd8602
+}
+
+.word-filler-current {
+    color: #c053a4;
+    /* border: 1px solid rgba(255, 170, 0) */
+}
+
+.word-filler-done {
+    color: #30b787;
+    font-family: 'Times New Roman'
+}
+
+#demo {
+    border: solid 1px gray;
+    background-color: #ccc
+}
+
+.red-zone {
+    color: #fc2200
+}
+
+.current-noter-container {
+    border: #e8435EDD solid 3px;
+}
+
+@keyframes blinkingText {
+    0% {
+        color: #cf8
+    }
+
+    30% {
+        color: #f29
+    }
+
+    60% {
+        color: #33f
+    }
+}
+
+@keyframes slidingTextLeft {
+    from {
+        left: -1em
+    }
+
+    to {
+        left: -1ch
+    }
+}
+
+@keyframes slidingTextRight {
+    from {
+        right: 100%;
+        background-color: #44908090;
+        border-right: 0
+    }
+
+    to {
+        right: -6px;
+        background-color: #99664030;
+        border-right: 0
+    }
+}
+
+.about a {
+    text-decoration: none;
+    color: #000
+}
+
+#explain-area p::before,
+#explain-head .word-filler-done::before,
+#explain-head .word-filler::before {
+    counter-increment: chapter;
+    content: counter(chapter) '. ';
+    color: #8733dc;
+    font-family: 'Times New Roman', Times;
+    font-weight: lighter
+}
+
+.explain-head-mask {
+    background-color: #737373cc
+}
+
+.explain-head-div {
+    background-color: #ccc
+}
+
+#bottom-border,
+#top-border {
+    background-color: #dddfe2
+}
