@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0" />
+  <title>Milkyway-Cloze-Plus-Vue</title>
+  <script type="module" crossorigin src="./assets/index-a5658d62.js"></script>
+  <link rel="stylesheet" href="./assets/index-acfa0382.css">
+</head>
+
+<body>
+  <div id="main-loading">
+    <div id="flex">
+      <svg viewBox="25 25 50 50">
+        <circle r="20" cy="50" cx="50"></circle>
+      </svg>
+    </div>
+  </div>
+  <div id="app"></div>
+  
+</body>
+<style lang="scss">
+  html,
+  body {
+    padding: 0;
+    margin: 0;
+  }
+
+  #main-loading {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    z-index: 999;
+    background-color: #212121;
+
+
+  }
+
+  #main-loading #flex {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #main-loading svg {
+    width: 3.25em;
+    transform-origin: center;
+    animation: rotate4 2s linear infinite;
+  }
+
+  #main-loading circle {
+    fill: none;
+    stroke: hsl(214, 97%, 59%);
+    stroke-width: 2;
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+    animation: dash4 1.5s ease-in-out infinite;
+  }
+
+  @keyframes rotate4 {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes dash4 {
+    0% {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+    }
+
+    50% {
+      stroke-dasharray: 90, 200;
+      stroke-dashoffset: -35px;
+    }
+
+    100% {
+      stroke-dashoffset: -125px;
+    }
+  }
+</style>
+
+</html>
