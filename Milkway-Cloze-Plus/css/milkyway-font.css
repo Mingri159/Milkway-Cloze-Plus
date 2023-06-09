@@ -424,6 +424,10 @@ li {
     margin: 15px 20px
 }
 
+#setting-div li:hover {
+    color: #30b787
+}
+
 input[type=checkbox].switch {
     outline: 0;
     appearance: none;
