@@ -1607,7 +1607,7 @@ document.getElementById("demo").ondblclick = (e) => {
 };
 document.getElementById("demo").oncontextmenu = (e) => {
   if (!is_menu_prevent) {
-    document.getElementById("demo-container").oncontextmenu = function () {};
+    document.getElementById("demo-container").oncontextmenu = function () { };
   } else {
     document.getElementById("demo-container").oncontextmenu = function () {
       return false;
@@ -1621,7 +1621,7 @@ document.getElementById("demo").oncontextmenu = (e) => {
     o.className = "word-filler";
     fresh_listWords();
     return;
-  } else if (o.className == "word-filler") {
+  } else if (o.className == "word-filler" && is_read_rit_clk_blk) {
     check_currentFill(o.id, false);
     if (o.childNodes[0].id == "current-noter-container-id")
       remove_word_filler_current();
@@ -1767,7 +1767,7 @@ document.getElementById("demo").onmouseover = (e) => {
 function IndexOf_cur(arr, item) {
   return arr.indexOf(item);
 }
-function cancel_rep() {}
+function cancel_rep() { }
 var isFullScreen = false;
 document.getElementById("fullScreen").onclick = (e) => {
   if (!isFullScreen) {
@@ -2245,6 +2245,11 @@ document.getElementById("is-menu-prevent").addEventListener("change", () => {
   var is_on = document.getElementById("is-menu-prevent").checked;
   if (is_on) is_menu_prevent = true;
   else is_menu_prevent = false;
+});
+document.getElementById("is-read-rit-blk").addEventListener("change", () => {
+  var is_on = document.getElementById("is-read-rit-blk").checked;
+  if (is_on) is_read_rit_clk_blk = true;
+  else is_read_rit_clk_blk = false;
 });
 document.getElementById("is-also-mark-save").addEventListener("change", () => {
   var is_on = document.getElementById("is-also-mark-save").checked;

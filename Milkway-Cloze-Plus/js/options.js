@@ -37,6 +37,9 @@ var is_menu_prevent = true;
 // 标注出重复的单词 word-filler-dup 【已使用】
 var is_dup = true;
 
+// 阅读区 右键取消标注功能  【已使用】
+var is_read_rit_clk_blk = true;
+
 // 词组识别 是否启用预置文件  【未使用】
 var is_phr_preset = true;
 

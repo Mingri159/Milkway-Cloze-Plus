@@ -10,7 +10,7 @@
     <link id="font-style" rel="stylesheet" href="./css/loading.css" type="text/css">
     <link id="font-style" rel="stylesheet" href="./css/milkyway-font.css" type="text/css">
     <link id="overall-style" rel="stylesheet" href="./css/milkyway-dark.css" type="text/css">
-   <link rel="stylesheet" href="./js/message/message.min.css">
+    <link rel="stylesheet" href="./js/message/message.min.css">
     <link id="mark" rel="stylesheet" href="./css/mark.css">
     <link id="add-words" rel="stylesheet" href="./css/add-words.css">
     <link id="mdx-div-css" rel="stylesheet" href="./css/mdx-div.css">
@@ -226,18 +226,21 @@
                     type="checkbox" checked class="switch right"></li>
             <li> <span>8、 【主窗口】屏蔽原生右键菜单</span><input id="is-menu-prevent" type="checkbox" checked class="switch right">
             </li>
-            <li> <span>9、 生词弹窗-【M按钮】保存等级排序</span><input id="is-also-mark-save" type="checkbox" checked
+            <li><span>9、【主窗口】阅读区 - 右键取消标注功能</span><input id="is-read-rit-blk" type="checkbox" checked
                     class="switch right">
             </li>
-            <li> <span>10、屏蔽单词时，文中的等级标注，是否去除</span><input id="is-mark-del" type="checkbox" checked class="switch right">
-            </li>
-            <li> <span>11、Cloze模式下，跳转上一个单词时，清空单词</span><input id="is-cloze-last-clear" type="checkbox"
+            <li> <span>10、 生词弹窗-【M按钮】保存等级排序</span><input id="is-also-mark-save" type="checkbox" checked
                     class="switch right">
             </li>
-            <li> <span>12、方向键 前进步数</span><input id="step" type="number" value="5" max='15'
+            <li> <span>11、屏蔽单词时，文中的等级标注，是否去除</span><input id="is-mark-del" type="checkbox" checked class="switch right">
+            </li>
+            <li> <span>12、Cloze模式下，跳转上一个单词时，清空单词</span><input id="is-cloze-last-clear" type="checkbox"
+                    class="switch right">
+            </li>
+            <li> <span>13、方向键 前进步数</span><input id="step" type="number" value="5" max='15'
                     oninput="value=value.replace(/^(0+)|[^\d]+/g,'')"></input> <input id="step-confirm" type="button"
                     class="right" value="确认" onkeydown="document.body.onkeydown"></input></li>
-            <li> <span>13、添加用户</span><input id="user-add" type="button" class="right" value="确认添加"
+            <li> <span>14、添加用户</span><input id="user-add" type="button" class="right" value="确认添加"
                     onkeydown="document.body.onkeydown"></input></li>
         </div>
     </div>
