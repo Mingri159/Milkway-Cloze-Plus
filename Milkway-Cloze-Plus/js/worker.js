@@ -596,7 +596,6 @@ function elemBring(o, reserve = bringPreserve, fill = true) {
   var omo = document.getElementById(o.id);
   var t = o.offsetTop - document.getElementById("demo").offsetTop;
   demo.parentNode.scrollTop = t - reserve * 2;
-  if (is_click) right_position_return()
   if (fill) omo.className = "word-filler-current";
   else {
     o.prepend(elemNoter);
@@ -1711,6 +1710,7 @@ document
   .getElementById("text-container")
   .addEventListener("scroll", function () {
     follow_scroll();
+    if (is_click) right_position_return()
   });
 function follow_scroll() {
   var num0 = document
