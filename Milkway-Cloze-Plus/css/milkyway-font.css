@@ -82,6 +82,27 @@ body::-webkit-scrollbar {
     white-space: nowrap
 }
 
+#demo {
+    counter-reset: chapter;
+}
+
+#demo .word-filler:before {
+    counter-increment: chapter;
+    content: counter(chapter);
+    font-size: 12px;
+    position: absolute;
+    height: 8px;
+    color: transparent;
+    background-color: transparent;
+    left: 40%;
+    bottom: 1px;
+
+}
+
+#demo .word-filler:hover::before {
+    color: #f27474;
+}
+
 .word-filler-current {
     font-family: monospace;
     font-weight: 700;
