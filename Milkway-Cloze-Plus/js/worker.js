@@ -596,6 +596,7 @@ function elemBring(o, reserve = bringPreserve, fill = true) {
   var omo = document.getElementById(o.id);
   var t = o.offsetTop - document.getElementById("demo").offsetTop;
   demo.parentNode.scrollTop = t - reserve * 2;
+  if (is_click) right_position_return()
   if (fill) omo.className = "word-filler-current";
   else {
     o.prepend(elemNoter);
@@ -1056,6 +1057,7 @@ function listWords(excludeLess = true) {
   ];
   allExp.forEach((o) => {
     o.onclick = () => {
+      right_position_record(o);
       [...demo.getElementsByClassName("word-filler-current")].forEach(
         (e) => (e.className = "word-filler")
       );
@@ -1072,6 +1074,21 @@ function listWords(excludeLess = true) {
   });
   return res;
 }
+
+var is_click = false
+var right_position_record_o = null
+var right_position_record_top = null
+function right_position_record(o) {
+  is_click = true
+  right_position_record_o = o.id
+  right_position_record_top = document.querySelector('#explain-container').scrollTop
+  console.log('right_position_record_top', right_position_record_top, is_click);
+}
+function right_position_return() {
+  document.querySelector('#explain-container').scrollTop = right_position_record_top
+  is_click = false
+}
+
 function fresh_listWords() {
   [...demo.getElementsByClassName("word-filler-current")].forEach(
     (e) => (e.className = "word-filler")
