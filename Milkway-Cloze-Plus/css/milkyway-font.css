@@ -86,7 +86,8 @@ body::-webkit-scrollbar {
     counter-reset: chapter;
 }
 
-#demo .word-filler:before {
+#demo .word-filler:before,
+#demo .word-filler-current:before {
     counter-increment: chapter;
     content: counter(chapter);
     font-size: 12px;
@@ -95,11 +96,11 @@ body::-webkit-scrollbar {
     color: transparent;
     background-color: transparent;
     left: 40%;
-    bottom: 1px;
-
+    bottom: 5px;
 }
 
-#demo .word-filler:hover::before {
+#demo .word-filler:hover::before,
+#demo .word-filler-current:hover::before {
     color: #f27474;
 }
 
